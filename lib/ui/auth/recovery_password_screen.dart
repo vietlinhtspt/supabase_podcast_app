@@ -46,7 +46,7 @@ class _RecoveryPasswordScreenState extends State<RecoveryPasswordScreen> {
     final isMaximunHeight = MediaQuery.of(context).size.width >= 500;
     return Scaffold(
       body: Container(
-        color: Theme.of(context).colorScheme.background,
+        color: Theme.of(context).colorScheme.primaryContainer,
         child: Center(
           child: SingleChildScrollView(
             child: ConstrainedBox(
@@ -64,7 +64,7 @@ class _RecoveryPasswordScreenState extends State<RecoveryPasswordScreen> {
                         border: Border.all(
                           color: Theme.of(context).primaryColor,
                         ),
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(20),
                       )
                     : null,
                 padding: const EdgeInsets.all(32),
@@ -77,7 +77,7 @@ class _RecoveryPasswordScreenState extends State<RecoveryPasswordScreen> {
                       child: Text(
                         'Quên mật khẩu,',
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          color: Theme.of(context).colorScheme.primary,
                           fontSize: 45,
                           fontWeight: FontWeight.w700,
                         ),
@@ -125,13 +125,15 @@ Nhập lại tên đăng nhập hoặc email của bạn. Chúng tôi sẽ gửi
                             style: TextStyle(
                               color: Theme.of(context)
                                   .colorScheme
-                                  .onSurfaceVariant,
+                                  .onPrimaryContainer,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                           TextSpan(
                             text: 'Đăng nhập ngay',
                             style: TextStyle(
-                              color: Theme.of(context).colorScheme.tertiary,
+                              color: Theme.of(context).colorScheme.primary,
+                              fontWeight: FontWeight.w600,
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap =

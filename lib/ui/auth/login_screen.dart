@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth_provider.dart';
@@ -39,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      systemNavigationBarColor: Theme.of(context).colorScheme.surface,
+      systemNavigationBarColor: Theme.of(context).colorScheme.primaryContainer,
       systemNavigationBarIconBrightness: Brightness.light,
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: isDarkMode ? Brightness.light : Brightness.dark,
@@ -49,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final isMaximunHeight = MediaQuery.of(context).size.width >= 500;
     return Scaffold(
       body: Container(
-        color: Theme.of(context).colorScheme.surface,
+        color: Theme.of(context).colorScheme.primaryContainer,
         child: Center(
           child: SingleChildScrollView(
             child: ConstrainedBox(
@@ -67,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         border: Border.all(
                           color: Theme.of(context).primaryColor,
                         ),
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(20),
                       )
                     : null,
                 padding: const EdgeInsets.all(32),
@@ -80,23 +81,19 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Xin chào,',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          fontSize: 45,
-                          fontWeight: FontWeight.w700,
-                        ),
+                      child: SvgPicture.asset(
+                        'assets/icons/home/hello_custom.svg',
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Đăng nhập ngay để trải nghiệm',
+                        'Đăng nhập ngay để gặp ur better ver',
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                           fontSize: 16,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                     ),
@@ -126,18 +123,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text(
                           'Quên mật khẩu',
                           style: TextStyle(
-                            color: Theme.of(context).colorScheme.tertiary,
+                            color: Theme.of(context).colorScheme.primary,
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 32,
-                    ),
                     Align(
-                      alignment: Alignment.centerRight,
+                      alignment: Alignment.center,
                       child: M3LockedButton(
                         onPressed: () => Provider.of<AuthProvider>(
                           context,
@@ -175,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       text: TextSpan(
                         style: const TextStyle(
                           fontSize: 16,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w400,
                         ),
                         children: [
                           TextSpan(
@@ -189,7 +183,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           TextSpan(
                             text: 'Tạo ngay',
                             style: TextStyle(
-                              color: Theme.of(context).colorScheme.tertiary,
+                              color: Theme.of(context).colorScheme.primary,
+                              fontWeight: FontWeight.w600,
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap =

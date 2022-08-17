@@ -16,25 +16,34 @@ class M3LockedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CancelableOperation? _cancelableOperation;
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        // Foreground color
-        onPrimary: Theme.of(context).colorScheme.onSecondaryContainer,
-        // Background color
-        primary: Theme.of(context).colorScheme.secondaryContainer,
-      ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-      onPressed: () {
-        if (_cancelableOperation?.isCompleted ?? true) {
-          _cancelableOperation = CancelableOperation.fromFuture(_onPressed());
-        }
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(colors: [
+          Theme.of(context).colorScheme.primary,
+          Theme.of(context).colorScheme.secondary
+        ]),
+        borderRadius: BorderRadius.circular(40),
+      ),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          // Foreground color
+          onPrimary: Theme.of(context).colorScheme.primaryContainer,
+          // Background color
+          primary: Colors.transparent,
+        ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+        onPressed: () {
+          if (_cancelableOperation?.isCompleted ?? true) {
+            _cancelableOperation = CancelableOperation.fromFuture(_onPressed());
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(14.0),
+          child: Text(
+            title,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ),

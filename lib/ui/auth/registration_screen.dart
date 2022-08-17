@@ -17,14 +17,12 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-  late TextEditingController _usernameController;
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
   late TextEditingController _confirmPasswordController;
 
   @override
   void initState() {
-    _usernameController = TextEditingController();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     _confirmPasswordController = TextEditingController();
@@ -34,7 +32,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   void dispose() {
-    _usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
@@ -57,7 +54,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     ));
     return Scaffold(
       body: Container(
-        color: Theme.of(context).colorScheme.background,
+        color: Theme.of(context).colorScheme.primaryContainer,
         child: Center(
           child: SingleChildScrollView(
             child: ConstrainedBox(
@@ -75,7 +72,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         border: Border.all(
                           color: Theme.of(context).primaryColor,
                         ),
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(20),
                       )
                     : null,
                 padding: const EdgeInsets.all(32),
@@ -88,7 +85,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       child: Text(
                         'Tạo tài khoản,',
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          color: Theme.of(context).colorScheme.primary,
                           fontSize: 45,
                           fontWeight: FontWeight.w700,
                         ),
@@ -100,20 +97,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         '''
 Tạo ngay tài khoản để có thể sử dụng tất cả dịch vụ của chúng tôi và đồng bộ hoá giữa các thiết bị của bạn''',
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer,
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
                     const Spacer(),
-                    M3TextField(
-                      controller: _usernameController,
-                      labelText: 'Tên đăng nhập',
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
                     M3TextField(
                       controller: _emailController,
                       labelText: 'Email',
@@ -135,24 +126,10 @@ Tạo ngay tài khoản để có thể sử dụng tất cả dịch vụ của
                       obscureText: true,
                     ),
                     const SizedBox(
-                      height: 12,
+                      height: 24,
                     ),
                     Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        'Quên mật khẩu',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.tertiary,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 32,
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
+                      alignment: Alignment.center,
                       child: M3LockedButton(
                         onPressed: () => Provider.of<AuthProvider>(
                           context,
@@ -185,12 +162,13 @@ Tạo ngay tài khoản để có thể sử dụng tất cả dịch vụ của
                               color: Theme.of(context)
                                   .colorScheme
                                   .onSurfaceVariant,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                           TextSpan(
                             text: 'Đăng nhập ngay',
                             style: TextStyle(
-                              color: Theme.of(context).colorScheme.tertiary,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap =

@@ -84,6 +84,10 @@ class _MyAppState extends State<MyApp> {
         backButtonDispatcher: RootBackButtonDispatcher(),
         theme: FlexThemeData.light(
           scheme: FlexScheme.bigStone,
+          primary: Color(0xffC93155),
+          secondary: Color(0xffF3542C),
+          onPrimaryContainer: Color(0xff333333),
+          primaryContainer: Colors.white,
           surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
           blendLevel: 20,
           appBarOpacity: 0.95,
@@ -98,6 +102,10 @@ class _MyAppState extends State<MyApp> {
         ),
         darkTheme: FlexThemeData.dark(
           scheme: FlexScheme.bigStone,
+          primary: Color(0xffC93155),
+          secondary: Color(0xffF3542C),
+          onPrimaryContainer: Color(0xffcccccc),
+          primaryContainer: Colors.black,
           surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
           blendLevel: 15,
           appBarStyle: FlexAppBarStyle.background,
