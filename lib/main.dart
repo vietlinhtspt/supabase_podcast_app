@@ -1,6 +1,7 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_color/flutter_color.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -102,9 +103,9 @@ class _MyAppState extends State<MyApp> {
         ),
         darkTheme: FlexThemeData.dark(
           scheme: FlexScheme.bigStone,
-          primary: Color(0xffC93155),
-          secondary: Color(0xffF3542C),
-          onPrimaryContainer: Color(0xffcccccc),
+          primary: Color(0xffC93155).mix(Colors.black, 0.15),
+          secondary: Color(0xffF3542C).mix(Colors.black, 0.15),
+          onPrimaryContainer: Color(0xffcccccc).mix(Colors.black, 0.15),
           primaryContainer: Colors.black,
           surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
           blendLevel: 15,
