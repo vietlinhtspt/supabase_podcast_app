@@ -3,9 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth_provider.dart';
+import '../../providers/user_info_provider.dart';
 import '../../shared/shared.dart';
 import '../account/account_screen.dart';
 import '../auth/setting_new_password_screen.dart';
+import '../entering_name_screen/entering_name_screen.dart';
 import '../friends/friends_screen.dart';
 import '../home/home_screen.dart';
 import '../notifications/notifications_screen.dart';
@@ -130,6 +132,15 @@ class _NavigationScreenState extends State<NavigationScreen> {
                   ],
                 ),
               ),
+              if (context.watch<UserInfoProvider>().userInfo != null &&
+                  context.watch<UserInfoProvider>().userInfo?.email == null)
+                const Positioned(
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: EnteringNameScreen(),
+                ),
               if (context.watch<AuthProvider>().isRecoveringPassword)
                 const Positioned(
                   top: 0,

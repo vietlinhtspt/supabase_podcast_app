@@ -11,6 +11,7 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:flutter/foundation.dart';
 
 import 'providers/providers.dart';
+import 'providers/user_info_provider.dart';
 import 'router/router.dart';
 
 void main() async {
@@ -77,7 +78,10 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider<SelectingFriendsProvider>(
           create: (_) => SelectingFriendsProvider(),
-        )
+        ),
+        ChangeNotifierProvider<UserInfoProvider>(
+          create: (_) => UserInfoProvider(),
+        ),
       ],
       child: MaterialApp.router(
         routerDelegate: delegate,

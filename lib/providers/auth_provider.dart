@@ -23,7 +23,7 @@ class AuthProvider extends ChangeNotifier {
     Supabase.instance.client.auth.onAuthStateChange((event, session) {
       switch (event) {
         case AuthChangeEvent.signedIn:
-          isLogedIn = true;
+          isSpashing = true;
           notifyListeners();
           break;
         case AuthChangeEvent.signedOut:
@@ -40,7 +40,7 @@ class AuthProvider extends ChangeNotifier {
 
     final currentUser = Supabase.instance.client.auth.currentUser;
     if (currentUser != null) {
-      isLogedIn = true;
+      isSpashing = true;
     }
     notifyListeners();
   }
@@ -146,5 +146,11 @@ class AuthProvider extends ChangeNotifier {
       }
     });
     return status;
+  }
+
+  void completeInitData() {
+    isSpashing = false;
+    isLogedIn = true;
+    notifyListeners();
   }
 }

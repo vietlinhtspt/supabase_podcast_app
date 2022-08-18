@@ -103,9 +103,7 @@ class CustomedRouterDelegate extends RouterDelegate<CustomedRouterConfiguration>
 
   List<Page> get _splashStack => [
         CustomedRouterPage(
-          child: const SplashScreen(
-            process: 'Splash Screen:\n\nChecking auth state',
-          ),
+          child: const SplashScreen(),
           valueKey: 'splashscreen',
         ),
       ];
