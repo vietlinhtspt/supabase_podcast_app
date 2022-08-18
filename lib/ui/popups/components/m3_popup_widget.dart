@@ -49,7 +49,9 @@ class _CustomDialogBoxState extends State<M3PopupPupupWidget> {
         alignment: Alignment.topCenter,
         children: [
           Container(
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery.of(context).size.width > 312
+                ? 312
+                : MediaQuery.of(context).size.width,
             margin: const EdgeInsets.only(top: 28),
             decoration: BoxDecoration(
               shape: BoxShape.rectangle,
