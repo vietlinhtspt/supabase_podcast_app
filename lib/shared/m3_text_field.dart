@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 
 import '../ui/auth/components/m3_text_field_icon_widget.dart';
 
@@ -53,63 +52,67 @@ class _M3TextFieldState extends State<M3TextField> {
       children: [
         CustomGradientContainer(
           gradient: LinearGradient(colors: [
+            Theme.of(context).colorScheme.secondary,
             Theme.of(context).colorScheme.primary,
-            Theme.of(context).colorScheme.secondary
           ]),
-          child: TextField(
-            cursorColor: Theme.of(context).colorScheme.onPrimaryContainer,
-            controller: controller,
-            obscureText: obscureText ?? false,
-            decoration: InputDecoration(
-              focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(
-                  width: 1,
-                  style: BorderStyle.solid,
-                  color: Colors.transparent,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 8),
+            child: TextField(
+              cursorColor: Theme.of(context).colorScheme.onPrimaryContainer,
+              controller: controller,
+              obscureText: obscureText ?? false,
+              decoration: InputDecoration(
+                focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(
+                    width: 1,
+                    style: BorderStyle.solid,
+                    color: Colors.transparent,
+                  ),
                 ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4.0),
-                borderSide: const BorderSide(
-                  width: 1,
-                  style: BorderStyle.solid,
-                  color: Colors.transparent,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4.0),
+                  borderSide: const BorderSide(
+                    width: 1,
+                    style: BorderStyle.solid,
+                    color: Colors.transparent,
+                  ),
                 ),
+                label: Container(
+                  color: Theme.of(context).colorScheme.primaryContainer,
+                  child: Text(labelText,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                        fontWeight: FontWeight.w400,
+                      )),
+                ),
+                floatingLabelStyle: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  fontWeight: FontWeight.w400,
+                ),
+                hoverColor: Colors.transparent,
+                fillColor: Colors.transparent,
+                suffixIcon: obscureText == null && controller.text.isNotEmpty
+                    ? M3TextFieldIconWidget(
+                        iconPath: 'assets/icons/auth/ic_remove_rounded.svg',
+                        onTap: () => controller.clear(),
+                      )
+                    : obscureText == true
+                        ? M3TextFieldIconWidget(
+                            iconPath: 'assets/icons/auth/ic_show_content.svg',
+                            onTap: () => setState(() {
+                              obscureText = !(obscureText ?? false);
+                            }),
+                          )
+                        : obscureText == false
+                            ? M3TextFieldIconWidget(
+                                iconPath:
+                                    'assets/icons/auth/ic_hide_content.svg',
+                                onTap: () => setState(() {
+                                  obscureText = !(obscureText ?? false);
+                                }),
+                              )
+                            : null,
               ),
-              label: Container(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                child: Text(labelText,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onPrimaryContainer,
-                      fontWeight: FontWeight.w400,
-                    )),
-              ),
-              floatingLabelStyle: TextStyle(
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
-                fontWeight: FontWeight.w400,
-              ),
-              hoverColor: Colors.transparent,
-              fillColor: Colors.transparent,
-              suffixIcon: obscureText == null && controller.text.isNotEmpty
-                  ? M3TextFieldIconWidget(
-                      iconPath: 'assets/icons/auth/ic_remove_rounded.svg',
-                      onTap: () => controller.clear(),
-                    )
-                  : obscureText == true
-                      ? M3TextFieldIconWidget(
-                          iconPath: 'assets/icons/auth/ic_show_content.svg',
-                          onTap: () => setState(() {
-                            obscureText = !(obscureText ?? false);
-                          }),
-                        )
-                      : obscureText == false
-                          ? M3TextFieldIconWidget(
-                              iconPath: 'assets/icons/auth/ic_hide_content.svg',
-                              onTap: () => setState(() {
-                                obscureText = !(obscureText ?? false);
-                              }),
-                            )
-                          : null,
             ),
           ),
         ),

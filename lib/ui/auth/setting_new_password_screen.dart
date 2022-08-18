@@ -1,31 +1,25 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth_provider.dart';
-import '../../router/customed_router_delegate.dart';
 import '../../shared/shared.dart';
 import '../popups/m3_popup.dart';
-import 'checking_email_screen.dart';
 
-class RegistrationScreen extends StatefulWidget {
-  const RegistrationScreen({Key? key}) : super(key: key);
-
-  static String ROUTE_NAME = 'registration';
+class SettingNewPasswordScreen extends StatefulWidget {
+  const SettingNewPasswordScreen({Key? key}) : super(key: key);
 
   @override
-  State<RegistrationScreen> createState() => _RegistrationScreenState();
+  State<SettingNewPasswordScreen> createState() =>
+      _SettingNewPasswordScreenState();
 }
 
-class _RegistrationScreenState extends State<RegistrationScreen> {
-  late TextEditingController _emailController;
+class _SettingNewPasswordScreenState extends State<SettingNewPasswordScreen> {
   late TextEditingController _passwordController;
   late TextEditingController _confirmPasswordController;
 
   @override
   void initState() {
-    _emailController = TextEditingController();
     _passwordController = TextEditingController();
     _confirmPasswordController = TextEditingController();
 
@@ -34,7 +28,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   void dispose() {
-    _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
 
@@ -88,7 +81,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Tạo tài khoản,',
+                        'Cập nhật mật khẩu',
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontSize: 45,
@@ -100,7 +93,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         '''
-Tạo ngay tài khoản để có thể sử dụng tất cả dịch vụ của chúng tôi và đồng bộ hoá giữa các thiết bị của bạn''',
+Nhập mật khẩu mới của bạn nữa là xong rồi''',
                         style: TextStyle(
                           color:
                               Theme.of(context).colorScheme.onPrimaryContainer,
@@ -110,13 +103,6 @@ Tạo ngay tài khoản để có thể sử dụng tất cả dịch vụ của
                       ),
                     ),
                     const Spacer(),
-                    M3TextField(
-                      controller: _emailController,
-                      labelText: 'Email',
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
                     M3TextField(
                       controller: _passwordController,
                       labelText: 'Mật khẩu',
@@ -137,13 +123,7 @@ Tạo ngay tài khoản để có thể sử dụng tất cả dịch vụ của
                       alignment: Alignment.center,
                       child: M3LockedButton(
                         onPressed: () async {
-                          if (!validateEmail(_emailController.text.trim())) {
-                            await showM3Popup(
-                              context,
-                              title: 'Cảnh báo',
-                              descriptions: 'Email bạn nhập không hợp lệ',
-                            );
-                          } else if (_passwordController.text.length < 6) {
+                          if (_passwordController.text.length < 6) {
                             await showM3Popup(
                               context,
                               title: 'Cảnh báo',
@@ -161,57 +141,19 @@ Mật khẩu và mật khẩu xác nhận không trùng nhau''',
                           } else {
                             context
                                 .read<AuthProvider>()
-                                .register(
+                                .recoveryPassword(
                                   context,
-                                  email: _emailController.text,
                                   password: _passwordController.text,
                                 )
                                 .then((value) => value == true
-                                    ? Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const CheckingEmailScreen(),
-                                        ),
-                                      )
+                                    ? Navigator.pop(context)
                                     : null);
                           }
                         },
-                        title: 'Đăng ký',
+                        title: 'Cập nhật',
                       ),
                     ),
                     const Spacer(),
-                    RichText(
-                      text: TextSpan(
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: 'Bạn đã có tài khoản? ',
-                            style: TextStyle(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          TextSpan(
-                            text: 'Đăng nhập ngay',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap =
-                                  () => Provider.of<CustomedRouterDelegate>(
-                                        context,
-                                        listen: false,
-                                      ).backToLoginScreen(),
-                          ),
-                        ],
-                      ),
-                    )
                   ],
                 ),
               ),

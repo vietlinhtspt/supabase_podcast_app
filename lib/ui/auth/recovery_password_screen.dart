@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../router/customed_router_delegate.dart';
 import '../../shared/shared.dart';
+import '../popups/m3_popup.dart';
+import 'checking_email_screen.dart';
 
 class RecoveryPasswordScreen extends StatefulWidget {
   const RecoveryPasswordScreen({Key? key}) : super(key: key);
@@ -25,13 +27,6 @@ class _RecoveryPasswordScreenState extends State<RecoveryPasswordScreen> {
     _emailController = TextEditingController();
 
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        systemNavigationBarColor:
-            Theme.of(context).navigationBarTheme.indicatorColor,
-        systemNavigationBarIconBrightness: Brightness.dark,
-      ));
-    });
   }
 
   @override
@@ -72,6 +67,9 @@ class _RecoveryPasswordScreenState extends State<RecoveryPasswordScreen> {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -87,7 +85,7 @@ class _RecoveryPasswordScreenState extends State<RecoveryPasswordScreen> {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         '''
-Nhập lại tên đăng nhập hoặc email của bạn. Chúng tôi sẽ gửi một email bao gồm mật khẩu mới và bạn sử dụng mật khẩu mới này để đăng nhập ngay''',
+Nhập lại Email của bạn. Chúng tôi sẽ gửi một Email bao gồm mật khẩu mới và bạn sử dụng mật khẩu mới này để đăng nhập ngay''',
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                           fontSize: 16,
@@ -98,7 +96,7 @@ Nhập lại tên đăng nhập hoặc email của bạn. Chúng tôi sẽ gửi
                     const Spacer(),
                     M3TextField(
                       controller: _emailController,
-                      labelText: 'Tên đăng nhập hoặc email',
+                      labelText: 'Email',
                     ),
                     const SizedBox(
                       height: 32,
@@ -106,9 +104,33 @@ Nhập lại tên đăng nhập hoặc email của bạn. Chúng tôi sẽ gửi
                     Align(
                       alignment: Alignment.centerRight,
                       child: M3LockedButton(
-                        onPressed: () => context
-                            .read<AuthProvider>()
-                            .recoveryPassword(email: _emailController.text),
+                        onPressed: () async {
+                          if (!validateEmail(_emailController.text.trim())) {
+                            await showM3Popup(
+                              context,
+                              title: 'Cảnh báo',
+                              descriptions: 'Email bạn nhập không hợp lệ',
+                            );
+                          } else {
+                            await context
+                                .read<AuthProvider>()
+                                .requestRecoveryPassword(
+                                  context,
+                                  email: _emailController.text,
+                                )
+                                .then(
+                                  (value) => value == true
+                                      ? Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const CheckingEmailScreen(),
+                                          ),
+                                        )
+                                      : null,
+                                );
+                          }
+                        },
                         title: 'Khôi phục',
                       ),
                     ),

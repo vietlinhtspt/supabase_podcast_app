@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../../shared/shared.dart';
 import '../account/account_screen.dart';
@@ -21,8 +20,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
   int screenIndex = 0;
   int navIndex = 0;
   ResponsiveType? currentScreenType;
-  bool _isShowingFriends = false;
-  bool _isShowingNotifications = false;
 
   @override
   void initState() {
@@ -52,11 +49,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
       final newScreenType = Responsive.checkScreenType(context);
       if (currentScreenType != null && newScreenType != currentScreenType) {
-        final isChangedIndexScreen = _updateScreenIndex(
-          currentScreenType: currentScreenType,
-          newScreenType: newScreenType,
-        );
-        if (isChangedIndexScreen) _changeScreenIndex(screenIndex);
+        _changeScreenIndex(screenIndex);
       }
       currentScreenType = newScreenType;
 
@@ -83,10 +76,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 bottom: 0,
                 duration: const Duration(milliseconds: 500),
                 child: [
-                  HomeScreen(
-                    isShowingFriends: _isShowingFriends,
-                    isShowingNotifications: _isShowingNotifications,
-                  ),
+                  const HomeScreen(),
                   const FriendsScreen(),
                   const NotificationsScreen(),
                   const AccountScreen()
@@ -146,55 +136,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   int _changeScreenIndex(int newIndex) {
     navIndex = newIndex;
-    if (currentScreenType != ResponsiveType.DESKTOP) {
-      screenIndex = newIndex;
-      _isShowingFriends = false;
-      _isShowingNotifications = false;
-    } else {
-      if (newIndex == 0) {
-        screenIndex = 0;
-        _isShowingFriends = false;
-        _isShowingNotifications = false;
-      } else if (newIndex == 1) {
-        screenIndex = 0;
-        _isShowingFriends = true;
-        _isShowingNotifications = false;
-      } else if (newIndex == 2) {
-        screenIndex = 0;
-        _isShowingFriends = false;
-        _isShowingNotifications = true;
-      } else if (newIndex == 3) {
-        screenIndex = 3;
-        _isShowingFriends = false;
-        _isShowingNotifications = false;
-      } else {
-        _isShowingFriends = false;
-        _isShowingNotifications = false;
-      }
-    }
+    screenIndex = newIndex;
 
     if (mounted) setState(() {});
     return screenIndex;
-  }
-
-  bool _updateScreenIndex({
-    ResponsiveType? currentScreenType,
-    required ResponsiveType newScreenType,
-  }) {
-    var isChanged = false;
-    if (currentScreenType == ResponsiveType.DESKTOP &&
-        (screenIndex == 2 || screenIndex == 1)) {
-      screenIndex = 0;
-      _isShowingFriends = false;
-      _isShowingNotifications = false;
-      isChanged = true;
-    } else if (newScreenType == ResponsiveType.DESKTOP &&
-        (screenIndex == 2 || screenIndex == 1)) {
-      screenIndex = 0;
-      _isShowingFriends = false;
-      _isShowingNotifications = false;
-      isChanged = true;
-    }
-    return isChanged;
   }
 }

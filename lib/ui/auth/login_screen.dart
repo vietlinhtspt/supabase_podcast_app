@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../router/customed_router_delegate.dart';
 import '../../shared/shared.dart';
+import '../popups/m3_popup.dart';
 import 'components/authentication_platform_widget.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -100,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     const Spacer(),
                     M3TextField(
                       controller: _usernameController,
-                      labelText: 'Tên đăng nhập hoặc email',
+                      labelText: 'Email',
                     ),
                     const SizedBox(
                       height: 15,
@@ -109,9 +110,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: _passwordController,
                       labelText: 'Mật khẩu',
                       obscureText: true,
-                    ),
-                    const SizedBox(
-                      height: 12,
                     ),
                     Align(
                       alignment: Alignment.centerRight,
@@ -130,16 +128,43 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
+                    const SizedBox(
+                      height: 6,
+                    ),
                     Align(
                       alignment: Alignment.center,
                       child: M3LockedButton(
-                        onPressed: () => Provider.of<AuthProvider>(
-                          context,
-                          listen: false,
-                        ).login(
-                          email: _usernameController.text,
-                          password: _passwordController.text,
-                        ),
+                        onPressed: () async {
+                          if (!validateEmail(_usernameController.text.trim())) {
+                            await showM3Popup(
+                              context,
+                              title: 'Cảnh báo',
+                              descriptions: 'Email bạn nhập không hợp lệ',
+                            );
+                          } else if (_passwordController.text.trim().isEmpty) {
+                            await showM3Popup(
+                              context,
+                              title: 'Cảnh báo',
+                              descriptions: 'Bạn chưa nhập mật khẩu',
+                            );
+                          } else if (_passwordController.text.length < 6) {
+                            await showM3Popup(
+                              context,
+                              title: 'Cảnh báo',
+                              descriptions: '''
+Độ dài tối thiểu của mật khẩu là 6 ký tự''',
+                            );
+                          } else {
+                            await Provider.of<AuthProvider>(
+                              context,
+                              listen: false,
+                            ).login(
+                              context,
+                              email: _usernameController.text,
+                              password: _passwordController.text,
+                            );
+                          }
+                        },
                         title: 'Đăng nhập',
                       ),
                     ),
@@ -149,16 +174,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         AuthenticationPlatformWidget(
                           iconPath: 'assets/icons/auth/login/ic_google.svg',
-                          onPressed: () =>
-                              context.read<AuthProvider>().loginWithGoogle(),
+                          onPressed: () => context
+                              .read<AuthProvider>()
+                              .loginWithGoogle(context),
                         ),
                         const SizedBox(
                           width: 16,
                         ),
                         AuthenticationPlatformWidget(
                           iconPath: 'assets/icons/auth/login/ic_facebook.svg',
-                          onPressed: () =>
-                              context.read<AuthProvider>().loginWithFacebook(),
+                          onPressed: () => context
+                              .read<AuthProvider>()
+                              .loginWithFacebook(context),
                         ),
                       ],
                     ),

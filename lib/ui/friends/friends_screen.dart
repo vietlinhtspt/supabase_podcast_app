@@ -29,7 +29,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Theme.of(context).colorScheme.surface,
+      color: Theme.of(context).colorScheme.primaryContainer,
       child: CustomScrollView(
         controller: _scrollController,
         slivers: [],

@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  final bool isShowingFriends, isShowingNotifications;
-
   const HomeScreen({
     Key? key,
-    required this.isShowingFriends,
-    required this.isShowingNotifications,
   }) : super(key: key);
 
   @override
@@ -28,15 +24,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    isShowingFriends = widget.isShowingFriends;
-    isShowingNotifications = widget.isShowingNotifications;
     super.initState();
   }
 
   @override
   void didUpdateWidget(covariant HomeScreen oldWidget) {
-    isShowingFriends = widget.isShowingFriends;
-    isShowingNotifications = widget.isShowingNotifications;
     if (mounted) setState(() {});
     super.didUpdateWidget(oldWidget);
   }

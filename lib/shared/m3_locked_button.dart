@@ -3,7 +3,9 @@ import 'package:async/async.dart';
 
 import 'package:flutter/material.dart';
 
-class M3LockedButton extends StatelessWidget {
+import 'measure_size.dart';
+
+class M3LockedButton extends StatefulWidget {
   const M3LockedButton({
     Key? key,
     required this.onPressed,
@@ -14,13 +16,27 @@ class M3LockedButton extends StatelessWidget {
   final FutureOr<dynamic> Function() onPressed;
 
   @override
+  State<M3LockedButton> createState() => _M3LockedButtonState();
+}
+
+class _M3LockedButtonState extends State<M3LockedButton> {
+  var _isWaitingComplete = false;
+  Size? _buttonSize;
+
+  @override
+  void didUpdateWidget(covariant M3LockedButton oldWidget) {
+    if (mounted) setState(() {});
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
     CancelableOperation? _cancelableOperation;
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(colors: [
+          Theme.of(context).colorScheme.secondary,
           Theme.of(context).colorScheme.primary,
-          Theme.of(context).colorScheme.secondary
         ]),
         borderRadius: BorderRadius.circular(40),
       ),
@@ -33,17 +49,38 @@ class M3LockedButton extends StatelessWidget {
         ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
         onPressed: () {
           if (_cancelableOperation?.isCompleted ?? true) {
-            _cancelableOperation = CancelableOperation.fromFuture(_onPressed());
+            _isWaitingComplete = true;
+            if (mounted) setState(() {});
+            _cancelableOperation =
+                CancelableOperation.fromFuture(_onPressed()).then((p0) {
+              _isWaitingComplete = false;
+              if (mounted) setState(() {});
+            });
           }
         },
-        child: Padding(
-          padding: const EdgeInsets.all(14.0),
-          child: Text(
-            title,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
+        child: MeasureSize(
+          onChange: (size) => setState(() {
+            _buttonSize ??= size;
+          }),
+          child: SizedBox(
+            width: _buttonSize?.width,
+            height: _buttonSize?.height,
+            child: _isWaitingComplete
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(14.0),
+                    child: Text(
+                      widget.title,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
           ),
         ),
       ),
@@ -51,6 +88,6 @@ class M3LockedButton extends StatelessWidget {
   }
 
   Future _onPressed() async {
-    return await onPressed();
+    return await widget.onPressed();
   }
 }

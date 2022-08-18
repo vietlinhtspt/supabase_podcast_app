@@ -3,11 +3,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../repositories/auth_repository.dart';
+import '../repositories/common.dart';
 
 class AuthProvider extends ChangeNotifier {
   late AuthRepository authRepository;
   bool isLogedIn = false;
   bool isSpashing = false;
+  bool isRecoveringPassword = false;
 
   AuthProvider({AuthRepository? authRepository}) {
     if (authRepository != null) {
@@ -22,12 +24,14 @@ class AuthProvider extends ChangeNotifier {
       switch (event) {
         case AuthChangeEvent.signedIn:
           isLogedIn = true;
-          authRepository?.updateLoginStatus(isLogedIn);
           notifyListeners();
           break;
         case AuthChangeEvent.signedOut:
           isLogedIn = false;
-          authRepository?.updateLoginStatus(isLogedIn);
+          notifyListeners();
+          break;
+        case AuthChangeEvent.passwordRecovery:
+          isRecoveringPassword = true;
           notifyListeners();
           break;
         default:
@@ -37,72 +41,107 @@ class AuthProvider extends ChangeNotifier {
     final currentUser = Supabase.instance.client.auth.currentUser;
     if (currentUser != null) {
       isLogedIn = true;
-      authRepository?.updateLoginStatus(true);
     }
     notifyListeners();
   }
 
-  Future<void> login({
+  Future<void> login(
+    BuildContext context, {
     required String email,
     required String password,
   }) async {
-    isSpashing = true;
-    notifyListeners();
-    await authRepository.loginWithEmail(email: email, password: password);
-    isSpashing = false;
-    notifyListeners();
+    await supabaseCallAPI(context, function: () async {
+      await authRepository.loginWithEmail(
+        email: email,
+        password: password,
+      );
+    });
   }
 
-  Future<void> loginWithMagicLink({
+  Future<void> loginWithMagicLink(
+    BuildContext context, {
     required String email,
   }) async {
-    isSpashing = true;
-    notifyListeners();
-    await authRepository.loginWithEmail(email: email);
-    isSpashing = false;
-    notifyListeners();
+    await supabaseCallAPI(context, function: () async {
+      await authRepository.loginWithEmail(email: email);
+    });
   }
 
-  Future<void> loginWithGoogle() async {
-    isSpashing = true;
-    notifyListeners();
-    await authRepository.loginWithGoogle();
-    isSpashing = false;
-    notifyListeners();
+  Future<void> loginWithGoogle(
+    BuildContext context,
+  ) async {
+    await supabaseCallAPI(context, function: () async {
+      await authRepository.loginWithGoogle();
+    });
   }
 
-  Future<void> loginWithFacebook() async {
-    isSpashing = true;
-    notifyListeners();
-    await authRepository.loginWithFacebook();
-    isSpashing = false;
-    notifyListeners();
+  Future<void> loginWithFacebook(
+    BuildContext context,
+  ) async {
+    await supabaseCallAPI(context, function: () async {
+      await authRepository.loginWithFacebook();
+    });
   }
 
-  Future<void> logout() async {
-    isSpashing = true;
-    notifyListeners();
-    await authRepository.logout();
-    isSpashing = false;
-    notifyListeners();
+  Future<void> logout(
+    BuildContext context,
+  ) async {
+    await supabaseCallAPI(context, function: () async {
+      await authRepository.logout();
+    });
   }
 
-  Future<bool> register({
+  Future<bool> register(
+    BuildContext context, {
     required String email,
     required String password,
   }) async {
-    final status = await authRepository.register(
-      email: email,
-      password: password,
-    );
+    var status = false;
+    await supabaseCallAPI(context, function: () async {
+      final response = await authRepository.register(
+        email: email,
+        password: password,
+      );
+
+      if (response.statusCode == 200) {
+        status = true;
+      }
+    });
     return status;
   }
 
-  Future<void> recoveryPassword({
+  Future<bool> requestRecoveryPassword(
+    BuildContext context, {
     required String email,
   }) async {
-    await authRepository.recoveryPassword(
-      email: email,
-    );
+    var status = false;
+    await supabaseCallAPI(context, function: () async {
+      final response = await authRepository.requestRecoveryPassword(
+        email: email,
+      );
+      if (response.statusCode == 200) {
+        status = true;
+      }
+    });
+    return status;
+  }
+
+  Future<bool> recoveryPassword(
+    BuildContext context, {
+    required String password,
+  }) async {
+    var status = false;
+    await supabaseCallAPI(context, function: () async {
+      final response = await authRepository.updatePassword(
+        password: password,
+      );
+
+      isRecoveringPassword = false;
+      notifyListeners();
+      if (response.statusCode == 200) {
+        status = true;
+      }
+    });
+    return status;
   }
 }

@@ -2,45 +2,37 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/foundation.dart';
 
-const String _AUTH_KEY = 'AuthKey';
-
 class AuthRepository {
   final SharedPreferences preference;
 
   AuthRepository(this.preference);
 
-  Future<bool> isUserLoggedIn() async =>
-      Future.delayed(const Duration(seconds: 2)).then((value) {
-        return preference.getBool(_AUTH_KEY) ?? false;
-      });
-
-  Future<bool> updateLoginStatus(bool loggedIn) =>
-      Future.delayed(const Duration(seconds: 2)).then((value) {
-        return preference.setBool(_AUTH_KEY, loggedIn);
-      });
-
-  Future<void> logout() async {
+  Future<GotrueResponse> logout() async {
     final supabase = Supabase.instance.client;
 
-    await supabase.auth.signOut();
+    return supabase.auth.signOut();
   }
 
-  Future<void> loginWithEmail({
+  Future<GotrueSessionResponse> loginWithEmail({
     required String email,
     String? password,
   }) async {
     final supabase = Supabase.instance.client;
-
-    await supabase.auth.signIn(
+    return supabase.auth.signIn(
       email: email.trim(),
       password: password?.trim(),
     );
   }
 
-  Future<void> loginWithGoogle() async {
+  Future<bool> loginWithGoogle() async {
     final supabase = Supabase.instance.client;
-    await supabase.auth.signInWithProvider(
+    return supabase.auth.signInWithProvider(
       Provider.google,
+      options: const AuthOptions(
+        redirectTo: kIsWeb
+            ? 'https://vietlinhtspt.github.io/supabasepodcastapp'
+            : 'io.supabase.flutterquickstart://login-callback',
+      ),
     );
   }
 
@@ -48,38 +40,39 @@ class AuthRepository {
     final supabase = Supabase.instance.client;
     await supabase.auth.signInWithProvider(
       Provider.facebook,
+      options: const AuthOptions(
+        redirectTo: kIsWeb
+            ? 'https://vietlinhtspt.github.io/supabasepodcastapp'
+            : 'io.supabase.flutterquickstart://login-callback',
+      ),
     );
   }
 
-  Future<bool> register({
+  Future<GotrueSessionResponse> register({
     required String email,
     required String password,
   }) async {
     final supabase = Supabase.instance.client;
 
-    var registerStatus = false;
-
-    final response = await supabase.auth.signUp(
+    return supabase.auth.signUp(
       email.trim(),
       password.trim(),
-      options: AuthOptions(
-          redirectTo:
-              kIsWeb ? null : 'io.supabase.flutterquickstart://login-callback'),
+      options: const AuthOptions(
+        redirectTo: kIsWeb
+            ? 'https://vietlinhtspt.github.io/supabasepodcastapp'
+            : 'io.supabase.flutterquickstart://login-callback',
+      ),
     );
-
-    if (response.statusCode == 200) {
-      registerStatus = true;
-      print('Create account success');
-    }
-
-    return registerStatus;
   }
 
-  Future<void> recoveryPassword({required String email}) async {
+  Future<GotrueJsonResponse> requestRecoveryPassword(
+      {required String email}) async {
     final supabase = Supabase.instance.client;
+    return supabase.auth.api.resetPasswordForEmail(email.trim());
+  }
 
-    final response =
-        await supabase.auth.api.resetPasswordForEmail(email.trim());
-    print(response.data);
+  Future<GotrueUserResponse> updatePassword({required String password}) async {
+    final supabase = Supabase.instance.client;
+    return supabase.auth.update(UserAttributes(password: password));
   }
 }

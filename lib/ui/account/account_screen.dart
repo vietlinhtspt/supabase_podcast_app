@@ -21,7 +21,7 @@ class _AccountScreenState extends State<AccountScreen> {
             onPressed: () => Provider.of<AuthProvider>(
               context,
               listen: false,
-            ).logout(),
+            ).logout(context),
             child: const Text('logout'),
           )),
         ),
