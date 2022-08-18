@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:open_mail_app/open_mail_app.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../shared/shared.dart';
 
@@ -11,7 +10,8 @@ class CheckingEmailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-      body: Padding(
+      body: Container(
+        width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Column(
           mainAxisSize: MainAxisSize.max,
@@ -29,7 +29,7 @@ class CheckingEmailScreen extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(
+            const SizedBox(
               height: 13,
             ),
             Text(
@@ -42,7 +42,7 @@ Chúng tôi đã gửi một email xác nhận. Vui lòng mở link được g�
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(
+            const SizedBox(
               height: 60,
             ),
             M3LockedButton(
@@ -53,7 +53,7 @@ Chúng tôi đã gửi một email xác nhận. Vui lòng mở link được g�
                 // );
 
                 // await launchUrl(params);
-                var result = await OpenMailApp.openMailApp();
+                final result = await OpenMailApp.openMailApp();
 
                 // If no mail apps found, show error
                 if (!result.didOpen && !result.canOpen) {
@@ -74,7 +74,7 @@ Chúng tôi đã gửi một email xác nhận. Vui lòng mở link được g�
                 }
               },
             ),
-            Spacer(
+            const Spacer(
               flex: 2,
             )
           ],

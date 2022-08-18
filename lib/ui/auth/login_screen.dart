@@ -170,53 +170,67 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     const Spacer(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        AuthenticationPlatformWidget(
-                          iconPath: 'assets/icons/auth/login/ic_google.svg',
-                          onPressed: () => context
-                              .read<AuthProvider>()
-                              .loginWithGoogle(context),
-                        ),
-                        const SizedBox(
-                          width: 16,
-                        ),
-                        AuthenticationPlatformWidget(
-                          iconPath: 'assets/icons/auth/login/ic_facebook.svg',
-                          onPressed: () => context
-                              .read<AuthProvider>()
-                              .loginWithFacebook(context),
-                        ),
-                        const SizedBox(
-                          width: 16,
-                        ),
-                        AuthenticationPlatformWidget(
-                          onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const MagicLinkScreen(),
+                    FittedBox(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          AuthenticationPlatformWidget(
+                            iconPath: 'assets/icons/auth/login/ic_google.svg',
+                            onPressed: () => context
+                                .read<AuthProvider>()
+                                .loginWithGoogle(context),
+                          ),
+                          const SizedBox(
+                            width: 16,
+                          ),
+                          AuthenticationPlatformWidget(
+                            iconPath: 'assets/icons/auth/login/ic_facebook.svg',
+                            onPressed: () => context
+                                .read<AuthProvider>()
+                                .loginWithFacebook(context),
+                          ),
+                          Text(
+                            '  hoặc  ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant,
                             ),
                           ),
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                'assets/logos/supabase.png',
-                                width: 32,
-                                height: 32,
+                          AuthenticationPlatformWidget(
+                            onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const MagicLinkScreen(),
                               ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              const Text('Magic link',
+                            ),
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'assets/logos/supabase.png',
+                                  width: 32,
+                                  height: 32,
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  'Magic link',
                                   style: TextStyle(
                                     fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  ))
-                            ],
+                                    fontWeight: FontWeight.w600,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     const SizedBox(
                       height: 16,

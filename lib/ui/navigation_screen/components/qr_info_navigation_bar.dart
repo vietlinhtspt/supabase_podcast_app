@@ -153,7 +153,7 @@ class NavBarHorizontalCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Theme.of(context).colorScheme.surface
+      ..color = Theme.of(context).colorScheme.primaryContainer
       ..style = PaintingStyle.fill;
 
     final path = Path();
@@ -186,7 +186,7 @@ class NavBarVerticalCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Theme.of(context).colorScheme.surface
+      ..color = Theme.of(context).colorScheme.primaryContainer
       ..style = PaintingStyle.fill;
 
     final path = Path();

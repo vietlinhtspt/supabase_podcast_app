@@ -38,7 +38,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      systemNavigationBarColor: Theme.of(context).colorScheme.surface,
+      systemNavigationBarColor: Theme.of(context).colorScheme.primaryContainer,
       systemNavigationBarIconBrightness: Brightness.light,
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: isDarkMode ? Brightness.light : Brightness.dark,
@@ -69,7 +69,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
       return Scaffold(
         body: Container(
           height: double.infinity,
-          color: Theme.of(context).colorScheme.surface,
+          color: Theme.of(context).colorScheme.primaryContainer,
           child: Stack(
             children: [
               AnimatedPositioned(
