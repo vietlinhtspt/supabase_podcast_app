@@ -9,6 +9,7 @@ import '../../router/customed_router_delegate.dart';
 import '../../shared/shared.dart';
 import '../popups/m3_popup.dart';
 import 'components/authentication_platform_widget.dart';
+import 'magic_link_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -186,6 +187,34 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPressed: () => context
                               .read<AuthProvider>()
                               .loginWithFacebook(context),
+                        ),
+                        const SizedBox(
+                          width: 16,
+                        ),
+                        AuthenticationPlatformWidget(
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MagicLinkScreen(),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                'assets/logos/supabase.png',
+                                width: 32,
+                                height: 32,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              const Text('Magic link',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ))
+                            ],
+                          ),
                         ),
                       ],
                     ),

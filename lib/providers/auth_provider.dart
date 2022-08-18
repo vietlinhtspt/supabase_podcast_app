@@ -58,13 +58,16 @@ class AuthProvider extends ChangeNotifier {
     });
   }
 
-  Future<void> loginWithMagicLink(
+  Future<bool> loginWithMagicLink(
     BuildContext context, {
     required String email,
   }) async {
+    var status = false;
     await supabaseCallAPI(context, function: () async {
       await authRepository.loginWithEmail(email: email);
+      status = true;
     });
+    return status;
   }
 
   Future<void> loginWithGoogle(

@@ -21,6 +21,11 @@ class AuthRepository {
     return supabase.auth.signIn(
       email: email.trim(),
       password: password?.trim(),
+      options: const AuthOptions(
+        redirectTo: kIsWeb
+            ? 'https://vietlinhtspt.github.io/supabasepodcastapp'
+            : 'io.supabase.flutterquickstart://login-callback',
+      ),
     );
   }
 
@@ -68,7 +73,14 @@ class AuthRepository {
   Future<GotrueJsonResponse> requestRecoveryPassword(
       {required String email}) async {
     final supabase = Supabase.instance.client;
-    return supabase.auth.api.resetPasswordForEmail(email.trim());
+    return supabase.auth.api.resetPasswordForEmail(
+      email.trim(),
+      options: const AuthOptions(
+        redirectTo: kIsWeb
+            ? 'https://vietlinhtspt.github.io/supabasepodcastapp'
+            : 'io.supabase.flutterquickstart://login-callback',
+      ),
+    );
   }
 
   Future<GotrueUserResponse> updatePassword({required String password}) async {

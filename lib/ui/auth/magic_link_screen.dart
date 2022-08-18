@@ -8,16 +8,14 @@ import '../../shared/shared.dart';
 import '../popups/m3_popup.dart';
 import 'checking_email_screen.dart';
 
-class RecoveryPasswordScreen extends StatefulWidget {
-  const RecoveryPasswordScreen({Key? key}) : super(key: key);
-
-  static String ROUTE_NAME = 'recoveryPassword';
+class MagicLinkScreen extends StatefulWidget {
+  const MagicLinkScreen({Key? key}) : super(key: key);
 
   @override
-  State<RecoveryPasswordScreen> createState() => _RecoveryPasswordScreenState();
+  State<MagicLinkScreen> createState() => _MagicLinkScreenState();
 }
 
-class _RecoveryPasswordScreenState extends State<RecoveryPasswordScreen> {
+class _MagicLinkScreenState extends State<MagicLinkScreen> {
   late TextEditingController _emailController;
 
   @override
@@ -71,7 +69,7 @@ class _RecoveryPasswordScreenState extends State<RecoveryPasswordScreen> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Quên mật khẩu,',
+                        'Supabase Magic Link',
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontSize: 45,
@@ -83,7 +81,7 @@ class _RecoveryPasswordScreenState extends State<RecoveryPasswordScreen> {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         '''
-Nhập lại Email của bạn. Chúng tôi sẽ gửi một Email bao gồm mật khẩu mới và bạn sử dụng mật khẩu mới này để đăng nhập ngay''',
+Sử dụng Magic Link được gửi vào mail để đăng nhập, hoàn toàn không cần mật khẩu''',
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                           fontSize: 16,
@@ -112,7 +110,7 @@ Nhập lại Email của bạn. Chúng tôi sẽ gửi một Email bao gồm m�
                           } else {
                             await context
                                 .read<AuthProvider>()
-                                .requestRecoveryPassword(
+                                .loginWithMagicLink(
                                   context,
                                   email: _emailController.text,
                                 )
@@ -129,7 +127,7 @@ Nhập lại Email của bạn. Chúng tôi sẽ gửi một Email bao gồm m�
                                 );
                           }
                         },
-                        title: 'Khôi phục',
+                        title: 'Đăng nhập',
                       ),
                     ),
                     const Spacer(),

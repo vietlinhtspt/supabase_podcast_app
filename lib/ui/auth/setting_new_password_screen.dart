@@ -139,14 +139,19 @@ Nhập mật khẩu mới của bạn nữa là xong rồi''',
 Mật khẩu và mật khẩu xác nhận không trùng nhau''',
                             );
                           } else {
-                            context
+                            await context
                                 .read<AuthProvider>()
                                 .recoveryPassword(
                                   context,
                                   password: _passwordController.text,
                                 )
-                                .then((value) => value == true
-                                    ? Navigator.pop(context)
+                                .then((value) async => value == true
+                                    ? await showM3Popup(
+                                        context,
+                                        title: 'Thành công',
+                                        descriptions: '''
+Cập nhật mật khẩu thành công''',
+                                      )
                                     : null);
                           }
                         },

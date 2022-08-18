@@ -4,11 +4,13 @@ import 'package:flutter_svg/svg.dart';
 class AuthenticationPlatformWidget extends StatelessWidget {
   const AuthenticationPlatformWidget({
     Key? key,
-    required this.iconPath,
+    this.iconPath,
+    this.child,
     this.onPressed,
   }) : super(key: key);
 
-  final String iconPath;
+  final String? iconPath;
+  final Widget? child;
   final VoidCallback? onPressed;
 
   @override
@@ -25,12 +27,14 @@ class AuthenticationPlatformWidget extends StatelessWidget {
         ),
       ),
       onPressed: onPressed,
-      child: SvgPicture.asset(
-        iconPath,
-        width: 32,
-        height: 32,
-        color: Theme.of(context).colorScheme.onSurfaceVariant,
-      ),
+      child: iconPath != null
+          ? SvgPicture.asset(
+              iconPath!,
+              width: 32,
+              height: 32,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            )
+          : child ?? const SizedBox.shrink(),
     );
   }
 }
