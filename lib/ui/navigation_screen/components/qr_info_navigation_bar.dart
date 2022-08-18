@@ -119,12 +119,7 @@ class _QRInfoNavigationBarState extends State<QRInfoNavigationBar> {
     required ValueChanged<int> onPressed,
   }) {
     final isSelected = _selectedIndex == index;
-    final iconColor = isSelected
-        ? Theme.of(context).colorScheme.onSecondaryContainer
-        : Theme.of(context).colorScheme.onSurfaceVariant;
-    final textColor = isSelected
-        ? Theme.of(context).colorScheme.onSurface
-        : Theme.of(context).colorScheme.onSurfaceVariant;
+
     final iconPath = isSelected ? item.iconPathSelected : item.iconPath;
 
     final widthScreen = MediaQuery.of(context).size.width;
@@ -133,8 +128,6 @@ class _QRInfoNavigationBarState extends State<QRInfoNavigationBar> {
       isSelected: isSelected,
       context: context,
       iconPath: iconPath,
-      iconColor: iconColor,
-      textColor: textColor,
       onPressed: () => onPressed(index),
       title: item.text,
       width: isVertical ? 80 : widthScreen / 4,

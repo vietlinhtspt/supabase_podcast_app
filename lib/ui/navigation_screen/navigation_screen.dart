@@ -106,28 +106,27 @@ class _NavigationScreenState extends State<NavigationScreen> {
                   onTabSelected: _changeScreenIndex,
                   items: [
                     QRInfoNavigationBarItem(
-                      iconPath: 'assets/icons/tabbar/ic_home.svg',
-                      iconPathSelected:
-                          'assets/icons/tabbar/ic_home_selected.svg',
+                      iconPath: 'assets/icons/tabbar/ic_home@512x.png',
+                      iconPathSelected: 'assets/icons/tabbar/ic_home@512x.png',
                       text: 'Home',
                     ),
                     QRInfoNavigationBarItem(
-                      iconPath: 'assets/icons/tabbar/ic_explore.svg',
+                      iconPath: 'assets/icons/tabbar/ic_searching@512x.png',
                       iconPathSelected:
-                          'assets/icons/tabbar/ic_explore_selected.svg',
+                          'assets/icons/tabbar/ic_searching@512x.png',
                       text: 'Explore',
                     ),
                     QRInfoNavigationBarItem(
-                      iconPath: 'assets/icons/tabbar/ic_download.svg',
+                      iconPath: 'assets/icons/tabbar/ic_library@512x.png',
                       iconPathSelected:
-                          'assets/icons/tabbar/ic_download_selected.svg',
+                          'assets/icons/tabbar/ic_library@512x.png',
                       text: 'Download',
                     ),
                     QRInfoNavigationBarItem(
-                      iconPath: 'assets/icons/tabbar/ic_account.svg',
+                      iconPath: 'assets/icons/tabbar/ic_setting@512x.png',
                       iconPathSelected:
-                          'assets/icons/tabbar/ic_account_selected.svg',
-                      text: 'Profile',
+                          'assets/icons/tabbar/ic_setting@512x.png',
+                      text: 'Setting',
                     ),
                   ],
                 ),
