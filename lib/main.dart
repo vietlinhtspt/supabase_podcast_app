@@ -3,12 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_color/flutter_color.dart';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'firebase_options.dart';
-
-import 'package:onesignal_flutter/onesignal_flutter.dart';
-import 'package:flutter/foundation.dart';
 
 import 'providers/providers.dart';
 import 'providers/user_info_provider.dart';
@@ -17,24 +12,6 @@ import 'router/router.dart';
 void main() async {
   configureApp();
   WidgetsFlutterBinding.ensureInitialized();
-
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  if (defaultTargetPlatform == TargetPlatform.android) {
-    //Remove this method to stop OneSignal Debugging
-    OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
-
-    OneSignal.shared.setAppId('adaeae8b-36b0-4fd6-9370-bce41d702536');
-
-    // The promptForPushNotificationsWithUserResponse function will show the iOS
-    // push notification prompt. We recommend removing the following code and
-    // instead using an In-App Message to prompt for notification permission
-    OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
-      debugPrint('Accepted permission: $accepted');
-    }); // Android-specific code
-  }
 
   await Supabase.initialize(
     url: 'https://vcdtzzxxfqnbehzlyfne.supabase.co',

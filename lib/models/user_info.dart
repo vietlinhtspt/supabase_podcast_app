@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'base_model.dart';
 
 class UserInfo extends BaseModel {
+  @override
   final int? id;
   final createdAt;
   final String? name;

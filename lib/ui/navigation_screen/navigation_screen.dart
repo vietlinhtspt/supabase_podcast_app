@@ -49,8 +49,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
     return LayoutBuilder(builder: (context, constraints) {
       final isMobile = Responsive.isMobile(context);
-      final isTablet = Responsive.isTablet(context);
-      final isDesktop = Responsive.isDesktop(context);
 
       final newScreenType = Responsive.checkScreenType(context);
       if (currentScreenType != null && newScreenType != currentScreenType) {
@@ -58,6 +56,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
       }
       currentScreenType = newScreenType;
 
+      // final isTablet = Responsive.isTablet(context);
+      // final isDesktop = Responsive.isDesktop(context);
       // debugPrint('=========');
       // debugPrint('isMobile: $isMobile');
       // debugPrint('isTablet: $isTablet');
