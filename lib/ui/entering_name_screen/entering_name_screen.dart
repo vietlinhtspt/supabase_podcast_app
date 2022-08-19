@@ -77,7 +77,7 @@ class _EnteringNameScreenState extends State<EnteringNameScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Align(

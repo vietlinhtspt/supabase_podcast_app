@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_color/flutter_color.dart';
-import 'package:flutter_svg/svg.dart';
 
 class M3NavbarItemWidget extends StatelessWidget {
   const M3NavbarItemWidget(

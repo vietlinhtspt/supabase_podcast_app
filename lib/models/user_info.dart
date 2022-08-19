@@ -7,12 +7,14 @@ class UserInfo extends BaseModel {
   final String? name;
   final String? email;
   final String? avatarPath;
+  final bool? isDarkMode;
   UserInfo({
     this.id,
     this.createdAt,
     this.email,
     this.name,
     this.avatarPath,
+    this.isDarkMode,
   });
 
   UserInfo copyWith({
@@ -21,6 +23,7 @@ class UserInfo extends BaseModel {
     String? name,
     String? email,
     String? avatarPath,
+    bool? isDarkMode,
   }) {
     return UserInfo(
       id: id ?? this.id,
@@ -28,6 +31,7 @@ class UserInfo extends BaseModel {
       name: name ?? this.name,
       email: email ?? this.email,
       avatarPath: avatarPath ?? this.avatarPath,
+      isDarkMode: isDarkMode ?? this.isDarkMode,
     );
   }
 
@@ -49,6 +53,10 @@ class UserInfo extends BaseModel {
     result.addAll({'name': name});
     result.addAll({'email': email});
 
+    if (isDarkMode != null) {
+      result.addAll({'is_dark_mode': isDarkMode});
+    }
+
     return result;
   }
 
@@ -59,6 +67,7 @@ class UserInfo extends BaseModel {
       name: map['name'] ?? '',
       email: map['email'] ?? '',
       avatarPath: map['avatar_path'] ?? '',
+      isDarkMode: map['is_dark_mode'] ?? false,
     );
   }
 

@@ -10,6 +10,7 @@ class AuthProvider extends ChangeNotifier {
   bool isLogedIn = false;
   bool isSpashing = false;
   bool isRecoveringPassword = false;
+  AuthChangeEvent? lastEvent;
 
   AuthProvider({AuthRepository? authRepository}) {
     if (authRepository != null) {
@@ -23,10 +24,13 @@ class AuthProvider extends ChangeNotifier {
     Supabase.instance.client.auth.onAuthStateChange((event, session) {
       switch (event) {
         case AuthChangeEvent.signedIn:
-          if (!isSpashing) {
-            isSpashing = true;
-            notifyListeners();
+          if (lastEvent != AuthChangeEvent.signedIn) {
+            if (!isSpashing) {
+              isSpashing = true;
+              notifyListeners();
+            }
           }
+
           break;
         case AuthChangeEvent.signedOut:
           isLogedIn = false;
@@ -38,11 +42,14 @@ class AuthProvider extends ChangeNotifier {
           break;
         default:
       }
+      lastEvent = event;
     });
+
     final currentUser = Supabase.instance.client.auth.currentUser;
     if (currentUser != null) {
       isSpashing = true;
     }
+
     notifyListeners();
   }
 

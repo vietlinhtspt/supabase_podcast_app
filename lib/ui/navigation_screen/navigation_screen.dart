@@ -58,13 +58,13 @@ class _NavigationScreenState extends State<NavigationScreen> {
       }
       currentScreenType = newScreenType;
 
-      debugPrint('=========');
-      debugPrint('isMobile: $isMobile');
-      debugPrint('isTablet: $isTablet');
-      debugPrint('isDesktop: $isDesktop');
-      debugPrint('width: ${MediaQuery.of(context).size.width}');
-      debugPrint('height: ${MediaQuery.of(context).size.height}');
-      debugPrint('=========');
+      // debugPrint('=========');
+      // debugPrint('isMobile: $isMobile');
+      // debugPrint('isTablet: $isTablet');
+      // debugPrint('isDesktop: $isDesktop');
+      // debugPrint('width: ${MediaQuery.of(context).size.width}');
+      // debugPrint('height: ${MediaQuery.of(context).size.height}');
+      // debugPrint('=========');
 
       final isVertical = !isMobile;
 
@@ -120,7 +120,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                       iconPath: 'assets/icons/tabbar/ic_library@512x.png',
                       iconPathSelected:
                           'assets/icons/tabbar/ic_library@512x.png',
-                      text: 'Download',
+                      text: 'Libary',
                     ),
                     QRInfoNavigationBarItem(
                       iconPath: 'assets/icons/tabbar/ic_setting@512x.png',

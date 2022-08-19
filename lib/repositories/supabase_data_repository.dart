@@ -10,6 +10,24 @@ class SupabaseDataRepository {
     return await Supabase.instance.client.from(table).insert(data.toMap());
   }
 
+  Future<RealtimeSubscription> subcribe({
+    required String table,
+    String keyName = 'id',
+    required String keyValue,
+    required Function(SupabaseRealtimePayload) callback,
+  }) async {
+    return Supabase.instance.client
+        .from('$table:$keyName=eq.$keyValue')
+        .on(SupabaseEventTypes.update, callback)
+        .subscribe();
+  }
+
+  Future unsubcribe({
+    required RealtimeSubscription subscription,
+  }) async {
+    return subscription.unsubscribe();
+  }
+
   Future<List> readRow({
     required String table,
     String? column,
@@ -27,15 +45,16 @@ class SupabaseDataRepository {
     }
   }
 
-  Future<PostgrestResponse<dynamic>> updateRow({
+  Future<dynamic> updateRow({
     required String table,
-    required String id,
+    String keyName = 'id',
+    required String keyValue,
     required Map<dynamic, dynamic> values,
   }) async {
     return await Supabase.instance.client
         .from(table)
         .update(values)
-        .eq('id', id);
+        .eq(keyName, keyValue);
   }
 
   Future<PostgrestResponse<dynamic>> deleteRow({

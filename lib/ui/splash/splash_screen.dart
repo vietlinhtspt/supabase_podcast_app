@@ -19,8 +19,13 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       context.read<UserInfoProvider>().getUserInfo(context).then(
-            (value) => context.read<AuthProvider>().completeInitData(),
-          );
+        (value) {
+          if (value?.email != null) {
+            context.read<UserInfoProvider>().subcribe();
+          }
+          context.read<AuthProvider>().completeInitData();
+        },
+      );
     });
   }
 

@@ -83,48 +83,53 @@ class _MyAppState extends State<MyApp> {
           create: (_) => UserInfoProvider(),
         ),
       ],
-      child: MaterialApp.router(
-        routerDelegate: delegate,
-        routeInformationParser: parser,
-        backButtonDispatcher: RootBackButtonDispatcher(),
-        theme: FlexThemeData.light(
-          scheme: FlexScheme.bigStone,
-          primary: const Color(0xffC93155),
-          secondary: const Color(0xffF3542C),
-          onPrimaryContainer: const Color(0xff333333),
-          primaryContainer: Colors.white,
-          surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
-          blendLevel: 20,
-          appBarOpacity: 0.95,
-          subThemesData: const FlexSubThemesData(
-            blendOnLevel: 20,
-            blendOnColors: false,
-            navigationBarSelectedLabelSchemeColor: SchemeColor.secondary,
-            navigationBarSelectedIconSchemeColor: SchemeColor.secondary,
+      child:
+          Consumer<UserInfoProvider>(builder: (context, userProvider, child) {
+        return MaterialApp.router(
+          routerDelegate: delegate,
+          routeInformationParser: parser,
+          backButtonDispatcher: RootBackButtonDispatcher(),
+          theme: FlexThemeData.light(
+            scheme: FlexScheme.bigStone,
+            primary: const Color(0xffC93155),
+            secondary: const Color(0xffF3542C),
+            onPrimaryContainer: const Color(0xff333333),
+            primaryContainer: Colors.white,
+            surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
+            blendLevel: 20,
+            appBarOpacity: 0.95,
+            subThemesData: const FlexSubThemesData(
+              blendOnLevel: 20,
+              blendOnColors: false,
+              navigationBarSelectedLabelSchemeColor: SchemeColor.secondary,
+              navigationBarSelectedIconSchemeColor: SchemeColor.secondary,
+            ),
+            visualDensity: FlexColorScheme.comfortablePlatformDensity,
+            useMaterial3: true,
           ),
-          visualDensity: FlexColorScheme.comfortablePlatformDensity,
-          useMaterial3: true,
-        ),
-        darkTheme: FlexThemeData.dark(
-          scheme: FlexScheme.bigStone,
-          primary: const Color(0xffC93155).mix(Colors.black, 0.1),
-          secondary: const Color(0xffF3542C).mix(Colors.black, 0.1),
-          onPrimaryContainer: const Color(0xffcccccc).mix(Colors.black, 0.1),
-          primaryContainer: Colors.black,
-          surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
-          blendLevel: 15,
-          appBarStyle: FlexAppBarStyle.background,
-          appBarOpacity: 0.90,
-          subThemesData: const FlexSubThemesData(
-            blendOnLevel: 30,
-            navigationBarSelectedLabelSchemeColor: SchemeColor.secondary,
-            navigationBarSelectedIconSchemeColor: SchemeColor.secondary,
+          darkTheme: FlexThemeData.dark(
+            scheme: FlexScheme.bigStone,
+            primary: const Color(0xffC93155).mix(Colors.black, 0.1),
+            secondary: const Color(0xffF3542C).mix(Colors.black, 0.1),
+            onPrimaryContainer: const Color(0xffcccccc).mix(Colors.black, 0.1),
+            primaryContainer: Colors.black,
+            surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
+            blendLevel: 15,
+            appBarStyle: FlexAppBarStyle.background,
+            appBarOpacity: 0.90,
+            subThemesData: const FlexSubThemesData(
+              blendOnLevel: 30,
+              navigationBarSelectedLabelSchemeColor: SchemeColor.secondary,
+              navigationBarSelectedIconSchemeColor: SchemeColor.secondary,
+            ),
+            visualDensity: FlexColorScheme.comfortablePlatformDensity,
+            useMaterial3: true,
           ),
-          visualDensity: FlexColorScheme.comfortablePlatformDensity,
-          useMaterial3: true,
-        ),
-        themeMode: ThemeMode.system,
-      ),
+          themeMode: userProvider.userInfo?.isDarkMode ?? false
+              ? ThemeMode.dark
+              : ThemeMode.light,
+        );
+      }),
     );
   }
 }
