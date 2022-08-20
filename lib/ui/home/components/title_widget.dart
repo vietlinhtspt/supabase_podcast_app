@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -31,7 +32,7 @@ class TitleWidget extends StatelessWidget {
               ),
               const Spacer(),
               Text(
-                'xem thêm',
+                'home_screen.explain'.tr(),
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,

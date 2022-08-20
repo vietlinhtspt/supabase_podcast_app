@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -68,7 +69,7 @@ class _EnteringNameScreenState extends State<EnteringNameScreen> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Chào mừng bạn đến với ứng dụng Melior',
+                        'entering_name_screen.title'.tr(),
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontSize: 30,
@@ -83,8 +84,7 @@ class _EnteringNameScreenState extends State<EnteringNameScreen> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        '''
-Hãy cho chúng tôi biết tên hay biệt danh của bạn''',
+                        'entering_name_screen.sub_title'.tr(),
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                           fontSize: 16,
@@ -95,7 +95,7 @@ Hãy cho chúng tôi biết tên hay biệt danh của bạn''',
                     const Spacer(),
                     M3TextField(
                       controller: _nameController,
-                      labelText: 'Tên hoặc biệt danh',
+                      labelText: 'entering_name_screen.name'.tr(),
                     ),
                     const SizedBox(
                       height: 32,
@@ -107,8 +107,8 @@ Hãy cho chúng tôi biết tên hay biệt danh của bạn''',
                           if (_nameController.text.trim().isEmpty) {
                             await showM3Popup(
                               context,
-                              title: 'Cảnh báo',
-                              descriptions: 'Bạn chưa nhập tên hoặc biệt danh',
+                              title: 'popup.warning'.tr(),
+                              descriptions: 'popup.not_entered_your_name'.tr(),
                             );
                           } else {
                             await context.read<UserInfoProvider>().createName(
@@ -117,42 +117,10 @@ Hãy cho chúng tôi biết tên hay biệt danh của bạn''',
                                 );
                           }
                         },
-                        title: 'Xong',
+                        title: 'entering_name_screen.done'.tr(),
                       ),
                     ),
                     const Spacer(),
-                    RichText(
-                      text: TextSpan(
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: 'Bạn đã có tài khoản? ',
-                            style: TextStyle(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          TextSpan(
-                            text: 'Đăng nhập ngay',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap =
-                                  () => Provider.of<CustomedRouterDelegate>(
-                                        context,
-                                        listen: false,
-                                      ).backToLoginScreen(),
-                          ),
-                        ],
-                      ),
-                    )
                   ],
                 ),
               ),

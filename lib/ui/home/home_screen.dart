@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'components/components.dart';
@@ -61,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Melior xin chào, Mork',
+                      '${'home_screen.hello'.tr()}, Mork',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -73,15 +74,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 15,
                 ),
-                const TitleWidget(
-                  title: 'NGHE TIẾP',
+                TitleWidget(
+                  title: 'home_screen.continuing_podcast'.tr(),
                 ),
                 const ResumingItemWidget(),
                 const SizedBox(
                   height: 28,
                 ),
-                const TitleWidget(
-                  title: 'DÀNH CHO BẠN',
+                TitleWidget(
+                  title: 'home_screen.made_for_you'.tr(),
                 ),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -97,8 +98,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 28,
                 ),
-                const TitleWidget(
-                  title: 'TRENDING',
+                TitleWidget(
+                  title: 'home_screen.trending'.tr(),
                 ),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -114,8 +115,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 28,
                 ),
-                const TitleWidget(
-                  title: 'KHÁM PHÁ',
+                TitleWidget(
+                  title: 'home_screen.explore'.tr(),
                 ),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -131,8 +132,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 28,
                 ),
-                const TitleWidget(
-                  title: 'CÁC KÊNH BẠN NÊN NGHE THỬ',
+                TitleWidget(
+                  title: 'home_screen.channels_for_you'.tr(),
                 ),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -148,8 +149,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 28,
                 ),
-                const TitleWidget(
-                  title: 'DANH SÁCH CÁC CHỦ ĐỀ',
+                TitleWidget(
+                  title: 'home_screen.topics'.tr(),
                 ),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,

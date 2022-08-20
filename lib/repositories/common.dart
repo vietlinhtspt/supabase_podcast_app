@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -10,11 +11,12 @@ Future supabaseCallAPI(
   try {
     await function();
   } on GoTrueException catch (e, stacktrace) {
-    await showM3Popup(context, descriptions: e.message, title: 'Lỗi');
+    await showM3Popup(context,
+        descriptions: e.message, title: 'popup.error'.tr());
     debugPrint(stacktrace.toString());
   } catch (e, stacktrace) {
     await showM3Popup(context,
-        descriptions: 'Lỗi không xác định', title: 'Lỗi');
+        descriptions: 'popup.unknown_error'.tr(), title: 'popup.error'.tr());
     debugPrint(stacktrace.toString());
   }
 }

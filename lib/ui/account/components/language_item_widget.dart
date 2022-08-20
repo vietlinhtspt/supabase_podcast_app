@@ -1,29 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
-import '../../../shared/shared.dart';
-
-class SettingItemWidget extends StatelessWidget {
-  const SettingItemWidget({
+class LanguageItemWidget extends StatelessWidget {
+  const LanguageItemWidget({
     Key? key,
     required this.title,
-    this.iconPath,
+    this.isSelected = false,
     required this.onTap,
   }) : super(key: key);
 
   final String title;
-  final String? iconPath;
+  final bool isSelected;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: CustomGradientContainer(
-        gradient: LinearGradient(colors: [
-          Theme.of(context).colorScheme.secondary,
-          Theme.of(context).colorScheme.primary,
-        ]),
+      child: Container(
+        decoration: BoxDecoration(
+            border: isSelected
+                ? null
+                : Border.all(color: Theme.of(context).primaryColor),
+            gradient: isSelected
+                ? LinearGradient(colors: [
+                    Theme.of(context).colorScheme.secondary,
+                    Theme.of(context).colorScheme.primary,
+                  ])
+                : null,
+            borderRadius: BorderRadius.circular(15)),
         child: TextButton(
           onPressed: onTap,
           child: Container(
@@ -39,19 +43,14 @@ class SettingItemWidget extends StatelessWidget {
                   child: Text(
                     title,
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface,
+                      color: isSelected
+                          ? Theme.of(context).colorScheme.surface
+                          : Theme.of(context).colorScheme.onSurface,
                       fontSize: 16,
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
-                if (iconPath != null)
-                  SvgPicture.asset(
-                    iconPath!,
-                    color: Theme.of(context).colorScheme.primary,
-                    width: 20,
-                    height: 20,
-                  ),
               ],
             ),
           ),

@@ -27,9 +27,7 @@ class UserInfoProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
 
   Future subcribe() async {
-    print('num sub: ${_client.getSubscriptions().length}');
     unsubcribe();
-    print('num sub: ${_client.getSubscriptions().length}');
     if (_client.auth.currentUser?.email != null) {
       _userInfoSubcription = await _supabaseDataRepository?.subcribe(
         table: _table,
@@ -42,8 +40,6 @@ class UserInfoProvider extends ChangeNotifier {
           }
         },
       );
-
-      print('num sub after request: ${_client.getSubscriptions().length}');
     }
   }
 
@@ -119,6 +115,24 @@ class UserInfoProvider extends ChangeNotifier {
           keyName: 'email',
           keyValue: _client.auth.currentUser!.email!,
           values: {'is_dark_mode': value ?? !(_userInfo?.isDarkMode ?? false)});
+
+      isSuccess = true;
+    });
+
+    return isSuccess;
+  }
+
+  Future<bool> changeLanguage(
+    BuildContext context, {
+    required String newLanguage,
+  }) async {
+    var isSuccess = false;
+    await supabaseCallAPI(context, function: () async {
+      await _supabaseDataRepository?.updateRow(
+          table: _table,
+          keyName: 'email',
+          keyValue: _client.auth.currentUser!.email!,
+          values: {'language': newLanguage});
 
       isSuccess = true;
     });

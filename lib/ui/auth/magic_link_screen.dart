@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -80,8 +81,7 @@ class _MagicLinkScreenState extends State<MagicLinkScreen> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        '''
-Sử dụng Magic Link được gửi vào mail để đăng nhập, hoàn toàn không cần mật khẩu''',
+                        'magic_link.detail'.tr(),
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                           fontSize: 16,
@@ -104,8 +104,8 @@ Sử dụng Magic Link được gửi vào mail để đăng nhập, hoàn toàn
                           if (!validateEmail(_emailController.text.trim())) {
                             await showM3Popup(
                               context,
-                              title: 'Cảnh báo',
-                              descriptions: 'Email bạn nhập không hợp lệ',
+                              title: 'popup.warning'.tr(),
+                              descriptions: 'popup.not_valid_email'.tr(),
                             );
                           } else {
                             await context
@@ -127,7 +127,7 @@ Sử dụng Magic Link được gửi vào mail để đăng nhập, hoàn toàn
                                 );
                           }
                         },
-                        title: 'Đăng nhập',
+                        title: 'magic_link.log_in'.tr(),
                       ),
                     ),
                     const Spacer(),
@@ -139,7 +139,9 @@ Sử dụng Magic Link được gửi vào mail để đăng nhập, hoàn toàn
                         ),
                         children: [
                           TextSpan(
-                            text: 'Bạn đã có tài khoản? ',
+                            text:
+                                // ignore: lines_longer_than_80_chars
+                                '${'magic_link.do_you_already_have_an_account'.tr()}? ',
                             style: TextStyle(
                               color: Theme.of(context)
                                   .colorScheme
@@ -148,7 +150,7 @@ Sử dụng Magic Link được gửi vào mail để đăng nhập, hoàn toàn
                             ),
                           ),
                           TextSpan(
-                            text: 'Đăng nhập ngay',
+                            text: 'magic_link.log_in_now'.tr(),
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.primary,
                               fontWeight: FontWeight.w600,

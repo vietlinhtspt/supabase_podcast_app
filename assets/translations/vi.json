@@ -1,0 +1,90 @@
+{
+    "home": "Trang chủ",
+    "explore": "Tìm kiếm",
+    "library": "Thư viện",
+    "setting": "Cài đặt",
+    "language": {
+        "title": "Chọn ngôn ngữ của bạn",
+        "english": "Tiếng Anh",
+        "vietnamese": "Tiếng Việt"
+    },
+    "popup": {
+        "warning": "Cảnh báo",
+        "success": "Thành công",
+        "error": "Lỗi",
+        "not_valid_email": "Email bạn nhập không hợp lệ",
+        "password_min_6": "Độ dài tối thiểu của mật khẩu là 6 ký tự",
+        "2_password_not_valid": "Mật khẩu và mật khẩu xác nhận không trùng nhau",
+        "update_password_success": "Cập nhật mật khẩu thành công",
+        "not_entered_your_name": "Bạn chưa nhập tên",
+        "unknown_error": "Lỗi không xác định"
+    },
+    "signin": {
+        "solo_gan": "Đăng nhập ngay để gặp ur better ver",
+        "password": "Mật khẩu",
+        "forgot_password": "Quên mật khẩu",
+        "signin_button": "Đăng nhập",
+        "or": "hoặc",
+        "do_not_have_an_account": "Bạn không có tài khoản?",
+        "sign_up_now": "Đăng nhập ngay"
+    },
+    "sign_up": {
+        "sign_up": "Tạo tài khoản,",
+        "solo_gan": "Tạo ngay tài khoản để có thể sử dụng tất cả dịch vụ của chúng tôi và đồng bộ hoá giữa các thiết bị của bạn",
+        "password": "Mật khẩu",
+        "confirmed_password": "Nhập lại mật khẩu",
+        "do_you_already_have_an_account": "Bạn đã có tài khoản?",
+        "log_in_now": "Đăng nhập ngay"
+    },
+    "recovery_password": {
+        "recovery_password": "Khôi phục mật khẩu",
+        "solo_gan": "Nhập lại Email của bạn. Chúng tôi sẽ gửi một Email bao gồm mật khẩu mới và bạn sử dụng mật khẩu mới này để đăng nhập ngay",
+        "recovery": "Khôi phục",
+        "do_you_already_have_an_account": "Bạn đã có tài khoản?",
+        "log_in_now": "Đăng nhập ngay",
+        "check_your_email": "Kiểm tra email",
+        "check_your_email_detail": "Chúng tôi đã gửi một email xác nhận. Vui lòng mở link được gửi kèm email để kích hoạt tài khoản. Nếu bạn không thấy vui lòng kiểm tra trong danh sách spam hoặc thử với email khác.",
+        "open_your_email_app": "Mở ứng dụng email"
+    },
+    "magic_link": {
+        "detail": "Sử dụng Magic Link được gửi vào mail để đăng nhập, hoàn toàn không cần mật khẩu",
+        "log_in": "Đăng nhập",
+        "do_you_already_have_an_account": "Bạn đã có tài khoản?",
+        "log_in_now": "Đăng nhập ngay"
+    },
+    "setting_new_password_screen": {
+        "title": "Cập nhật mật khẩu",
+        "sub_title": "Nhập mật khẩu mới của bạn nữa là xong rồi",
+        "password": "Mật khẩu",
+        "confirmed_password": "Xác nhận mật khẩu",
+        "update": "Cập nhật"
+    },
+    "home_screen": {
+        "hello": "Melior xin chào,",
+        "continuing_podcast": "TIẾP TỤC PHÁT",
+        "made_for_you": "DÀNH CHO BẠN",
+        "trending": "XU HƯỚNG",
+        "explore": "KHÁM PHÁ",
+        "channels_for_you": "CÁC KÊNH BẠN NÊN NGHE THỬ",
+        "topics": "CÁC CHỦ ĐỀ",
+        "explain": "xem thêm"
+    },
+    "setting_screen": {
+        "settting_theme_mode": "Chế độ giao diện",
+        "settting_changing_password": "Đổi mật khẩu",
+        "settting_language": "Ngôn ngữ",
+        "settting_log_out": "Đăng xuất",
+        "change_name_now": "Đổi tên ngay",
+        "enter_your_name": "Nhập tên của bạn",
+        "update": "Cập nhật",
+        "password": "Mật khẩu",
+        "confirmed_password": "Xác nhận mật khẩu",
+        "selecting_language_screen": "Chọn ngôn ngữ của bạn"
+    },
+    "entering_name_screen": {
+        "title": "Chào mừng bạn đến với ứng dụng Melior",
+        "sub_title": "Hãy cho chúng tôi biết tên hay biệt danh của bạn",
+        "name": "Tên hoặc biệt danh",
+        "done": "Xong"
+    }
+}

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -108,25 +109,25 @@ class _NavigationScreenState extends State<NavigationScreen> {
                     QRInfoNavigationBarItem(
                       iconPath: 'assets/icons/tabbar/ic_home@512x.png',
                       iconPathSelected: 'assets/icons/tabbar/ic_home@512x.png',
-                      text: 'Home',
+                      text: 'home'.tr(),
                     ),
                     QRInfoNavigationBarItem(
                       iconPath: 'assets/icons/tabbar/ic_searching@512x.png',
                       iconPathSelected:
                           'assets/icons/tabbar/ic_searching@512x.png',
-                      text: 'Explore',
+                      text: 'explore'.tr(),
                     ),
                     QRInfoNavigationBarItem(
                       iconPath: 'assets/icons/tabbar/ic_library@512x.png',
                       iconPathSelected:
                           'assets/icons/tabbar/ic_library@512x.png',
-                      text: 'Libary',
+                      text: 'library'.tr(),
                     ),
                     QRInfoNavigationBarItem(
                       iconPath: 'assets/icons/tabbar/ic_setting@512x.png',
                       iconPathSelected:
                           'assets/icons/tabbar/ic_setting@512x.png',
-                      text: 'Setting',
+                      text: 'setting'.tr(),
                     ),
                   ],
                 ),

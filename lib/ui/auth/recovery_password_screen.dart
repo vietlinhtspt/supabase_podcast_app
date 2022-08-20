@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -71,7 +72,7 @@ class _RecoveryPasswordScreenState extends State<RecoveryPasswordScreen> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Quên mật khẩu,',
+                        'recovery_password.recovery_password'.tr(),
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontSize: 45,
@@ -82,8 +83,7 @@ class _RecoveryPasswordScreenState extends State<RecoveryPasswordScreen> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        '''
-Nhập lại Email của bạn. Chúng tôi sẽ gửi một Email bao gồm mật khẩu mới và bạn sử dụng mật khẩu mới này để đăng nhập ngay''',
+                        'recovery_password.solo_gan'.tr(),
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                           fontSize: 16,
@@ -106,8 +106,8 @@ Nhập lại Email của bạn. Chúng tôi sẽ gửi một Email bao gồm m�
                           if (!validateEmail(_emailController.text.trim())) {
                             await showM3Popup(
                               context,
-                              title: 'Cảnh báo',
-                              descriptions: 'Email bạn nhập không hợp lệ',
+                              title: 'popup.warning',
+                              descriptions: 'popup.not_valid_email',
                             );
                           } else {
                             await context
@@ -129,7 +129,7 @@ Nhập lại Email của bạn. Chúng tôi sẽ gửi một Email bao gồm m�
                                 );
                           }
                         },
-                        title: 'Khôi phục',
+                        title: 'recovery_password.recovery',
                       ),
                     ),
                     const Spacer(),
@@ -141,7 +141,9 @@ Nhập lại Email của bạn. Chúng tôi sẽ gửi một Email bao gồm m�
                         ),
                         children: [
                           TextSpan(
-                            text: 'Bạn đã có tài khoản? ',
+                            text:
+                                // ignore: lines_longer_than_80_chars
+                                '${'recovery_password.do_you_already_have_an_account'.tr()}? ',
                             style: TextStyle(
                               color: Theme.of(context)
                                   .colorScheme
@@ -150,7 +152,7 @@ Nhập lại Email của bạn. Chúng tôi sẽ gửi một Email bao gồm m�
                             ),
                           ),
                           TextSpan(
-                            text: 'Đăng nhập ngay',
+                            text: 'recovery_password.log_in_now'.tr(),
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.primary,
                               fontWeight: FontWeight.w600,

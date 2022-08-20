@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -104,7 +105,7 @@ class _SettingNewPasswordScreenState extends State<SettingNewPasswordScreen> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Đổi mật khẩu',
+                        'setting_screen.settting_changing_password'.tr(),
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontSize: 40,
@@ -115,7 +116,7 @@ class _SettingNewPasswordScreenState extends State<SettingNewPasswordScreen> {
                     const Spacer(),
                     M3TextField(
                       controller: _passwordController,
-                      labelText: 'Mật khẩu',
+                      labelText: 'setting_screen.password'.tr(),
                       obscureText: true,
                     ),
                     const SizedBox(
@@ -123,7 +124,7 @@ class _SettingNewPasswordScreenState extends State<SettingNewPasswordScreen> {
                     ),
                     M3TextField(
                       controller: _confirmPasswordController,
-                      labelText: 'Nhập lại mật khẩu',
+                      labelText: 'setting_screen.confirmed_password'.tr(),
                       obscureText: true,
                     ),
                     const SizedBox(
@@ -133,20 +134,18 @@ class _SettingNewPasswordScreenState extends State<SettingNewPasswordScreen> {
                       alignment: Alignment.center,
                       child: M3LockedButton(
                         onPressed: () async {
-                          if (_passwordController.text.length < 6) {
+                          if (_passwordController.text.length <= 6) {
                             await showM3Popup(
                               context,
-                              title: 'Cảnh báo',
-                              descriptions: '''
-Độ dài tối thiểu của mật khẩu là 6 ký tự''',
+                              title: 'popup.warning'.tr(),
+                              descriptions: 'popup.password_min_6'.tr(),
                             );
                           } else if (_passwordController.text.trim() !=
                               _confirmPasswordController.text.trim()) {
                             await showM3Popup(
                               context,
-                              title: 'Cảnh báo',
-                              descriptions: '''
-Mật khẩu và mật khẩu xác nhận không trùng nhau''',
+                              title: 'popup.warning'.tr(),
+                              descriptions: 'popup.2_password_not_valid'.tr(),
                             );
                           } else {
                             await context
@@ -158,14 +157,15 @@ Mật khẩu và mật khẩu xác nhận không trùng nhau''',
                                 .then((value) async => value == true
                                     ? await showM3Popup(
                                         context,
-                                        title: 'Thành công',
-                                        descriptions: '''
-Cập nhật mật khẩu thành công''',
+                                        title: 'popup.success'.tr(),
+                                        descriptions:
+                                            'popup.update_password_success'
+                                                .tr(),
                                       )
                                     : null);
                           }
                         },
-                        title: 'Cập nhật',
+                        title: 'setting_screen.update'.tr(),
                       ),
                     ),
                     const Spacer(),

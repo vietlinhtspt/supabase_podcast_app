@@ -69,5 +69,10 @@
 		<string>superhuman</string>
 		<string>protonmail</string>
 	</array>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>vi</string>
+	</array>
 </dict>
 </plist>

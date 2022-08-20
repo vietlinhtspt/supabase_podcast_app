@@ -5,35 +5,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/user_info_provider.dart';
-import '../../shared/shared.dart';
-import '../popups/m3_popup.dart';
+import 'components/language_item_widget.dart';
 
-class SettingNewNameScreen extends StatefulWidget {
-  const SettingNewNameScreen({Key? key}) : super(key: key);
-
-  @override
-  State<SettingNewNameScreen> createState() => _SettingNewNameScreenState();
-}
-
-class _SettingNewNameScreenState extends State<SettingNewNameScreen> {
-  late TextEditingController _passwordController;
-  late TextEditingController _confirmPasswordController;
-
-  @override
-  void initState() {
-    _passwordController = TextEditingController();
-    _confirmPasswordController = TextEditingController();
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
-
-    super.dispose();
-  }
+class SelectingLanguageScreen extends StatelessWidget {
+  const SelectingLanguageScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +79,7 @@ class _SettingNewNameScreenState extends State<SettingNewNameScreen> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'setting_screen.change_name_now'.tr(),
+                        'language.title'.tr(),
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontSize: 40,
@@ -113,43 +88,37 @@ class _SettingNewNameScreenState extends State<SettingNewNameScreen> {
                       ),
                     ),
                     const Spacer(),
-                    M3TextField(
-                      controller: _passwordController,
-                      labelText: 'setting_screen.enter_your_name'.tr(),
+                    LanguageItemWidget(
+                      title: 'language.english'.tr(),
+                      onTap: () =>
+                          context.read<UserInfoProvider>().changeLanguage(
+                                context,
+                                newLanguage: 'en',
+                              ),
+                      isSelected: context
+                              .watch<UserInfoProvider>()
+                              .userInfo
+                              ?.language ==
+                          'en',
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    LanguageItemWidget(
+                      title: 'language.vietnamese'.tr(),
+                      onTap: () =>
+                          context.read<UserInfoProvider>().changeLanguage(
+                                context,
+                                newLanguage: 'vi',
+                              ),
+                      isSelected: context
+                              .watch<UserInfoProvider>()
+                              .userInfo
+                              ?.language ==
+                          'vi',
                     ),
                     const SizedBox(
                       height: 24,
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: M3LockedButton(
-                        onPressed: () async {
-                          if (_passwordController.text.trim().isEmpty) {
-                            await showM3Popup(
-                              context,
-                              title: 'popup.warning'.tr(),
-                              descriptions: 'popup.not_entered_your_name'.tr(),
-                            );
-                          } else {
-                            await context
-                                .read<UserInfoProvider>()
-                                .changeName(
-                                  context,
-                                  name: _passwordController.text,
-                                )
-                                .then((value) async => value == true
-                                    ? await showM3Popup(
-                                        context,
-                                        title: 'popup.success'.tr(),
-                                        descriptions:
-                                            'popup.update_password_success'
-                                                .tr(),
-                                      ).then((value) => Navigator.pop(context))
-                                    : null);
-                          }
-                        },
-                        title: 'setting_screen.update'.tr(),
-                      ),
                     ),
                     const Spacer(),
                   ],

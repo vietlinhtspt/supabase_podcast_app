@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -91,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Đăng nhập ngay để gặp ur better ver',
+                        'signin.solo_gan'.tr(),
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                           fontSize: 16,
@@ -109,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     M3TextField(
                       controller: _passwordController,
-                      labelText: 'Mật khẩu',
+                      labelText: 'signin.password'.tr(),
                       obscureText: true,
                     ),
                     Align(
@@ -120,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           listen: false,
                         ).goRecoveryPassword(),
                         child: Text(
-                          'Quên mật khẩu',
+                          'signin.forgot_password'.tr(),
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.primary,
                             fontSize: 16,
@@ -139,21 +140,20 @@ class _LoginScreenState extends State<LoginScreen> {
                           if (!validateEmail(_usernameController.text.trim())) {
                             await showM3Popup(
                               context,
-                              title: 'Cảnh báo',
-                              descriptions: 'Email bạn nhập không hợp lệ',
+                              title: 'popup.warning'.tr(),
+                              descriptions: 'popup.not_valid_email'.tr(),
                             );
                           } else if (_passwordController.text.trim().isEmpty) {
                             await showM3Popup(
                               context,
-                              title: 'Cảnh báo',
-                              descriptions: 'Bạn chưa nhập mật khẩu',
+                              title: 'popup.warning'.tr(),
+                              descriptions: 'popup.not_valid_email'.tr(),
                             );
                           } else if (_passwordController.text.length < 6) {
                             await showM3Popup(
                               context,
-                              title: 'Cảnh báo',
-                              descriptions: '''
-Độ dài tối thiểu của mật khẩu là 6 ký tự''',
+                              title: 'popup.warning'.tr(),
+                              descriptions: 'popup.password_min_6'.tr(),
                             );
                           } else {
                             await Provider.of<AuthProvider>(
@@ -166,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             );
                           }
                         },
-                        title: 'Đăng nhập',
+                        title: 'signin.signin_button'.tr(),
                       ),
                     ),
                     const Spacer(),
@@ -190,7 +190,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 .loginWithFacebook(context),
                           ),
                           Text(
-                            '  hoặc  ',
+                            '  ${'signin.or'.tr()}  ',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w400,
@@ -243,7 +243,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         children: [
                           TextSpan(
-                            text: 'Bạn chưa có tài khoản? ',
+                            text: '${'signin.do_not_have_an_account'.tr()} ',
                             style: TextStyle(
                               color: Theme.of(context)
                                   .colorScheme
@@ -251,7 +251,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           TextSpan(
-                            text: 'Tạo ngay',
+                            text: 'signin.sign_up_now'.tr(),
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.primary,
                               fontWeight: FontWeight.w600,

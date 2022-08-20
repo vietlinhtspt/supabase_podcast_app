@@ -34,7 +34,7 @@ class CheckingEmailScreen extends StatelessWidget {
             ),
             Text(
               '''
-Chúng tôi đã gửi một email xác nhận. Vui lòng mở link được gửi kèm email để kích hoạt tài khoản. Nếu bạn không thấy vui lòng kiểm tra trong danh sách spam hoặc thử với email khác.''',
+Chúng tôi đã gửi một email xác nhận. Vui lòng mở link được gửi kèm email để tiếp tục sử dụng. Nếu bạn không thấy vui lòng kiểm tra trong danh sách spam hoặc thử với email khác.''',
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
                 fontSize: 16,
