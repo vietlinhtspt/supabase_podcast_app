@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../router/customed_router_delegate.dart';
 import '../../shared/shared.dart';
-import '../popups/m3_popup.dart';
 import 'components/authentication_platform_widget.dart';
 import 'magic_link_screen.dart';
 

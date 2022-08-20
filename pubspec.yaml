@@ -46,6 +46,9 @@ dependencies:
   url_launcher: ^6.1.5
   open_mail_app: ^0.4.5
   easy_localization: ^3.0.1
+  audio_service: ^0.18.7
+  just_audio: ^0.9.28
+  rxdart: ^0.27.5
 
 dev_dependencies:
   flutter_test:

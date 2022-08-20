@@ -20,7 +20,7 @@ class QRInfoNavigationBar extends StatefulWidget {
   final NotchedShape notchedShape;
   final ValueChanged<int> onTabSelected;
 
-  static const HEIGHT = 120.0;
+  static const HEIGHT = 90.0;
 
   @override
   State<QRInfoNavigationBar> createState() => _QRInfoNavigationBarState();
@@ -78,21 +78,17 @@ class _QRInfoNavigationBarState extends State<QRInfoNavigationBar> {
                 top: 0,
                 bottom: 0,
                 right: 0,
-                child: CustomPaint(
-                  size: const Size(
-                    double.infinity,
-                    double.infinity,
-                  ),
-                  painter: isVertical
-                      ? NavBarVerticalCustomPainter(context: context)
-                      : NavBarHorizontalCustomPainter(context: context),
+                child: Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  color: Theme.of(context).colorScheme.primaryContainer,
                 ),
               ),
               Positioned(
                 left: 0,
-                top: isVertical ? 0 : 40,
+                top: 0,
                 bottom: 0,
-                right: isVertical ? 40 : 0,
+                right: 0,
                 child: Center(
                   child: SizedBox(
                     height: isVertical ? 80 * 4 : null,

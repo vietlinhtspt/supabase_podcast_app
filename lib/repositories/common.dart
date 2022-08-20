@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../ui/popups/m3_popup.dart';
+import '../shared/popups/m3_popup.dart';
 
 Future supabaseCallAPI(
   BuildContext context, {

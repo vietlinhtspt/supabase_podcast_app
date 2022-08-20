@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import '../../providers/audio_provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/user_info_provider.dart';
 import '../../shared/shared.dart';
 import '../account/account_screen.dart';
 import '../auth/setting_new_password_screen.dart';
-import '../entering_name_screen/entering_name_screen.dart';
 import '../friends/friends_screen.dart';
+import '../home/entering_name_screen/entering_name_screen.dart';
 import '../home/home_screen.dart';
 import '../notifications/notifications_screen.dart';
+import '../player/maximum_player_widget.dart';
+import '../player/minimum_player_widget.dart';
 import 'components/m3_navbar_item_widget.dart';
 import 'components/qr_info_navigation_bar.dart';
 
@@ -132,6 +135,16 @@ class _NavigationScreenState extends State<NavigationScreen> {
                   ],
                 ),
               ),
+              if (context.watch<AudioProvider>().currentPodcastModel != null)
+                Positioned(
+                  bottom: isVertical ? 0 : QRInfoNavigationBar.HEIGHT,
+                  left: 0,
+                  right: 0,
+                  child: const MinimumPlayerWidget(),
+                ),
+              if (context.watch<AudioProvider>().currentPodcastModel != null &&
+                  isMobile)
+                const MaximumPlayerWidget(),
               if (context.watch<UserInfoProvider>().userInfo != null &&
                   context.watch<UserInfoProvider>().userInfo?.email == null)
                 const Positioned(

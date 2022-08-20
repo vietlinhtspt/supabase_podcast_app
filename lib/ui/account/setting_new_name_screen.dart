@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 
 import '../../providers/user_info_provider.dart';
 import '../../shared/shared.dart';
-import '../popups/m3_popup.dart';
 
 class SettingNewNameScreen extends StatefulWidget {
   const SettingNewNameScreen({Key? key}) : super(key: key);

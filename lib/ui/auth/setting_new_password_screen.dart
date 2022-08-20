@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 
 import '../../providers/auth_provider.dart';
 import '../../shared/shared.dart';
-import '../popups/m3_popup.dart';
 
 class SettingNewPasswordScreen extends StatefulWidget {
   const SettingNewPasswordScreen({Key? key}) : super(key: key);

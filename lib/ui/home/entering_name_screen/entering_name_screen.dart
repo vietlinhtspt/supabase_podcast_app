@@ -1,12 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/user_info_provider.dart';
-import '../../router/customed_router_delegate.dart';
-import '../../shared/shared.dart';
-import '../popups/m3_popup.dart';
+import '../../../providers/user_info_provider.dart';
+import '../../../shared/shared.dart';
 
 class EnteringNameScreen extends StatefulWidget {
   const EnteringNameScreen({Key? key}) : super(key: key);
