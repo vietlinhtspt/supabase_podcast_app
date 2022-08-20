@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/user_info.dart';
 import '../../providers/providers.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -24,10 +25,10 @@ class _SplashScreenState extends State<SplashScreen> {
         context.read<PodcastProvider>().fetch(context),
       ]).then(
         (value) {
-          // if ((value[0] as UserInfo?)?.email != null) {
-          //   context.read<UserInfoProvider>().subcribe();
-          // }
-          // context.read<AuthProvider>().completeInitData();
+          if ((value[0] as UserInfo?)?.email != null) {
+            context.read<UserInfoProvider>().subcribe();
+          }
+          context.read<AuthProvider>().completeInitData();
         },
       );
     });
