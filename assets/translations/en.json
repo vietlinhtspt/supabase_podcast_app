@@ -86,5 +86,9 @@
         "sub_title": "Tell us your name or nickname",
         "name": "Name or Nickname",
         "done": "Done"
+    },
+
+    "spash_screen": {
+        "title": "Loading your data"
     }
 }

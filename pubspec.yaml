@@ -49,6 +49,7 @@ dependencies:
   audio_service: ^0.18.7
   just_audio: ^0.9.28
   rxdart: ^0.27.5
+  lottie: ^1.4.1
 
 dev_dependencies:
   flutter_test:
@@ -83,6 +84,7 @@ flutter:
   - assets/icons/accounts/
   - assets/logos/
   - assets/translations/
+  - assets/animations/
  
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

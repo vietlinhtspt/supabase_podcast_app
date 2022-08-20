@@ -86,5 +86,9 @@
         "sub_title": "Hãy cho chúng tôi biết tên hay biệt danh của bạn",
         "name": "Tên hoặc biệt danh",
         "done": "Xong"
+    },
+
+    "spash_screen": {
+        "title": "Đang tải về dữ liệu của bạn"
     }
 }
