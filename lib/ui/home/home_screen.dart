@@ -66,7 +66,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '${'home_screen.hello'.tr()}, Mork',
+                      // ignore: lines_longer_than_80_chars
+                      '${'home_screen.hello'.tr()} ${context.watch<UserInfoProvider>().userInfo?.name ?? ''}',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,

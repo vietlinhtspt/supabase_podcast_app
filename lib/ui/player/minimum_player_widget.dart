@@ -51,7 +51,7 @@ class MinimumPlayerWidget extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
-                                color: Theme.of(context).colorScheme.onSurface,
+                                color: Colors.white,
                               ),
                             );
                           },
@@ -173,5 +173,6 @@ class MinimumPlayerWidget extends StatelessWidget {
         icon: Icon(iconData),
         iconSize: 34.0,
         onPressed: onPressed,
+        color: Colors.white,
       );
 }

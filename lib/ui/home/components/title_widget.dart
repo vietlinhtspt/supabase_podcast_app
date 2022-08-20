@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../shared/shared.dart';
+
 class TitleWidget extends StatelessWidget {
   const TitleWidget({
     Key? key,
@@ -15,8 +17,10 @@ class TitleWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       height: 35,
+      width: double.infinity,
       child: Stack(children: [
-        Image.asset('assets/icons/home/ic_customed_line.png'),
+        if (Responsive.isMobile(context))
+          Image.asset('assets/icons/home/ic_customed_line.png'),
         Positioned(
           top: 7,
           left: 0,
