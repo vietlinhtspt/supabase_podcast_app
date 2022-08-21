@@ -73,11 +73,13 @@ class _M3LockedButtonState extends State<M3LockedButton> {
                   )
                 : Padding(
                     padding: const EdgeInsets.all(14.0),
-                    child: Text(
-                      widget.title,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
+                    child: FittedBox(
+                      child: Text(
+                        widget.title,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
