@@ -50,10 +50,8 @@ class SupabaseDataRepository {
     required String column,
     required List<String> value,
   }) async {
-    final rows = await Supabase.instance.client
-        .from(table)
-        .select()
-        .filter(column, 'cs', value);
+    final rows =
+        await Supabase.instance.client.from(table).select().in_(column, value);
 
     return rows as List;
   }
