@@ -48,117 +48,123 @@ class _SettingNewPasswordScreenState extends State<SettingNewPasswordScreen> {
       statusBarBrightness: !isDarkMode ? Brightness.light : Brightness.dark,
     ));
     return Scaffold(
-      body: Container(
-        color: Theme.of(context).colorScheme.primaryContainer,
-        child: Center(
-          child: SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minWidth: 350,
-                minHeight: 500,
-                maxWidth: 500,
-                maxHeight: isMaximunHeight ? 700 : double.infinity,
-              ),
-              child: Container(
-                height:
-                    isMaximunHeight ? null : MediaQuery.of(context).size.height,
-                decoration: isMaximunHeight
-                    ? BoxDecoration(
-                        border: Border.all(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        borderRadius: BorderRadius.circular(20),
-                      )
-                    : null,
-                padding: const EdgeInsets.all(32),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'setting_new_password_screen.title'.tr(),
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontSize: 45,
-                          fontWeight: FontWeight.w700,
-                        ),
+      body: GestureDetector(
+        onTap: () => hideKeyboard(),
+        child: Container(
+          color: Theme.of(context).colorScheme.primaryContainer,
+          child: Center(
+            child: SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minWidth: 350,
+                  minHeight: 500,
+                  maxWidth: 500,
+                  maxHeight: isMaximunHeight ? 700 : double.infinity,
+                ),
+                child: Container(
+                  height: isMaximunHeight
+                      ? null
+                      : MediaQuery.of(context).size.height,
+                  decoration: isMaximunHeight
+                      ? BoxDecoration(
+                          border: Border.all(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                        )
+                      : null,
+                  padding: const EdgeInsets.all(32),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        height: 20,
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'setting_new_password_screen.sub_title'.tr(),
-                        style: TextStyle(
-                          color:
-                              Theme.of(context).colorScheme.onPrimaryContainer,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'setting_new_password_screen.title'.tr(),
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: 45,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
-                    ),
-                    const Spacer(),
-                    M3TextField(
-                      controller: _passwordController,
-                      labelText: 'setting_new_password_screen.password'.tr(),
-                      obscureText: true,
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    M3TextField(
-                      controller: _confirmPasswordController,
-                      labelText:
-                          'setting_new_password_screen.confirmed_password'.tr(),
-                      obscureText: true,
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: M3LockedButton(
-                        onPressed: () async {
-                          if (_passwordController.text.length < 6) {
-                            await showM3Popup(
-                              context,
-                              title: 'popup.warning'.tr(),
-                              descriptions: 'popup.password_min_6'.tr(),
-                            );
-                          } else if (_passwordController.text.trim() !=
-                              _confirmPasswordController.text.trim()) {
-                            await showM3Popup(
-                              context,
-                              title: 'popup.warning'.tr(),
-                              descriptions: 'popup.2_password_not_valid'.tr(),
-                            );
-                          } else {
-                            await context
-                                .read<AuthProvider>()
-                                .recoveryPassword(
-                                  context,
-                                  password: _passwordController.text,
-                                )
-                                .then((value) async => value == true
-                                    ? await showM3Popup(
-                                        context,
-                                        title: 'popup.success'.tr(),
-                                        descriptions:
-                                            'popup.update_password_success'
-                                                .tr(),
-                                      )
-                                    : null);
-                          }
-                        },
-                        title: 'setting_new_password_screen.update'.tr(),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'setting_new_password_screen.sub_title'.tr(),
+                          style: TextStyle(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ),
-                    ),
-                    const Spacer(),
-                  ],
+                      const Spacer(),
+                      M3TextField(
+                        controller: _passwordController,
+                        labelText: 'setting_new_password_screen.password'.tr(),
+                        obscureText: true,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      M3TextField(
+                        controller: _confirmPasswordController,
+                        labelText:
+                            'setting_new_password_screen.confirmed_password'
+                                .tr(),
+                        obscureText: true,
+                      ),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: M3LockedButton(
+                          onPressed: () async {
+                            if (_passwordController.text.length < 6) {
+                              await showM3Popup(
+                                context,
+                                title: 'popup.warning'.tr(),
+                                descriptions: 'popup.password_min_6'.tr(),
+                              );
+                            } else if (_passwordController.text.trim() !=
+                                _confirmPasswordController.text.trim()) {
+                              await showM3Popup(
+                                context,
+                                title: 'popup.warning'.tr(),
+                                descriptions: 'popup.2_password_not_valid'.tr(),
+                              );
+                            } else {
+                              await context
+                                  .read<AuthProvider>()
+                                  .recoveryPassword(
+                                    context,
+                                    password: _passwordController.text,
+                                  )
+                                  .then((value) async => value == true
+                                      ? await showM3Popup(
+                                          context,
+                                          title: 'popup.success'.tr(),
+                                          descriptions:
+                                              'popup.update_password_success'
+                                                  .tr(),
+                                        )
+                                      : null);
+                            }
+                          },
+                          title: 'setting_new_password_screen.update'.tr(),
+                        ),
+                      ),
+                      const Spacer(),
+                    ],
+                  ),
                 ),
               ),
             ),

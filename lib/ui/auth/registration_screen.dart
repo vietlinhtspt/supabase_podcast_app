@@ -55,165 +55,172 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       statusBarBrightness: !isDarkMode ? Brightness.light : Brightness.dark,
     ));
     return Scaffold(
-      body: Container(
-        color: Theme.of(context).colorScheme.primaryContainer,
-        child: Center(
-          child: SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minWidth: 350,
-                minHeight: 500,
-                maxWidth: 500,
-                maxHeight: isMaximunHeight ? 700 : double.infinity,
-              ),
-              child: Container(
-                height:
-                    isMaximunHeight ? null : MediaQuery.of(context).size.height,
-                decoration: isMaximunHeight
-                    ? BoxDecoration(
-                        border: Border.all(
-                          color: Theme.of(context).primaryColor,
+      body: GestureDetector(
+        onTap: () => hideKeyboard(),
+        child: Container(
+          color: Theme.of(context).colorScheme.primaryContainer,
+          child: Center(
+            child: SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minWidth: 350,
+                  minHeight: 500,
+                  maxWidth: 500,
+                  maxHeight: isMaximunHeight ? 700 : double.infinity,
+                ),
+                child: Container(
+                  height: isMaximunHeight
+                      ? null
+                      : MediaQuery.of(context).size.height,
+                  decoration: isMaximunHeight
+                      ? BoxDecoration(
+                          border: Border.all(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                        )
+                      : null,
+                  padding: const EdgeInsets.all(32),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'sign_up.sign_up'.tr(),
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: 45,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
-                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'sign_up.solo_gan'.tr(),
+                          style: TextStyle(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      const Spacer(),
+                      M3TextField(
+                        controller: _emailController,
+                        labelText: 'Email',
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      M3TextField(
+                        controller: _passwordController,
+                        labelText: 'sign_up.password'.tr(),
+                        obscureText: true,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      M3TextField(
+                        controller: _confirmPasswordController,
+                        labelText: 'sign_up.confirmed_password'.tr(),
+                        obscureText: true,
+                      ),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: M3LockedButton(
+                          onPressed: () async {
+                            if (!validateEmail(_emailController.text.trim())) {
+                              await showM3Popup(
+                                context,
+                                title: 'popup.warning'.tr(),
+                                descriptions: 'popup.warning'.tr(),
+                              );
+                            } else if (_passwordController.text.length < 6) {
+                              await showM3Popup(
+                                context,
+                                title: 'popup.warning'.tr(),
+                                descriptions: 'popup.password_min_6'.tr(),
+                              );
+                            } else if (_passwordController.text.trim() !=
+                                _confirmPasswordController.text.trim()) {
+                              await showM3Popup(
+                                context,
+                                title: 'popup.warning'.tr(),
+                                descriptions: 'popup.2_password_not_valid'.tr(),
+                              );
+                            } else {
+                              context
+                                  .read<AuthProvider>()
+                                  .register(
+                                    context,
+                                    email: _emailController.text,
+                                    password: _passwordController.text,
+                                  )
+                                  .then((value) => value == true
+                                      ? Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const CheckingEmailScreen(),
+                                          ),
+                                        )
+                                      : null);
+                            }
+                          },
+                          title: 'sign_up.sign_up'.tr(),
+                        ),
+                      ),
+                      const Spacer(),
+                      RichText(
+                        text: TextSpan(
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.fontFamily,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: 'sign_up.do_you_already_have_an_account'
+                                      .tr() +
+                                  ' ',
+                              style: TextStyle(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            TextSpan(
+                              text: 'sign_up.log_in_now'.tr(),
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap =
+                                    () => Provider.of<CustomedRouterDelegate>(
+                                          context,
+                                          listen: false,
+                                        ).backToLoginScreen(),
+                            ),
+                          ],
+                        ),
                       )
-                    : null,
-                padding: const EdgeInsets.all(32),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'sign_up.sign_up'.tr(),
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontSize: 45,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'sign_up.solo_gan'.tr(),
-                        style: TextStyle(
-                          color:
-                              Theme.of(context).colorScheme.onPrimaryContainer,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                    const Spacer(),
-                    M3TextField(
-                      controller: _emailController,
-                      labelText: 'Email',
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    M3TextField(
-                      controller: _passwordController,
-                      labelText: 'sign_up.password'.tr(),
-                      obscureText: true,
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    M3TextField(
-                      controller: _confirmPasswordController,
-                      labelText: 'sign_up.confirmed_password'.tr(),
-                      obscureText: true,
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: M3LockedButton(
-                        onPressed: () async {
-                          if (!validateEmail(_emailController.text.trim())) {
-                            await showM3Popup(
-                              context,
-                              title: 'popup.warning'.tr(),
-                              descriptions: 'popup.warning'.tr(),
-                            );
-                          } else if (_passwordController.text.length < 6) {
-                            await showM3Popup(
-                              context,
-                              title: 'popup.warning'.tr(),
-                              descriptions: 'popup.password_min_6'.tr(),
-                            );
-                          } else if (_passwordController.text.trim() !=
-                              _confirmPasswordController.text.trim()) {
-                            await showM3Popup(
-                              context,
-                              title: 'popup.warning'.tr(),
-                              descriptions: 'popup.2_password_not_valid'.tr(),
-                            );
-                          } else {
-                            context
-                                .read<AuthProvider>()
-                                .register(
-                                  context,
-                                  email: _emailController.text,
-                                  password: _passwordController.text,
-                                )
-                                .then((value) => value == true
-                                    ? Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const CheckingEmailScreen(),
-                                        ),
-                                      )
-                                    : null);
-                          }
-                        },
-                        title: 'sign_up.sign_up'.tr(),
-                      ),
-                    ),
-                    const Spacer(),
-                    RichText(
-                      text: TextSpan(
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          fontFamily:
-                              Theme.of(context).textTheme.bodyLarge?.fontFamily,
-                        ),
-                        children: [
-                          TextSpan(
-                            text:
-                                'sign_up.do_you_already_have_an_account'.tr() +
-                                    ' ',
-                            style: TextStyle(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          TextSpan(
-                            text: 'sign_up.log_in_now'.tr(),
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap =
-                                  () => Provider.of<CustomedRouterDelegate>(
-                                        context,
-                                        listen: false,
-                                      ).backToLoginScreen(),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

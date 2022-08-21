@@ -19,14 +19,14 @@ class MinimumPlayerWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () => context.read<AudioProvider>().showMaximumPlayer(),
       child: SizedBox(
-        height: 75,
+        height: Responsive.isMobile(context) ? 75 : 110,
         child: Stack(
           children: [
             Positioned(
                 bottom: 0,
                 left: 0,
                 right: 0,
-                height: 60,
+                height: Responsive.isMobile(context) ? 60 : 95,
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(colors: [
@@ -60,62 +60,140 @@ class MinimumPlayerWidget extends StatelessWidget {
                           },
                         ),
                       ),
-                      StreamBuilder<bool>(
-                        stream: context
-                            .watch<AudioProvider>()
-                            .audioHandler
-                            .playbackState
-                            .map((state) => state.playing)
-                            .distinct(),
-                        builder: (context, snapshot) {
-                          final playing = snapshot.data ?? false;
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              if (!Responsive.isMobile(context))
-                                PlayerIconWidget(
-                                  iconPath:
-                                      'assets/icons/player/ic_previous.svg',
-                                  onPressed: context
-                                      .watch<AudioProvider>()
-                                      .audioHandler
-                                      .rewind,
-                                  color: Colors.white,
-                                  height: 20,
-                                ),
-                              if (playing)
-                                PlayerIconWidget(
-                                  iconPath: 'assets/icons/player/ic_pause.svg',
-                                  onPressed: context
-                                      .watch<AudioProvider>()
-                                      .audioHandler
-                                      .pause,
-                                  color: Colors.white,
-                                  height: 20,
-                                )
-                              else
-                                PlayerIconWidget(
-                                  iconPath: 'assets/icons/player/ic_play.svg',
-                                  onPressed: context
-                                      .watch<AudioProvider>()
-                                      .audioHandler
-                                      .play,
-                                  color: Colors.white,
-                                  height: 20,
-                                ),
-                              PlayerIconWidget(
-                                iconPath: 'assets/icons/player/ic_next.svg',
-                                onPressed: context
-                                    .watch<AudioProvider>()
-                                    .audioHandler
-                                    .fastForward,
-                                color: Colors.white,
-                                height: 20,
+                      if (!Responsive.isMobile(context))
+                        Column(
+                          children: [
+                            SizedBox(
+                              width: 400,
+                              child: StreamBuilder<MediaState>(
+                                stream: _mediaStateStream(context),
+                                builder: (context, snapshot) {
+                                  final mediaState = snapshot.data;
+                                  return SeekBar(
+                                    duration: mediaState?.mediaItem?.duration ??
+                                        Duration.zero,
+                                    position:
+                                        mediaState?.position ?? Duration.zero,
+                                    onChangeEnd: (newPosition) {
+                                      context
+                                          .read<AudioProvider>()
+                                          .audioHandler
+                                          .seek(newPosition);
+                                    },
+                                  );
+                                },
                               ),
-                            ],
-                          );
-                        },
-                      ),
+                            ),
+                            StreamBuilder<bool>(
+                              stream: context
+                                  .watch<AudioProvider>()
+                                  .audioHandler
+                                  .playbackState
+                                  .map((state) => state.playing)
+                                  .distinct(),
+                              builder: (context, snapshot) {
+                                final playing = snapshot.data ?? false;
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    if (!Responsive.isMobile(context))
+                                      PlayerIconWidget(
+                                        iconPath:
+                                            'assets/icons/player/ic_previous.svg',
+                                        onPressed: context
+                                            .watch<AudioProvider>()
+                                            .audioHandler
+                                            .rewind,
+                                        color: Colors.white,
+                                        height: 20,
+                                      ),
+                                    if (playing)
+                                      PlayerIconWidget(
+                                        iconPath:
+                                            'assets/icons/player/ic_pause.svg',
+                                        onPressed: context
+                                            .watch<AudioProvider>()
+                                            .audioHandler
+                                            .pause,
+                                        color: Colors.white,
+                                        height: 20,
+                                      )
+                                    else
+                                      PlayerIconWidget(
+                                        iconPath:
+                                            'assets/icons/player/ic_play.svg',
+                                        onPressed: context
+                                            .watch<AudioProvider>()
+                                            .audioHandler
+                                            .play,
+                                        color: Colors.white,
+                                        height: 20,
+                                      ),
+                                    PlayerIconWidget(
+                                      iconPath:
+                                          'assets/icons/player/ic_next.svg',
+                                      onPressed: context
+                                          .watch<AudioProvider>()
+                                          .audioHandler
+                                          .fastForward,
+                                      color: Colors.white,
+                                      height: 20,
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      if (Responsive.isMobile(context))
+                        StreamBuilder<bool>(
+                          stream: context
+                              .watch<AudioProvider>()
+                              .audioHandler
+                              .playbackState
+                              .map((state) => state.playing)
+                              .distinct(),
+                          builder: (context, snapshot) {
+                            final playing = snapshot.data ?? false;
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                if (playing)
+                                  PlayerIconWidget(
+                                    iconPath:
+                                        'assets/icons/player/ic_pause.svg',
+                                    onPressed: context
+                                        .watch<AudioProvider>()
+                                        .audioHandler
+                                        .pause,
+                                    color: Colors.white,
+                                    height: 20,
+                                  )
+                                else
+                                  PlayerIconWidget(
+                                    iconPath: 'assets/icons/player/ic_play.svg',
+                                    onPressed: context
+                                        .watch<AudioProvider>()
+                                        .audioHandler
+                                        .play,
+                                    color: Colors.white,
+                                    height: 20,
+                                  ),
+                                PlayerIconWidget(
+                                  iconPath: 'assets/icons/player/ic_next.svg',
+                                  onPressed: context
+                                      .watch<AudioProvider>()
+                                      .audioHandler
+                                      .fastForward,
+                                  color: Colors.white,
+                                  height: 20,
+                                ),
+                              ],
+                            );
+                          },
+                        )
+                      else
+                        const Spacer()
                     ],
                   ),
                 )),
@@ -148,30 +226,32 @@ class MinimumPlayerWidget extends StatelessWidget {
                     ),
                   ),
                 )),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: StreamBuilder<MediaState>(
-                stream: _mediaStateStream(context),
-                builder: (context, snapshot) {
-                  final mediaState = snapshot.data;
-                  return SeekBar(
-                    duration: mediaState?.mediaItem?.duration ?? Duration.zero,
-                    position: mediaState?.position ?? Duration.zero,
-                    onChangeEnd: (newPosition) {
-                      context
-                          .read<AudioProvider>()
-                          .audioHandler
-                          .seek(newPosition);
-                    },
-                    isShowTime: false,
-                    isRemovePadding: true,
-                    hideOverlay: Responsive.isMobile(context),
-                  );
-                },
-              ),
-            )
+            if (Responsive.isMobile(context))
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: StreamBuilder<MediaState>(
+                  stream: _mediaStateStream(context),
+                  builder: (context, snapshot) {
+                    final mediaState = snapshot.data;
+                    return SeekBar(
+                      duration:
+                          mediaState?.mediaItem?.duration ?? Duration.zero,
+                      position: mediaState?.position ?? Duration.zero,
+                      onChangeEnd: (newPosition) {
+                        context
+                            .read<AudioProvider>()
+                            .audioHandler
+                            .seek(newPosition);
+                      },
+                      isShowTime: false,
+                      isRemovePadding: Responsive.isMobile(context),
+                      hideOverlay: Responsive.isMobile(context),
+                    );
+                  },
+                ),
+              )
           ],
         ),
       ),

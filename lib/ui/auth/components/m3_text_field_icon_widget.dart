@@ -15,12 +15,15 @@ class M3TextFieldIconWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: SvgPicture.asset(
-          iconPath,
-          height: 20,
-          color: Theme.of(context).colorScheme.primary,
+      child: FittedBox(
+        child: Container(
+          height: 30,
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: SvgPicture.asset(
+            iconPath,
+            fit: BoxFit.contain,
+            color: Theme.of(context).colorScheme.primary,
+          ),
         ),
       ),
     );

@@ -36,137 +36,144 @@ class _MagicLinkScreenState extends State<MagicLinkScreen> {
   Widget build(BuildContext context) {
     final isMaximunHeight = MediaQuery.of(context).size.width >= 500;
     return Scaffold(
-      body: Container(
-        color: Theme.of(context).colorScheme.primaryContainer,
-        child: Center(
-          child: SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minWidth: 350,
-                minHeight: 500,
-                maxWidth: 500,
-                maxHeight: isMaximunHeight ? 700 : double.infinity,
-              ),
-              child: Container(
-                height:
-                    isMaximunHeight ? null : MediaQuery.of(context).size.height,
-                decoration: isMaximunHeight
-                    ? BoxDecoration(
-                        border: Border.all(
-                          color: Theme.of(context).primaryColor,
+      body: GestureDetector(
+        onTap: () => hideKeyboard(),
+        child: Container(
+          color: Theme.of(context).colorScheme.primaryContainer,
+          child: Center(
+            child: SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minWidth: 350,
+                  minHeight: 500,
+                  maxWidth: 500,
+                  maxHeight: isMaximunHeight ? 700 : double.infinity,
+                ),
+                child: Container(
+                  height: isMaximunHeight
+                      ? null
+                      : MediaQuery.of(context).size.height,
+                  decoration: isMaximunHeight
+                      ? BoxDecoration(
+                          border: Border.all(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                        )
+                      : null,
+                  padding: const EdgeInsets.all(32),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Supabase Magic Link',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: 45,
+                            height: 0.9,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
-                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'magic_link.detail'.tr(),
+                          style: TextStyle(
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      const Spacer(),
+                      M3TextField(
+                        controller: _emailController,
+                        labelText: 'Email',
+                      ),
+                      const SizedBox(
+                        height: 32,
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: M3LockedButton(
+                          onPressed: () async {
+                            if (!validateEmail(_emailController.text.trim())) {
+                              await showM3Popup(
+                                context,
+                                title: 'popup.warning'.tr(),
+                                descriptions: 'popup.not_valid_email'.tr(),
+                              );
+                            } else {
+                              await context
+                                  .read<AuthProvider>()
+                                  .loginWithMagicLink(
+                                    context,
+                                    email: _emailController.text,
+                                  )
+                                  .then(
+                                    (value) => value == true
+                                        ? Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const CheckingEmailScreen(),
+                                            ),
+                                          )
+                                        : null,
+                                  );
+                            }
+                          },
+                          title: 'magic_link.log_in'.tr(),
+                        ),
+                      ),
+                      const Spacer(),
+                      RichText(
+                        text: TextSpan(
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.fontFamily,
+                          ),
+                          children: [
+                            TextSpan(
+                              text:
+                                  // ignore: lines_longer_than_80_chars
+                                  '${'magic_link.do_you_already_have_an_account'.tr()} ',
+                              style: TextStyle(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryContainer,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            TextSpan(
+                              text: 'magic_link.log_in_now'.tr(),
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () => Navigator.pop(context),
+                            ),
+                          ],
+                        ),
                       )
-                    : null,
-                padding: const EdgeInsets.all(32),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Supabase Magic Link',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontSize: 45,
-                          height: 0.9,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'magic_link.detail'.tr(),
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                    const Spacer(),
-                    M3TextField(
-                      controller: _emailController,
-                      labelText: 'Email',
-                    ),
-                    const SizedBox(
-                      height: 32,
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: M3LockedButton(
-                        onPressed: () async {
-                          if (!validateEmail(_emailController.text.trim())) {
-                            await showM3Popup(
-                              context,
-                              title: 'popup.warning'.tr(),
-                              descriptions: 'popup.not_valid_email'.tr(),
-                            );
-                          } else {
-                            await context
-                                .read<AuthProvider>()
-                                .loginWithMagicLink(
-                                  context,
-                                  email: _emailController.text,
-                                )
-                                .then(
-                                  (value) => value == true
-                                      ? Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                const CheckingEmailScreen(),
-                                          ),
-                                        )
-                                      : null,
-                                );
-                          }
-                        },
-                        title: 'magic_link.log_in'.tr(),
-                      ),
-                    ),
-                    const Spacer(),
-                    RichText(
-                      text: TextSpan(
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          fontFamily:
-                              Theme.of(context).textTheme.bodyLarge?.fontFamily,
-                        ),
-                        children: [
-                          TextSpan(
-                            text:
-                                // ignore: lines_longer_than_80_chars
-                                '${'magic_link.do_you_already_have_an_account'.tr()} ',
-                            style: TextStyle(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          TextSpan(
-                            text: 'magic_link.log_in_now'.tr(),
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () => Navigator.pop(context),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
