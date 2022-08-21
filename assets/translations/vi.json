@@ -90,5 +90,11 @@
 
     "spash_screen": {
         "title": "Đang tải về dữ liệu của bạn"
+    },
+
+    "searching_screen": {
+        "enter_searching_text": "Nhập nội dung tìm kiếm",
+        "type_something_to_search": "Nhập gì đó để tìm kiếm",
+        "no_results_found": "Không có kết quả nào được tìm thấy"
     }
 }

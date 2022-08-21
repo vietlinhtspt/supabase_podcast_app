@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -113,7 +114,7 @@ class _SearchingScreenState extends State<SearchingScreen> {
                       padding: const EdgeInsets.all(16.0),
                       child: M3TextField(
                         controller: _textEditingController,
-                        labelText: 'Nhập nội dung tìm kiếm',
+                        labelText: 'searching_screen.enter_searching_text'.tr(),
                         prefixIcon: Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 16, horizontal: 6),
@@ -136,8 +137,9 @@ class _SearchingScreenState extends State<SearchingScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
-                  'Nhập gì đó để tìm kiếm',
+                  'searching_screen.type_something_to_search'.tr(),
                   style: TextStyle(
+                    fontSize: 18,
                     color: Theme.of(context).colorScheme.onPrimaryContainer,
                   ),
                 ),
@@ -150,8 +152,9 @@ class _SearchingScreenState extends State<SearchingScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
-                  'Không có kết quả nào được tìm thấy',
+                  'searching_screen.no_results_found'.tr(),
                   style: TextStyle(
+                    fontSize: 18,
                     color: Theme.of(context).colorScheme.onPrimaryContainer,
                   ),
                 ),

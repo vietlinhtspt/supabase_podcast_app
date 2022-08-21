@@ -90,5 +90,11 @@
 
     "spash_screen": {
         "title": "Loading your data"
+    },
+
+    "searching_screen": {
+        "enter_searching_text": "Enter search text",
+        "type_something_to_search": "Type something to search",
+        "no_results_found": "No results found"
     }
 }
