@@ -120,7 +120,7 @@ class _SearchingScreenState extends State<SearchingScreen> {
           if (_textEditingController.text.trim().isEmpty)
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   'searching_screen.type_something_to_search'.tr(),
                   style: TextStyle(

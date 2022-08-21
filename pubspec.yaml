@@ -51,6 +51,7 @@ dependencies:
   rxdart: ^0.27.5
   lottie: ^1.4.1
   google_fonts: ^3.0.1
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
@@ -84,6 +85,7 @@ flutter:
   - assets/icons/friends/
   - assets/icons/accounts/
   - assets/icons/player/
+  - assets/icons/library/
   - assets/logos/
   - assets/translations/
   - assets/animations/

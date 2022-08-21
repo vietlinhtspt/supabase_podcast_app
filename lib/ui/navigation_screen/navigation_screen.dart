@@ -10,7 +10,7 @@ import '../account/account_screen.dart';
 import '../auth/setting_new_password_screen.dart';
 import '../home/entering_name_screen/entering_name_screen.dart';
 import '../home/home_screen.dart';
-import '../notifications/notifications_screen.dart';
+import '../library/library_screen.dart';
 import '../player/maximum_player_widget.dart';
 import '../player/minimum_player_widget.dart';
 import '../searching/searching_screen.dart';
@@ -42,20 +42,31 @@ class _NavigationScreenState extends State<NavigationScreen> {
             .indexWhere((element) =>
                 element.id ==
                 context.read<AudioProvider>().currentPodcastModel?.id);
+
+        if (indexOfCurrentPodcast != -1) {
+          final currentPodcast =
+              context.read<PodcastProvider>().podcast[indexOfCurrentPodcast];
+          context.read<PodcastProvider>().updateHistoryLocal(context,
+              historyDetail: currentPodcast.historyDetail?.copyWith(
+                createdAt: DateTime.now().toString() + '+00:00',
+                listened: event.inSeconds,
+              ));
+        }
+
         if (indexOfCurrentPodcast != -1 &&
             event.inSeconds > UPDATE_HISTORY_PERIOD) {
           final currentPodcast =
               context.read<PodcastProvider>().podcast[indexOfCurrentPodcast];
-          final isNeedUpdate = (event.inSeconds -
-                      (currentPodcast.podcastHistoryModel?.listened ?? 0))
-                  .abs() >
-              UPDATE_HISTORY_PERIOD;
+          final isNeedUpdate =
+              (event.inSeconds - (currentPodcast.historyDetail?.listened ?? 0))
+                      .abs() >
+                  UPDATE_HISTORY_PERIOD;
           if (isNeedUpdate && !isUpdatingHistory) {
             isUpdatingHistory = true;
             context.read<PodcastProvider>().podcast[indexOfCurrentPodcast] =
                 currentPodcast.copyWith(
-              podcastHistoryModel: currentPodcast.podcastHistoryModel?.copyWith(
-                createdAt: DateTime.now().toString(),
+              historyDetail: currentPodcast.historyDetail?.copyWith(
+                createdAt: DateTime.now().toString() + '+00:00',
                 listened: event.inSeconds,
               ),
             );
@@ -64,7 +75,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 .read<PodcastProvider>()
                 .updateHistory(
                   context,
-                  podcastHistoryModel: currentPodcast.podcastHistoryModel!,
+                  historyDetail: currentPodcast.historyDetail!,
                 )
                 .then((value) {
               if (value == true) {
@@ -73,10 +84,10 @@ class _NavigationScreenState extends State<NavigationScreen> {
                         .read<PodcastProvider>()
                         .podcast[indexOfCurrentPodcast]
                         .copyWith(
-                          podcastHistoryModel: context
+                          historyDetail: context
                               .read<PodcastProvider>()
                               .podcast[indexOfCurrentPodcast]
-                              .podcastHistoryModel
+                              .historyDetail
                               ?.copyWith(id: -1),
                         );
                 context.read<PodcastProvider>().notifyListeners();
@@ -142,7 +153,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 child: [
                   const HomeScreen(),
                   const SearchingScreen(),
-                  const NotificationsScreen(),
+                  const LibraryScreen(),
                   const AccountScreen()
                 ][screenIndex],
               ),
@@ -192,7 +203,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
               ),
               if (context.watch<AudioProvider>().currentPodcastModel != null)
                 Positioned(
-                  bottom: isVertical ? 0 : QRInfoNavigationBar.HEIGHT,
+                  top: MediaQuery.of(context).size.height -
+                      (Responsive.isMobile(context) ? 75 : 110) -
+                      (isVertical ? 0 : QRInfoNavigationBar.HEIGHT),
                   left: 0,
                   right: 0,
                   child: const MinimumPlayerWidget(),

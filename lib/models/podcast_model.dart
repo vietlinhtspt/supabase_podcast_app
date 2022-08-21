@@ -8,13 +8,13 @@ import 'podcast_history_model.dart';
 class PodcastModel extends BaseModel {
   @override
   final int? id;
-  final createdAt;
+  final String? createdAt;
   final String? url;
   final String? title;
   final String? subtitle;
   final String? imgPath;
   final String? author;
-  final PodcastHistoryModel? podcastHistoryModel;
+  final HistoryDetail? historyDetail;
 
   PodcastModel({
     this.id,
@@ -24,19 +24,19 @@ class PodcastModel extends BaseModel {
     this.subtitle,
     this.imgPath,
     this.author,
-    this.podcastHistoryModel,
+    this.historyDetail,
   });
 
   PodcastModel copyWith({
     int? id,
-    createdAt,
+    String? createdAt,
     String? url,
     String? title,
     String? subtitle,
     bool? isDarkMode,
     String? imgPath,
     String? author,
-    PodcastHistoryModel? podcastHistoryModel,
+    HistoryDetail? historyDetail,
   }) {
     return PodcastModel(
       id: id ?? this.id,
@@ -46,7 +46,7 @@ class PodcastModel extends BaseModel {
       subtitle: subtitle ?? this.subtitle,
       imgPath: imgPath ?? this.imgPath,
       author: author ?? this.author,
-      podcastHistoryModel: podcastHistoryModel ?? this.podcastHistoryModel,
+      historyDetail: historyDetail ?? this.historyDetail,
     );
   }
 
@@ -81,11 +81,10 @@ class PodcastModel extends BaseModel {
         subtitle: map['avatar_path'],
         imgPath: map['img_path'],
         author: map['author'],
-        podcastHistoryModel: map['podcast_history'] != null &&
+        historyDetail: map['podcast_history'] != null &&
                 (map['podcast_history'] as List).isNotEmpty
-            ? PodcastHistoryModel.fromMap(
-                (map['podcast_history'] as List).first)
-            : PodcastHistoryModel(
+            ? HistoryDetail.fromMap((map['podcast_history'] as List).first)
+            : HistoryDetail(
                 userEmail: Supabase.instance.client.auth.currentUser?.email,
                 podcastId: map['id']?.toInt(),
                 listened: 0,
@@ -117,4 +116,85 @@ class PodcastModel extends BaseModel {
         artist: author,
         artUri: Uri.parse(imgPath!),
       );
+}
+
+class HistoryDetail extends BaseModel {
+  @override
+  final int? id;
+  final createdAt;
+  final String? userEmail;
+  final int? podcastId;
+  final int? listened;
+
+  HistoryDetail({
+    this.id,
+    this.createdAt,
+    this.userEmail,
+    this.podcastId,
+    this.listened,
+  });
+
+  HistoryDetail copyWith({
+    int? id,
+    createdAt,
+    String? userEmail,
+    int? podcastId,
+    int? listened,
+  }) {
+    return HistoryDetail(
+      id: id ?? this.id,
+      createdAt: createdAt ?? this.createdAt,
+      userEmail: userEmail ?? this.userEmail,
+      podcastId: podcastId ?? this.podcastId,
+      listened: listened ?? this.listened,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    final result = <String, dynamic>{};
+    if (id != null && id != -1) {
+      result.addAll({'id': id});
+    }
+
+    if (createdAt != null) {
+      result.addAll({'created_at': createdAt});
+    }
+
+    result.addAll({
+      'user_email': userEmail,
+      'podcast_id': podcastId,
+      'listened': listened,
+    });
+
+    return result;
+  }
+
+  factory HistoryDetail.fromMap(Map<String, dynamic> map) {
+    return HistoryDetail(
+      id: map['id']?.toInt(),
+      createdAt: map['created_at'],
+      userEmail: map['user_email'],
+      podcastId: map['podcast_id'],
+      listened: map['listened'],
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory HistoryDetail.fromJson(String source) =>
+      HistoryDetail.fromMap(json.decode(source));
+
+  @override
+  String toString() => toMap().toString();
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is HistoryDetail && other.id == id;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
 }

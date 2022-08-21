@@ -75,13 +75,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 15,
-                ),
-                TitleWidget(
-                  title: 'home_screen.continous_podcast'.tr(),
-                ),
-                const ResumingItemWidget(),
+                if (context.watch<PodcastProvider>().podcastHistory.isNotEmpty)
+                  Column(
+                    children: [
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      TitleWidget(
+                        title: 'home_screen.continous_podcast'.tr(),
+                      ),
+                      ResumingItemWidget(
+                        podcastHistoryModel: context
+                            .watch<PodcastProvider>()
+                            .podcastHistory
+                            .first,
+                      ),
+                    ],
+                  ),
                 const SizedBox(
                   height: 28,
                 ),

@@ -26,10 +26,10 @@ class AudioProvider extends ChangeNotifier {
       _audioHandler
           .playMediaItem(_currentPodcastModel!.toMediaItem)
           .then((value) {
-        if (newPodcastModel.podcastHistoryModel != null) {
+        if (newPodcastModel.historyDetail != null) {
           _audioHandler
               .seek(Duration(
-                seconds: newPodcastModel.podcastHistoryModel!.listened!,
+                seconds: newPodcastModel.historyDetail!.listened!,
               ))
               .then((value) => _audioHandler.play());
         }

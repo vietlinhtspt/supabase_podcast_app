@@ -26,6 +26,8 @@ class _SplashScreenState extends State<SplashScreen> {
         context.read<UserInfoProvider>().getUserInfo(context),
         context.read<PodcastProvider>().fetch(context,
             email: Supabase.instance.client.auth.currentUser!.email!),
+        context.read<PodcastProvider>().getHistory(context,
+            email: Supabase.instance.client.auth.currentUser!.email!),
       ]).then(
         (value) {
           if ((value[0] as UserInfo?)?.email != null) {

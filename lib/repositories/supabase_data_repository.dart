@@ -33,18 +33,20 @@ class SupabaseDataRepository {
     String? column,
     String? selectOption,
     String? value,
+    String? orderID,
+    bool ascending = false,
   }) async {
-    if (column != null) {
-      final rows = await Supabase.instance.client
-          .from(table)
-          .select(selectOption ?? '*')
-          .filter(column, 'eq', value);
+    var query =
+        Supabase.instance.client.from(table).select(selectOption ?? '*');
 
-      return rows as List;
+    if (column != null) {
+      query = query.filter(column, 'eq', value);
+    }
+
+    if (orderID != null) {
+      return (await query.order(orderID, ascending: ascending)) as List;
     } else {
-      return await Supabase.instance.client
-          .from(table)
-          .select(selectOption ?? '*') as List;
+      return (await query) as List;
     }
   }
 
@@ -63,7 +65,7 @@ class SupabaseDataRepository {
     required String table,
     String keyName = 'id',
     required keyValue,
-    String? keyName2 = 'id',
+    String keyName2 = 'id',
     String? keyValue2,
     required Map<dynamic, dynamic> values,
   }) async {
@@ -71,7 +73,7 @@ class SupabaseDataRepository {
         .from(table)
         .update(values)
         .eq(keyName, keyValue);
-    if (keyName2 != null) {
+    if (keyValue2 != null) {
       query = query.eq(keyName2, keyValue2);
     }
     return await query;

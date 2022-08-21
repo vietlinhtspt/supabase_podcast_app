@@ -5,7 +5,7 @@ import 'base_model.dart';
 class PodcastHistoryModel extends BaseModel {
   @override
   final int? id;
-  final createdAt;
+  final String? createdAt;
   final String? userEmail;
   final int? podcastId;
   final int? listened;
@@ -20,7 +20,7 @@ class PodcastHistoryModel extends BaseModel {
 
   PodcastHistoryModel copyWith({
     int? id,
-    createdAt,
+    String? createdAt,
     String? userEmail,
     int? podcastId,
     int? listened,

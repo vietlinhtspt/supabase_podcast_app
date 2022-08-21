@@ -173,6 +173,9 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
                               );
                             },
                           ),
+                          SizedBox(
+                            height: screenHeight * 0.03,
+                          ),
                           // Play/pause/stop buttons.
                           StreamBuilder<bool>(
                             stream: context
@@ -193,7 +196,7 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
                                         .watch<AudioProvider>()
                                         .audioHandler
                                         .rewind,
-                                    height: 34,
+                                    height: 45,
                                   ),
                                   if (playing)
                                     PlayerIconWidget(
@@ -203,7 +206,7 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
                                           .watch<AudioProvider>()
                                           .audioHandler
                                           .pause,
-                                      height: 34,
+                                      height: 45,
                                     )
                                   else
                                     PlayerIconWidget(
@@ -213,7 +216,7 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
                                           .watch<AudioProvider>()
                                           .audioHandler
                                           .play,
-                                      height: 34,
+                                      height: 45,
                                     ),
                                   PlayerIconWidget(
                                     iconPath: 'assets/icons/player/ic_next.svg',
@@ -221,12 +224,25 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
                                         .watch<AudioProvider>()
                                         .audioHandler
                                         .fastForward,
-                                    height: 34,
+                                    height: 45,
                                   ),
                                 ],
                               );
                             },
                           ),
+                          const Spacer(),
+                          RotatedBox(
+                            quarterTurns: 30,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              child: Image.asset(
+                                  'assets/icons/home/ic_customed_line.png'),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          )
                         ],
                       ),
                     ),
