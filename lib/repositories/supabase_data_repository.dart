@@ -45,6 +45,19 @@ class SupabaseDataRepository {
     }
   }
 
+  Future<List> searchRow({
+    required String table,
+    required String column,
+    required List<String> value,
+  }) async {
+    final rows = await Supabase.instance.client
+        .from(table)
+        .select()
+        .filter(column, 'cs', value);
+
+    return rows as List;
+  }
+
   Future<dynamic> updateRow({
     required String table,
     String keyName = 'id',

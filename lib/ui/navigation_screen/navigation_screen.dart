@@ -9,12 +9,12 @@ import '../../providers/user_info_provider.dart';
 import '../../shared/shared.dart';
 import '../account/account_screen.dart';
 import '../auth/setting_new_password_screen.dart';
-import '../friends/friends_screen.dart';
 import '../home/entering_name_screen/entering_name_screen.dart';
 import '../home/home_screen.dart';
 import '../notifications/notifications_screen.dart';
 import '../player/maximum_player_widget.dart';
 import '../player/minimum_player_widget.dart';
+import '../searching/searching_screen.dart';
 import 'components/m3_navbar_item_widget.dart';
 import 'components/qr_info_navigation_bar.dart';
 
@@ -86,7 +86,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 duration: const Duration(milliseconds: 500),
                 child: [
                   const HomeScreen(),
-                  const FriendsScreen(),
+                  const SearchingScreen(),
                   const NotificationsScreen(),
                   const AccountScreen()
                 ][screenIndex],

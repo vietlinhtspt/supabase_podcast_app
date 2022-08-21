@@ -9,11 +9,13 @@ class M3TextField extends StatefulWidget {
     required this.controller,
     required this.labelText,
     this.obscureText,
+    this.prefixIcon,
   }) : super(key: key);
 
   final TextEditingController controller;
   final String labelText;
   final bool? obscureText;
+  final Widget? prefixIcon;
 
   @override
   State<M3TextField> createState() => _M3TextFieldState();
@@ -22,6 +24,7 @@ class M3TextField extends StatefulWidget {
 class _M3TextFieldState extends State<M3TextField> {
   late TextEditingController controller;
   late String labelText;
+
   bool? obscureText;
 
   @override
@@ -87,6 +90,7 @@ class _M3TextFieldState extends State<M3TextField> {
               color: Theme.of(context).colorScheme.onPrimaryContainer,
               fontWeight: FontWeight.w400,
             ),
+            prefixIcon: widget.prefixIcon,
             hoverColor: Colors.transparent,
             fillColor: Colors.transparent,
             suffixIcon: obscureText == null && controller.text.isNotEmpty
