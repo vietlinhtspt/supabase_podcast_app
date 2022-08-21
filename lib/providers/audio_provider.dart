@@ -23,12 +23,17 @@ class AudioProvider extends ChangeNotifier {
   void play(PodcastModel newPodcastModel) {
     _currentPodcastModel = newPodcastModel;
     if (_currentPodcastModel != null) {
-      _audioHandler.playMediaItem(_currentPodcastModel!.toMediaItem);
-      if (newPodcastModel.podcastHistoryModel != null) {
-        _audioHandler.seek(Duration(
-          seconds: newPodcastModel.podcastHistoryModel!.listened!,
-        ));
-      }
+      _audioHandler
+          .playMediaItem(_currentPodcastModel!.toMediaItem)
+          .then((value) {
+        if (newPodcastModel.podcastHistoryModel != null) {
+          _audioHandler
+              .seek(Duration(
+                seconds: newPodcastModel.podcastHistoryModel!.listened!,
+              ))
+              .then((value) => _audioHandler.play());
+        }
+      });
     }
 
     isMaximumSize = true;

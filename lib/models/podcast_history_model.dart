@@ -37,7 +37,7 @@ class PodcastHistoryModel extends BaseModel {
   @override
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
-    if (id != null) {
+    if (id != null && id != -1) {
       result.addAll({'id': id});
     }
 

@@ -33,12 +33,11 @@ class AudioPlayerHandler extends BaseAudioHandler with SeekHandler {
   @override
   Future<void> playMediaItem(MediaItem newMediaItem) async {
     mediaItem.add(newMediaItem);
-    _player
+    await _player
         .setAudioSource(
       AudioSource.uri(Uri.parse(newMediaItem.id)),
     )
-        .then((value) {
-      play();
+        .then((value) async {
       if (value != null) {
         mediaItem.add(newMediaItem.copyWith(duration: value));
       }

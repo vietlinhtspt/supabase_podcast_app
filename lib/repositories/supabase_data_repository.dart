@@ -62,13 +62,19 @@ class SupabaseDataRepository {
   Future<dynamic> updateRow({
     required String table,
     String keyName = 'id',
-    required String keyValue,
+    required keyValue,
+    String? keyName2 = 'id',
+    String? keyValue2,
     required Map<dynamic, dynamic> values,
   }) async {
-    return await Supabase.instance.client
+    var query = Supabase.instance.client
         .from(table)
         .update(values)
         .eq(keyName, keyValue);
+    if (keyName2 != null) {
+      query = query.eq(keyName2, keyValue2);
+    }
+    return await query;
   }
 
   Future<PostgrestResponse<dynamic>> deleteRow({

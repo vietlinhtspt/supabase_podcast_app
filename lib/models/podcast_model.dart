@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:audio_service/audio_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'base_model.dart';
 import 'podcast_history_model.dart';
@@ -84,7 +85,11 @@ class PodcastModel extends BaseModel {
                 (map['podcast_history'] as List).isNotEmpty
             ? PodcastHistoryModel.fromMap(
                 (map['podcast_history'] as List).first)
-            : null);
+            : PodcastHistoryModel(
+                userEmail: Supabase.instance.client.auth.currentUser?.email,
+                podcastId: map['id']?.toInt(),
+                listened: 0,
+              ));
   }
 
   String toJson() => json.encode(toMap());

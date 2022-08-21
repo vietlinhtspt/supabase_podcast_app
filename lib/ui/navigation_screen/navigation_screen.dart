@@ -1,11 +1,10 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/audio_provider.dart';
-import '../../providers/auth_provider.dart';
-import '../../providers/user_info_provider.dart';
+import '../../providers/providers.dart';
 import '../../shared/shared.dart';
 import '../account/account_screen.dart';
 import '../auth/setting_new_password_screen.dart';
@@ -26,13 +25,69 @@ class NavigationScreen extends StatefulWidget {
 }
 
 class _NavigationScreenState extends State<NavigationScreen> {
+  final UPDATE_HISTORY_PERIOD = 3;
   int screenIndex = 0;
   int navIndex = 0;
   ResponsiveType? currentScreenType;
+  bool isUpdatingHistory = false;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      AudioService.position.asBroadcastStream().listen((event) {
+        final indexOfCurrentPodcast = context
+            .read<PodcastProvider>()
+            .podcast
+            .indexWhere((element) =>
+                element.id ==
+                context.read<AudioProvider>().currentPodcastModel?.id);
+        if (indexOfCurrentPodcast != -1 &&
+            event.inSeconds > UPDATE_HISTORY_PERIOD) {
+          final currentPodcast =
+              context.read<PodcastProvider>().podcast[indexOfCurrentPodcast];
+          final isNeedUpdate = (event.inSeconds -
+                      (currentPodcast.podcastHistoryModel?.listened ?? 0))
+                  .abs() >
+              UPDATE_HISTORY_PERIOD;
+          if (isNeedUpdate && !isUpdatingHistory) {
+            isUpdatingHistory = true;
+            context.read<PodcastProvider>().podcast[indexOfCurrentPodcast] =
+                currentPodcast.copyWith(
+              podcastHistoryModel: currentPodcast.podcastHistoryModel?.copyWith(
+                createdAt: DateTime.now().toString(),
+                listened: event.inSeconds,
+              ),
+            );
+            context.read<PodcastProvider>().notifyListeners();
+            context
+                .read<PodcastProvider>()
+                .updateHistory(
+                  context,
+                  podcastHistoryModel: currentPodcast.podcastHistoryModel!,
+                )
+                .then((value) {
+              if (value == true) {
+                context.read<PodcastProvider>().podcast[indexOfCurrentPodcast] =
+                    context
+                        .read<PodcastProvider>()
+                        .podcast[indexOfCurrentPodcast]
+                        .copyWith(
+                          podcastHistoryModel: context
+                              .read<PodcastProvider>()
+                              .podcast[indexOfCurrentPodcast]
+                              .podcastHistoryModel
+                              ?.copyWith(id: -1),
+                        );
+                context.read<PodcastProvider>().notifyListeners();
+              }
+
+              isUpdatingHistory = false;
+            });
+          }
+        }
+      });
+    });
   }
 
   @override

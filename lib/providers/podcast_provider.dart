@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../models/podcast_history_model.dart';
 import '../models/podcast_model.dart';
 import '../repositories/common.dart';
 import '../repositories/supabase_data_repository.dart';
@@ -48,6 +49,32 @@ class PodcastProvider extends ChangeNotifier {
     _isLoading = false;
     notifyListeners();
     return podcast;
+  }
+
+  Future<bool> updateHistory(
+    BuildContext context, {
+    required PodcastHistoryModel podcastHistoryModel,
+  }) async {
+    var _isSuccess = false;
+    await supabaseCallAPI(context, function: () async {
+      if (podcastHistoryModel.id == null) {
+        await _supabaseDataRepository?.createRow(
+          data: podcastHistoryModel,
+          table: 'podcast_history',
+        );
+      } else {
+        await _supabaseDataRepository?.updateRow(
+          table: 'podcast_history',
+          keyName: 'podcast_id',
+          keyValue: podcastHistoryModel.podcastId,
+          keyName2: 'user_email',
+          keyValue2: podcastHistoryModel.userEmail,
+          values: podcastHistoryModel.toMap(),
+        );
+      }
+      _isSuccess = true;
+    });
+    return _isSuccess;
   }
 
   Future<List<PodcastModel>> search(
