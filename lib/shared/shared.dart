@@ -6,3 +6,4 @@ export 'custom_gradient_container.dart';
 export 'popups/m3_popup.dart';
 export 'music_widget.dart';
 export 'channel_widget.dart';
+export 'logo_widget.dart';

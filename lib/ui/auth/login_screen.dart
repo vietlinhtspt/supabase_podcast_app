@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth_provider.dart';
+import '../../providers/user_info_provider.dart';
 import '../../router/customed_router_delegate.dart';
 import '../../shared/shared.dart';
 import 'components/authentication_platform_widget.dart';
@@ -84,7 +85,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: SvgPicture.asset(
-                        'assets/icons/home/hello_custom.svg',
+                        context.read<UserInfoProvider>().userInfo?.language ==
+                                'vi'
+                            ? 'assets/icons/home/ic_hello_custom_vi.svg'
+                            : 'assets/icons/home/ic_hello_custom_en.svg',
                         color: Theme.of(context).colorScheme.primary,
                       ),
                     ),

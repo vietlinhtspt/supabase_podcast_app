@@ -94,22 +94,7 @@ class _SearchingScreenState extends State<SearchingScreen> {
                 child: Column(
                   children: [
                     const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/logos/melior_logo.png',
-                          height: 30,
-                        ),
-                        const SizedBox(width: 6),
-                        Text(
-                          'Meilor',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
-                        )
-                      ],
-                    ),
+                    const LogoWidget(),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: M3TextField(
