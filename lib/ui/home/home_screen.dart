@@ -79,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 15,
                 ),
                 TitleWidget(
-                  title: 'home_screen.continuing_podcast'.tr(),
+                  title: 'home_screen.continous_podcast'.tr(),
                 ),
                 const ResumingItemWidget(),
                 const SizedBox(
