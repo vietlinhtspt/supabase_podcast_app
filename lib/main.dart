@@ -39,6 +39,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZjZHR6enh
     EasyLocalization(
       supportedLocales: [const Locale('en')],
       path: 'assets/translations',
+      startLocale: const Locale('en'),
       fallbackLocale: const Locale('en'),
       child: MyApp(key: MyApp.GLOBAL_KEY, audioHandler: _audioHandler),
       useOnlyLangCode: true,
