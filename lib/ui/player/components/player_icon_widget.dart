@@ -18,10 +18,14 @@ class PlayerIconWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      child: SvgPicture.asset(
-        iconPath,
+      child: SizedBox(
         height: height,
-        color: color ?? Theme.of(context).colorScheme.primary,
+        width: height,
+        child: SvgPicture.asset(
+          iconPath,
+          fit: BoxFit.contain,
+          color: color ?? Theme.of(context).colorScheme.primary,
+        ),
       ),
       onPressed: onPressed,
     );
