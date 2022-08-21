@@ -50,6 +50,7 @@ dependencies:
   just_audio: ^0.9.28
   rxdart: ^0.27.5
   lottie: ^1.4.1
+  google_fonts: ^3.0.1
 
 dev_dependencies:
   flutter_test:
@@ -82,6 +83,7 @@ flutter:
   - assets/icons/home/
   - assets/icons/friends/
   - assets/icons/accounts/
+  - assets/icons/player/
   - assets/logos/
   - assets/translations/
   - assets/animations/

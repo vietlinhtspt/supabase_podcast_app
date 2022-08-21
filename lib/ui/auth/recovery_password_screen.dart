@@ -75,9 +75,13 @@ class _RecoveryPasswordScreenState extends State<RecoveryPasswordScreen> {
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontSize: 45,
+                          height: 0.9,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
+                    ),
+                    const SizedBox(
+                      height: 20,
                     ),
                     Align(
                       alignment: Alignment.centerLeft,
@@ -105,8 +109,8 @@ class _RecoveryPasswordScreenState extends State<RecoveryPasswordScreen> {
                           if (!validateEmail(_emailController.text.trim())) {
                             await showM3Popup(
                               context,
-                              title: 'popup.warning',
-                              descriptions: 'popup.not_valid_email',
+                              title: 'popup.warning'.tr(),
+                              descriptions: 'popup.not_valid_email'.tr(),
                             );
                           } else {
                             await context
@@ -128,15 +132,17 @@ class _RecoveryPasswordScreenState extends State<RecoveryPasswordScreen> {
                                 );
                           }
                         },
-                        title: 'recovery_password.recovery',
+                        title: 'recovery_password.recovery'.tr(),
                       ),
                     ),
                     const Spacer(),
                     RichText(
                       text: TextSpan(
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
+                          fontFamily:
+                              Theme.of(context).textTheme.bodyLarge?.fontFamily,
                         ),
                         children: [
                           TextSpan(

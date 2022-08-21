@@ -240,9 +240,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     RichText(
                       text: TextSpan(
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
+                          fontFamily:
+                              Theme.of(context).textTheme.bodyLarge?.fontFamily,
                         ),
                         children: [
                           TextSpan(

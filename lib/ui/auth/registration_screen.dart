@@ -180,9 +180,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     const Spacer(),
                     RichText(
                       text: TextSpan(
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
+                          fontFamily:
+                              Theme.of(context).textTheme.bodyLarge?.fontFamily,
                         ),
                         children: [
                           TextSpan(

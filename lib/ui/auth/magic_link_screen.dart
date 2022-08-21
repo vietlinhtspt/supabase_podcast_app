@@ -73,9 +73,13 @@ class _MagicLinkScreenState extends State<MagicLinkScreen> {
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontSize: 45,
+                          height: 0.9,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
+                    ),
+                    const SizedBox(
+                      height: 20,
                     ),
                     Align(
                       alignment: Alignment.centerLeft,
@@ -132,15 +136,17 @@ class _MagicLinkScreenState extends State<MagicLinkScreen> {
                     const Spacer(),
                     RichText(
                       text: TextSpan(
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
+                          fontFamily:
+                              Theme.of(context).textTheme.bodyLarge?.fontFamily,
                         ),
                         children: [
                           TextSpan(
                             text:
                                 // ignore: lines_longer_than_80_chars
-                                '${'magic_link.do_you_already_have_an_account'.tr()}? ',
+                                '${'magic_link.do_you_already_have_an_account'.tr()} ',
                             style: TextStyle(
                               color: Theme.of(context)
                                   .colorScheme
@@ -155,11 +161,7 @@ class _MagicLinkScreenState extends State<MagicLinkScreen> {
                               fontWeight: FontWeight.w600,
                             ),
                             recognizer: TapGestureRecognizer()
-                              ..onTap =
-                                  () => Provider.of<CustomedRouterDelegate>(
-                                        context,
-                                        listen: false,
-                                      ).backToLoginScreen(),
+                              ..onTap = () => Navigator.pop(context),
                           ),
                         ],
                       ),

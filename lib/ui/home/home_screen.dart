@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       // ignore: lines_longer_than_80_chars
                       '${'home_screen.hello'.tr()} ${context.watch<UserInfoProvider>().userInfo?.name ?? ''}',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 18,
                         fontWeight: FontWeight.w700,
                         color: Theme.of(context).colorScheme.primary,
                       ),

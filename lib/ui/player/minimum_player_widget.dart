@@ -1,10 +1,13 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../providers/audio_provider.dart';
+import '../../shared/shared.dart';
+import 'components/player_icon_widget.dart';
 import 'components/seek_bar.dart';
 import 'maximum_player_widget.dart';
 
@@ -48,7 +51,7 @@ class MinimumPlayerWidget extends StatelessWidget {
                               mediaItem?.title ?? '',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.white,
@@ -69,32 +72,46 @@ class MinimumPlayerWidget extends StatelessWidget {
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              if (playing)
-                                _button(
-                                    Icons.pause,
-                                    context
-                                        .watch<AudioProvider>()
-                                        .audioHandler
-                                        .pause)
-                              else
-                                _button(
-                                    Icons.play_arrow,
-                                    context
-                                        .watch<AudioProvider>()
-                                        .audioHandler
-                                        .play),
-                              // _button(
-                              //     Icons.stop,
-                              //     context
-                              //         .watch<AudioProvider>()
-                              //         .audioHandler
-                              //         .stop),
-                              _button(
-                                  Icons.fast_forward,
-                                  context
+                              if (!Responsive.isMobile(context))
+                                PlayerIconWidget(
+                                  iconPath:
+                                      'assets/icons/player/ic_previous.svg',
+                                  onPressed: context
                                       .watch<AudioProvider>()
                                       .audioHandler
-                                      .fastForward),
+                                      .rewind,
+                                  color: Colors.white,
+                                  height: 20,
+                                ),
+                              if (playing)
+                                PlayerIconWidget(
+                                  iconPath: 'assets/icons/player/ic_pause.svg',
+                                  onPressed: context
+                                      .watch<AudioProvider>()
+                                      .audioHandler
+                                      .pause,
+                                  color: Colors.white,
+                                  height: 20,
+                                )
+                              else
+                                PlayerIconWidget(
+                                  iconPath: 'assets/icons/player/ic_play.svg',
+                                  onPressed: context
+                                      .watch<AudioProvider>()
+                                      .audioHandler
+                                      .play,
+                                  color: Colors.white,
+                                  height: 20,
+                                ),
+                              PlayerIconWidget(
+                                iconPath: 'assets/icons/player/ic_next.svg',
+                                onPressed: context
+                                    .watch<AudioProvider>()
+                                    .audioHandler
+                                    .fastForward,
+                                color: Colors.white,
+                                height: 20,
+                              ),
                             ],
                           );
                         },
@@ -150,7 +167,7 @@ class MinimumPlayerWidget extends StatelessWidget {
                     },
                     isShowTime: false,
                     isRemovePadding: true,
-                    hideOverlay: true,
+                    hideOverlay: Responsive.isMobile(context),
                   );
                 },
               ),
@@ -168,11 +185,4 @@ class MinimumPlayerWidget extends StatelessWidget {
           context.watch<AudioProvider>().audioHandler.mediaItem,
           AudioService.position,
           (mediaItem, position) => MediaState(mediaItem, position));
-
-  IconButton _button(IconData iconData, VoidCallback onPressed) => IconButton(
-        icon: Icon(iconData),
-        iconSize: 34.0,
-        onPressed: onPressed,
-        color: Colors.white,
-      );
 }

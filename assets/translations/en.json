@@ -40,7 +40,7 @@
         "recovery_password": "Recovery password",
         "solo_gan": "Re-enter your Email. We will send an Email with a new password and you can use this new password to log in right away",
         "recovery": "Recovery",
-        "do_you_already_have_an_account": "Do you already have an account?",
+        "do_you_already_have_an_account": "Do you already have an account",
         "log_in_now": "Log in now",
         "check_your_email": "Check your email",
         "check_your_email_detail": "We have sent a confirmation email. Please open the link sent with the email to activate your account. If you don't see it please check the spam list or try another email.",

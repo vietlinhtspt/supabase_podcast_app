@@ -19,9 +19,8 @@ class M3TextFieldIconWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: SvgPicture.asset(
           iconPath,
-          width: 24,
-          height: 24,
-          color: Theme.of(context).colorScheme.outline,
+          height: 20,
+          color: Theme.of(context).colorScheme.primary,
         ),
       ),
     );

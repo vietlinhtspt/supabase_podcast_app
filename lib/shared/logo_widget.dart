@@ -23,8 +23,8 @@ class LogoWidget extends StatelessWidget {
           Text(
             'Meilor',
             style: TextStyle(
-              fontSize: (height / 30),
-              color: Theme.of(context).colorScheme.onSurface,
+              fontSize: (height / 30) * 18,
+              color: Theme.of(context).colorScheme.primary,
             ),
           )
         ],

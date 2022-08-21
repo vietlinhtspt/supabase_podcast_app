@@ -6,6 +6,7 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../providers/audio_provider.dart';
 import 'components/components.dart';
+import 'components/player_icon_widget.dart';
 
 class MaximumPlayerWidget extends StatefulWidget {
   const MaximumPlayerWidget({Key? key}) : super(key: key);
@@ -184,38 +185,43 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
                               return Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  _button(
-                                      Icons.fast_rewind,
-                                      context
-                                          .watch<AudioProvider>()
-                                          .audioHandler
-                                          .rewind),
+                                  PlayerIconWidget(
+                                    iconPath:
+                                        'assets/icons/player/ic_previous.svg',
+                                    onPressed: context
+                                        .watch<AudioProvider>()
+                                        .audioHandler
+                                        .rewind,
+                                    height: 34,
+                                  ),
                                   if (playing)
-                                    _button(
-                                        Icons.pause,
-                                        context
-                                            .watch<AudioProvider>()
-                                            .audioHandler
-                                            .pause)
-                                  else
-                                    _button(
-                                        Icons.play_arrow,
-                                        context
-                                            .watch<AudioProvider>()
-                                            .audioHandler
-                                            .play),
-                                  // _button(
-                                  //     Icons.stop,
-                                  //     context
-                                  //         .watch<AudioProvider>()
-                                  //         .audioHandler
-                                  //         .stop),
-                                  _button(
-                                      Icons.fast_forward,
-                                      context
+                                    PlayerIconWidget(
+                                      iconPath:
+                                          'assets/icons/player/ic_pause.svg',
+                                      onPressed: context
                                           .watch<AudioProvider>()
                                           .audioHandler
-                                          .fastForward),
+                                          .pause,
+                                      height: 34,
+                                    )
+                                  else
+                                    PlayerIconWidget(
+                                      iconPath:
+                                          'assets/icons/player/ic_play.svg',
+                                      onPressed: context
+                                          .watch<AudioProvider>()
+                                          .audioHandler
+                                          .play,
+                                      height: 34,
+                                    ),
+                                  PlayerIconWidget(
+                                    iconPath: 'assets/icons/player/ic_next.svg',
+                                    onPressed: context
+                                        .watch<AudioProvider>()
+                                        .audioHandler
+                                        .fastForward,
+                                    height: 34,
+                                  ),
                                 ],
                               );
                             },
