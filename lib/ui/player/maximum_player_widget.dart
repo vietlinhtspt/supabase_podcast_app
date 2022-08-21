@@ -110,6 +110,7 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
                                       .currentPodcastModel
                                       ?.imgPath ??
                                   'https://vcdtzzxxfqnbehzlyfne.supabase.co/storage/v1/object/sign/logos/melior_logo.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJsb2dvcy9tZWxpb3JfbG9nby5wbmciLCJpYXQiOjE2NjA5ODA0NzUsImV4cCI6MTk3NjM0MDQ3NX0.134_hv90KOVS4dWCLCqquvP5afwRGQ63FQx7yyWWwB0',
+                              fit: BoxFit.cover,
                             ),
                           ),
                           const SizedBox(height: 30),

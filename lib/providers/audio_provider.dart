@@ -25,7 +25,11 @@ class AudioProvider extends ChangeNotifier {
     if (_currentPodcastModel != null) {
       _audioHandler.playMediaItem(_currentPodcastModel!.toMediaItem);
     }
+
     isMaximumSize = true;
     notifyListeners();
   }
+
+  // Future
+
 }

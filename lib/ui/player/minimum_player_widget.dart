@@ -1,7 +1,6 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -222,6 +221,7 @@ class MinimumPlayerWidget extends StatelessWidget {
                                 .currentPodcastModel
                                 ?.imgPath ??
                             'https://vcdtzzxxfqnbehzlyfne.supabase.co/storage/v1/object/sign/logos/melior_logo.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJsb2dvcy9tZWxpb3JfbG9nby5wbmciLCJpYXQiOjE2NjA5ODA0NzUsImV4cCI6MTk3NjM0MDQ3NX0.134_hv90KOVS4dWCLCqquvP5afwRGQ63FQx7yyWWwB0',
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
@@ -262,7 +262,8 @@ class MinimumPlayerWidget extends StatelessWidget {
   /// current position.
   Stream<MediaState> _mediaStateStream(BuildContext context) =>
       Rx.combineLatest2<MediaItem?, Duration, MediaState>(
-          context.watch<AudioProvider>().audioHandler.mediaItem,
-          AudioService.position,
-          (mediaItem, position) => MediaState(mediaItem, position));
+        context.watch<AudioProvider>().audioHandler.mediaItem,
+        AudioService.position,
+        (mediaItem, position) => MediaState(mediaItem, position),
+      );
 }

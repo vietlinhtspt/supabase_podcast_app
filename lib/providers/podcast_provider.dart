@@ -43,18 +43,23 @@ class PodcastProvider extends ChangeNotifier {
     required String column,
     required List<String> searchingText,
   }) async {
-    final _filterdPodcast = <PodcastModel>[];
-
-    await supabaseCallAPI(context, function: () async {
-      final response = await _supabaseDataRepository?.searchRow(
-        table: _table,
-        column: column,
-        value: searchingText,
-      );
-      if (response != null && response.isNotEmpty) {
-        _filterdPodcast.addAll(response.map((e) => PodcastModel.fromMap(e)));
-      }
-    });
-    return _filterdPodcast;
+    // final _filterdPodcast = <PodcastModel>[];
+    // await supabaseCallAPI(context, function: () async {
+    //   final response = await _supabaseDataRepository?.searchRow(
+    //     table: _table,
+    //     column: column,
+    //     value: searchingText,
+    //   );
+    //   if (response != null && response.isNotEmpty) {
+    //     _filterdPodcast.addAll(response.map((e) => PodcastModel.fromMap(e)));
+    //   }
+    // });
+    return _podcasts
+        .where((element) =>
+            element.title
+                ?.toLowerCase()
+                .contains(searchingText.first.toLowerCase()) ??
+            false)
+        .toList();
   }
 }
