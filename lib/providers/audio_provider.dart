@@ -24,12 +24,14 @@ class AudioProvider extends ChangeNotifier {
     _currentPodcastModel = newPodcastModel;
     if (_currentPodcastModel != null) {
       _audioHandler.playMediaItem(_currentPodcastModel!.toMediaItem);
+      if (newPodcastModel.podcastHistoryModel != null) {
+        _audioHandler.seek(Duration(
+          seconds: newPodcastModel.podcastHistoryModel!.listened!,
+        ));
+      }
     }
 
     isMaximumSize = true;
     notifyListeners();
   }
-
-  // Future
-
 }

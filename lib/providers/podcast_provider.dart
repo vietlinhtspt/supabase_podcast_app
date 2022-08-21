@@ -22,11 +22,23 @@ class PodcastProvider extends ChangeNotifier {
     }
   }
 
-  Future<List<PodcastModel>> fetch(BuildContext context) async {
+  Future<List<PodcastModel>> fetch(
+    BuildContext context, {
+    required String email,
+  }) async {
     _isLoading = true;
     notifyListeners();
     await supabaseCallAPI(context, function: () async {
-      final response = await _supabaseDataRepository?.readRow(table: _table);
+      final response = await _supabaseDataRepository?.readRow(
+        table: _table,
+        selectOption: '''
+*, podcast_history (
+  listened, podcast_id, user_email, created_at, id
+  )''',
+        column: 'podcast_history.user_email',
+        value: email,
+      );
+
       if (response != null && response.isNotEmpty) {
         _podcasts.clear();
         _podcasts.addAll(response.map((e) => PodcastModel.fromMap(e)));

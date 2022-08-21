@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../models/user_info.dart';
 import '../../providers/providers.dart';
@@ -22,7 +23,8 @@ class _SplashScreenState extends State<SplashScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Future.wait([
         context.read<UserInfoProvider>().getUserInfo(context),
-        context.read<PodcastProvider>().fetch(context),
+        context.read<PodcastProvider>().fetch(context,
+            email: Supabase.instance.client.auth.currentUser!.email!),
       ]).then(
         (value) {
           if ((value[0] as UserInfo?)?.email != null) {

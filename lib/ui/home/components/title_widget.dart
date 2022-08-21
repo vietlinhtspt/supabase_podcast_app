@@ -35,21 +35,21 @@ class TitleWidget extends StatelessWidget {
                     color: Theme.of(context).primaryColor),
               ),
               const Spacer(),
-              Text(
-                'home_screen.explain'.tr(),
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: SvgPicture.asset(
-                  'assets/icons/home/ic_explain.svg',
-                  height: 16,
-                ),
-              )
+              // Text(
+              //   'home_screen.explain'.tr(),
+              //   style: TextStyle(
+              //     fontSize: 14,
+              //     fontWeight: FontWeight.w400,
+              //     color: Theme.of(context).colorScheme.onPrimaryContainer,
+              //   ),
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 8),
+              //   child: SvgPicture.asset(
+              //     'assets/icons/home/ic_explain.svg',
+              //     height: 16,
+              //   ),
+              // )
             ],
           ),
         )

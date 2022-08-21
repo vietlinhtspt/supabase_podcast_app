@@ -11,7 +11,7 @@
     "popup": {
         "warning": "Warning",
         "success": "Success",
-        "error": "Error Lỗi",
+        "error": "Error",
         "not_valid_email": "The email you entered is not valid",
         "password_min_6": "Minimum password length is 6 characters",
         "2_password_not_valid": "Password and confirmation password do not match",

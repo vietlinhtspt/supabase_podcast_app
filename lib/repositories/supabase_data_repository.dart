@@ -31,17 +31,20 @@ class SupabaseDataRepository {
   Future<List> readRow({
     required String table,
     String? column,
+    String? selectOption,
     String? value,
   }) async {
     if (column != null) {
       final rows = await Supabase.instance.client
           .from(table)
-          .select()
+          .select(selectOption ?? '*')
           .filter(column, 'eq', value);
 
       return rows as List;
     } else {
-      return await Supabase.instance.client.from(table).select() as List;
+      return await Supabase.instance.client
+          .from(table)
+          .select(selectOption ?? '*') as List;
     }
   }
 

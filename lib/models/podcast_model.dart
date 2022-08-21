@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:audio_service/audio_service.dart';
 
 import 'base_model.dart';
+import 'podcast_history_model.dart';
 
 class PodcastModel extends BaseModel {
   @override
@@ -12,6 +13,7 @@ class PodcastModel extends BaseModel {
   final String? subtitle;
   final String? imgPath;
   final String? author;
+  final PodcastHistoryModel? podcastHistoryModel;
 
   PodcastModel({
     this.id,
@@ -21,6 +23,7 @@ class PodcastModel extends BaseModel {
     this.subtitle,
     this.imgPath,
     this.author,
+    this.podcastHistoryModel,
   });
 
   PodcastModel copyWith({
@@ -32,6 +35,7 @@ class PodcastModel extends BaseModel {
     bool? isDarkMode,
     String? imgPath,
     String? author,
+    PodcastHistoryModel? podcastHistoryModel,
   }) {
     return PodcastModel(
       id: id ?? this.id,
@@ -41,6 +45,7 @@ class PodcastModel extends BaseModel {
       subtitle: subtitle ?? this.subtitle,
       imgPath: imgPath ?? this.imgPath,
       author: author ?? this.author,
+      podcastHistoryModel: podcastHistoryModel ?? this.podcastHistoryModel,
     );
   }
 
@@ -68,14 +73,18 @@ class PodcastModel extends BaseModel {
 
   factory PodcastModel.fromMap(Map<String, dynamic> map) {
     return PodcastModel(
-      id: map['id']?.toInt(),
-      createdAt: map['created_at'],
-      url: map['url'],
-      title: map['title'],
-      subtitle: map['avatar_path'],
-      imgPath: map['img_path'],
-      author: map['author'],
-    );
+        id: map['id']?.toInt(),
+        createdAt: map['created_at'],
+        url: map['url'],
+        title: map['title'],
+        subtitle: map['avatar_path'],
+        imgPath: map['img_path'],
+        author: map['author'],
+        podcastHistoryModel: map['podcast_history'] != null &&
+                (map['podcast_history'] as List).isNotEmpty
+            ? PodcastHistoryModel.fromMap(
+                (map['podcast_history'] as List).first)
+            : null);
   }
 
   String toJson() => json.encode(toMap());
