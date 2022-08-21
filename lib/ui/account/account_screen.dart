@@ -70,14 +70,14 @@ class _AccountScreenState extends State<AccountScreen> {
                     builder: (context) => const SettingNewPasswordScreen()),
               ),
             ),
-            SettingItemWidget(
-              title: 'setting_screen.settting_language'.tr(),
-              iconPath: 'assets/icons/accounts/ic_language.svg',
-              onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SelectingLanguageScreen())),
-            ),
+            // SettingItemWidget(
+            //   title: 'setting_screen.settting_language'.tr(),
+            //   iconPath: 'assets/icons/accounts/ic_language.svg',
+            //   onTap: () => Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //           builder: (context) => const SelectingLanguageScreen())),
+            // ),
             SettingItemWidget(
               title: 'setting_screen.settting_log_out'.tr(),
               iconPath: 'assets/icons/accounts/ic_logout.svg',
