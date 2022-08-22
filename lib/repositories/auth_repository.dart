@@ -23,7 +23,7 @@ class AuthRepository {
       password: password?.trim(),
       options: const AuthOptions(
         redirectTo: kIsWeb
-            ? 'https://vietlinhtspt.github.io/supabasepodcastapp'
+            ? 'http://152.69.226.149:8000/'
             : 'io.supabase.flutterquickstart://login-callback',
       ),
     );
@@ -35,7 +35,7 @@ class AuthRepository {
       Provider.google,
       options: const AuthOptions(
         redirectTo: kIsWeb
-            ? 'https://vietlinhtspt.github.io/supabasepodcastapp'
+            ? 'http://152.69.226.149:8000/'
             : 'io.supabase.flutterquickstart://login-callback',
       ),
     );
@@ -47,7 +47,7 @@ class AuthRepository {
       Provider.facebook,
       options: const AuthOptions(
         redirectTo: kIsWeb
-            ? 'https://vietlinhtspt.github.io/supabasepodcastapp'
+            ? 'http://152.69.226.149:8000/'
             : 'io.supabase.flutterquickstart://login-callback',
       ),
     );
@@ -64,7 +64,7 @@ class AuthRepository {
       password.trim(),
       options: const AuthOptions(
         redirectTo: kIsWeb
-            ? 'https://vietlinhtspt.github.io/supabasepodcastapp'
+            ? 'http://152.69.226.149:8000/'
             : 'io.supabase.flutterquickstart://login-callback',
       ),
     );
@@ -77,7 +77,7 @@ class AuthRepository {
       email.trim(),
       options: const AuthOptions(
         redirectTo: kIsWeb
-            ? 'https://vietlinhtspt.github.io/supabasepodcastapp'
+            ? 'http://152.69.226.149:8000/'
             : 'io.supabase.flutterquickstart://login-callback',
       ),
     );
