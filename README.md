@@ -18,7 +18,7 @@ Cross-Platforms Podcasting App and More (But Not Now). All data is auto-synced b
 - Sync and save history listening cross-platform.
 - Personalize name, display mode.
 - Podcast player.
-- Optimized display for screen sizes.
+- Responsive UI (Desktop, Tablet and Mobile).
 
 ## :construction: Future functionality:
 - Suggestions based on user habits.
