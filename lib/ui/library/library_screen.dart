@@ -79,7 +79,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                   if (Responsive.isMobile(context))
                     Image.asset('assets/icons/library/ic_customed_line.png'),
                   Text(
-                    'THƯ VIỆN',
+                    'LIBRARY',
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w600,
@@ -112,7 +112,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                               ),
                             ),
                             Text(
-                              'Lịch sử',
+                              'History',
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
