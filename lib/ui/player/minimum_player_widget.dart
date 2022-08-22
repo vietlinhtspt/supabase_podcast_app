@@ -99,10 +99,9 @@ class MinimumPlayerWidget extends StatelessWidget {
                                       PlayerIconWidget(
                                         iconPath:
                                             'assets/icons/player/ic_previous.svg',
-                                        onPressed: context
-                                            .watch<AudioProvider>()
-                                            .audioHandler
-                                            .rewind,
+                                        onPressed: () => context
+                                            .read<AudioProvider>()
+                                            .playPrevious(context),
                                         color: Colors.white,
                                         height: 20,
                                       ),
@@ -131,10 +130,9 @@ class MinimumPlayerWidget extends StatelessWidget {
                                     PlayerIconWidget(
                                       iconPath:
                                           'assets/icons/player/ic_next.svg',
-                                      onPressed: context
-                                          .watch<AudioProvider>()
-                                          .audioHandler
-                                          .fastForward,
+                                      onPressed: () => context
+                                          .read<AudioProvider>()
+                                          .playNext(context),
                                       color: Colors.white,
                                       height: 20,
                                     ),
@@ -180,10 +178,9 @@ class MinimumPlayerWidget extends StatelessWidget {
                                   ),
                                 PlayerIconWidget(
                                   iconPath: 'assets/icons/player/ic_next.svg',
-                                  onPressed: context
-                                      .watch<AudioProvider>()
-                                      .audioHandler
-                                      .fastForward,
+                                  onPressed: () => context
+                                      .read<AudioProvider>()
+                                      .playNext(context),
                                   color: Colors.white,
                                   height: 20,
                                 ),

@@ -1,7 +1,9 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../models/podcast_model.dart';
+import 'providers.dart';
 
 class AudioProvider extends ChangeNotifier {
   late AudioHandler _audioHandler;
@@ -38,5 +40,36 @@ class AudioProvider extends ChangeNotifier {
 
     isMaximumSize = true;
     notifyListeners();
+  }
+
+  void playNext(BuildContext context) {
+    final currentPodcastIndex = context
+        .read<PodcastProvider>()
+        .podcast
+        .indexWhere((element) => element.id == currentPodcastModel?.id);
+
+    if (currentPodcastIndex != -1) {
+      if (currentPodcastIndex ==
+          context.read<PodcastProvider>().podcast.length - 1) {
+        play(context.read<PodcastProvider>().podcast.first);
+      } else {
+        play(context.read<PodcastProvider>().podcast[currentPodcastIndex + 1]);
+      }
+    }
+  }
+
+  void playPrevious(BuildContext context) {
+    final currentPodcastIndex = context
+        .read<PodcastProvider>()
+        .podcast
+        .indexWhere((element) => element.id == currentPodcastModel?.id);
+
+    if (currentPodcastIndex != -1) {
+      if (currentPodcastIndex == 0) {
+        play(context.read<PodcastProvider>().podcast.last);
+      } else {
+        play(context.read<PodcastProvider>().podcast[currentPodcastIndex - 1]);
+      }
+    }
   }
 }

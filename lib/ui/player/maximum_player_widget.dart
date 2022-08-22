@@ -192,10 +192,9 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
                                   PlayerIconWidget(
                                     iconPath:
                                         'assets/icons/player/ic_previous.svg',
-                                    onPressed: context
-                                        .watch<AudioProvider>()
-                                        .audioHandler
-                                        .rewind,
+                                    onPressed: () => context
+                                        .read<AudioProvider>()
+                                        .playPrevious(context),
                                     height: 45,
                                   ),
                                   if (playing)
@@ -220,10 +219,9 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
                                     ),
                                   PlayerIconWidget(
                                     iconPath: 'assets/icons/player/ic_next.svg',
-                                    onPressed: context
-                                        .watch<AudioProvider>()
-                                        .audioHandler
-                                        .fastForward,
+                                    onPressed: () => context
+                                        .read<AudioProvider>()
+                                        .playNext(context),
                                     height: 45,
                                   ),
                                 ],
