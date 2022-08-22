@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.supabase_podcast_app">
    <application
-        android:label="supabase_podcast_app"
+        android:label="Melior Podcast"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
