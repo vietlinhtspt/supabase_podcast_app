@@ -102,7 +102,7 @@ class _SeekBarState extends State<SeekBar> {
         ),
         if (widget.isShowTime)
           Positioned(
-            left: 16.0,
+            left: 23.0,
             bottom: 0.0,
             child: Text(
                 RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$')
@@ -113,7 +113,7 @@ class _SeekBarState extends State<SeekBar> {
           ),
         if (widget.isShowTime)
           Positioned(
-            right: 16.0,
+            right: 23.0,
             bottom: 0.0,
             child: Text(
                 RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$')

@@ -36,65 +36,70 @@ class _NavigationScreenState extends State<NavigationScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       AudioService.position.asBroadcastStream().listen((event) {
-        final indexOfCurrentPodcast = context
-            .read<PodcastProvider>()
-            .podcast
-            .indexWhere((element) =>
-                element.id ==
-                context.read<AudioProvider>().currentPodcastModel?.id);
+        if (mounted) {
+          final indexOfCurrentPodcast = context
+              .read<PodcastProvider>()
+              .podcast
+              .indexWhere((element) =>
+                  element.id ==
+                  context.read<AudioProvider>().currentPodcastModel?.id);
 
-        if (indexOfCurrentPodcast != -1) {
-          final currentPodcast =
-              context.read<PodcastProvider>().podcast[indexOfCurrentPodcast];
-          context.read<PodcastProvider>().updateHistoryLocal(context,
-              historyDetail: currentPodcast.historyDetail?.copyWith(
-                createdAt: DateTime.now().toString() + '+00:00',
-                listened: event.inSeconds,
-              ));
-        }
+          if (indexOfCurrentPodcast != -1) {
+            final currentPodcast =
+                context.read<PodcastProvider>().podcast[indexOfCurrentPodcast];
+            context.read<PodcastProvider>().updateHistoryLocal(context,
+                historyDetail: currentPodcast.historyDetail?.copyWith(
+                  createdAt: DateTime.now().toString() + '+00:00',
+                  listened: event.inSeconds,
+                ));
+          }
 
-        if (indexOfCurrentPodcast != -1 &&
-            event.inSeconds > UPDATE_HISTORY_PERIOD) {
-          final currentPodcast =
-              context.read<PodcastProvider>().podcast[indexOfCurrentPodcast];
-          final isNeedUpdate =
-              (event.inSeconds - (currentPodcast.historyDetail?.listened ?? 0))
-                      .abs() >
-                  UPDATE_HISTORY_PERIOD;
-          if (isNeedUpdate && !isUpdatingHistory) {
-            isUpdatingHistory = true;
-            context.read<PodcastProvider>().podcast[indexOfCurrentPodcast] =
-                currentPodcast.copyWith(
-              historyDetail: currentPodcast.historyDetail?.copyWith(
-                createdAt: DateTime.now().toString() + '+00:00',
-                listened: event.inSeconds,
-              ),
-            );
-            context.read<PodcastProvider>().notifyListeners();
-            context
-                .read<PodcastProvider>()
-                .updateHistory(
-                  context,
-                  historyDetail: currentPodcast.historyDetail!,
-                )
-                .then((value) {
-              if (value == true) {
-                context.read<PodcastProvider>().podcast[indexOfCurrentPodcast] =
-                    context
-                        .read<PodcastProvider>()
-                        .podcast[indexOfCurrentPodcast]
-                        .copyWith(
-                          historyDetail: context
-                              .read<PodcastProvider>()
-                              .podcast[indexOfCurrentPodcast]
-                              .historyDetail
-                              ?.copyWith(id: -1),
-                        );
-                context.read<PodcastProvider>().notifyListeners();
-              }
+          if (indexOfCurrentPodcast != -1 &&
+              event.inSeconds > UPDATE_HISTORY_PERIOD) {
+            final currentPodcast =
+                context.read<PodcastProvider>().podcast[indexOfCurrentPodcast];
+            final isNeedUpdate = (event.inSeconds -
+                        (currentPodcast.historyDetail?.listened ?? 0))
+                    .abs() >
+                UPDATE_HISTORY_PERIOD;
+            if (isNeedUpdate && !isUpdatingHistory) {
+              isUpdatingHistory = true;
+              context.read<PodcastProvider>().podcast[indexOfCurrentPodcast] =
+                  currentPodcast.copyWith(
+                historyDetail: currentPodcast.historyDetail?.copyWith(
+                  createdAt: DateTime.now().toString() + '+00:00',
+                  listened: event.inSeconds,
+                ),
+              );
+              context.read<PodcastProvider>().notifyListeners();
+              context
+                  .read<PodcastProvider>()
+                  .updateHistory(
+                    context,
+                    historyDetail: currentPodcast.historyDetail!,
+                  )
+                  .then((value) {
+                if (value == true) {
+                  context
+                          .read<PodcastProvider>()
+                          .podcast[indexOfCurrentPodcast] =
+                      context
+                          .read<PodcastProvider>()
+                          .podcast[indexOfCurrentPodcast]
+                          .copyWith(
+                            historyDetail: context
+                                .read<PodcastProvider>()
+                                .podcast[indexOfCurrentPodcast]
+                                .historyDetail
+                                ?.copyWith(id: -1),
+                          );
+                  if (mounted)
+                    context.read<PodcastProvider>().notifyListeners();
+                }
 
-              isUpdatingHistory = false;
-            });
+                isUpdatingHistory = false;
+              });
+            }
           }
         }
       });

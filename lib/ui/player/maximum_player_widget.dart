@@ -35,7 +35,7 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
     sizeAnimation = Tween(
       begin: 0.0,
       end: 1.0,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.ease));
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.linear));
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       context.read<AudioProvider>().addListener(() {
@@ -94,7 +94,7 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
                                 'assets/icons/home/ic_customed_line.png'),
                           ),
                           SizedBox(
-                            height: screenHeight * 0.07,
+                            height: screenHeight * 0.03,
                           ),
                           ClipRRect(
                             borderRadius: const BorderRadius.only(
@@ -129,8 +129,8 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w600,
                                       color: Theme.of(context)
                                           .colorScheme
                                           .onSurface,
@@ -154,7 +154,7 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
                             },
                           ),
                           SizedBox(
-                            height: screenHeight * 0.07,
+                            height: screenHeight * 0.03,
                           ),
                           StreamBuilder<MediaState>(
                             stream: _mediaStateStream(context),
@@ -173,9 +173,7 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
                               );
                             },
                           ),
-                          SizedBox(
-                            height: screenHeight * 0.03,
-                          ),
+
                           // Play/pause/stop buttons.
                           StreamBuilder<bool>(
                             stream: context
@@ -187,15 +185,22 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
                             builder: (context, snapshot) {
                               final playing = snapshot.data ?? false;
                               return Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
+                                  PlayerIconWidget(
+                                    iconPath:
+                                        'assets/icons/player/ic_shuffle.svg',
+                                    onPressed: () => null,
+                                    height: screenHeight * 0.04,
+                                  ),
                                   PlayerIconWidget(
                                     iconPath:
                                         'assets/icons/player/ic_previous.svg',
                                     onPressed: () => context
                                         .read<AudioProvider>()
                                         .playPrevious(context),
-                                    height: 45,
+                                    height: screenHeight * 0.04,
                                   ),
                                   if (playing)
                                     PlayerIconWidget(
@@ -205,7 +210,8 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
                                           .watch<AudioProvider>()
                                           .audioHandler
                                           .pause,
-                                      height: 45,
+                                      height: screenHeight * 0.04,
+                                      isShowBackground: true,
                                     )
                                   else
                                     PlayerIconWidget(
@@ -215,14 +221,21 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
                                           .watch<AudioProvider>()
                                           .audioHandler
                                           .play,
-                                      height: 45,
+                                      height: screenHeight * 0.04,
+                                      isShowBackground: true,
+                                      isIconPlay: true,
                                     ),
                                   PlayerIconWidget(
                                     iconPath: 'assets/icons/player/ic_next.svg',
                                     onPressed: () => context
                                         .read<AudioProvider>()
                                         .playNext(context),
-                                    height: 45,
+                                    height: screenHeight * 0.04,
+                                  ),
+                                  PlayerIconWidget(
+                                    iconPath: 'assets/icons/player/ic_loop.svg',
+                                    onPressed: () => null,
+                                    height: screenHeight * 0.04,
                                   ),
                                 ],
                               );
@@ -253,7 +266,7 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
   }
 
   void _onVerticalDragUpdate(DragUpdateDetails details) {
-    _topPadding += details.primaryDelta!;
+    _topPadding += details.delta.dy;
     if (_topPadding < 0) {
       _topPadding = 0;
     } else if (_topPadding > MediaQuery.of(context).size.height) {
@@ -281,12 +294,6 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
           context.watch<AudioProvider>().audioHandler.mediaItem,
           AudioService.position,
           (mediaItem, position) => MediaState(mediaItem, position));
-
-  IconButton _button(IconData iconData, VoidCallback onPressed) => IconButton(
-        icon: Icon(iconData),
-        iconSize: 64.0,
-        onPressed: onPressed,
-      );
 }
 
 class MediaState {
