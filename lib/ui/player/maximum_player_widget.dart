@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../providers/audio_provider.dart';
+import '../../shared/shared.dart';
+import '../navigation_screen/components/qr_info_navigation_bar.dart';
 import 'components/components.dart';
 import 'components/player_icon_widget.dart';
 
@@ -20,6 +22,7 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
   late AnimationController _controller;
   late Animation<double> sizeAnimation;
   double _topPadding = 0;
+  final height = 60;
 
   @override
   void initState() {
@@ -57,18 +60,29 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    final minTopPosition = MediaQuery.of(context).size.height -
+        (Responsive.isMobile(context) ? 75 : 110) -
+        QRInfoNavigationBar.HEIGHT +
+        14;
+
     return GestureDetector(
       onVerticalDragUpdate: _onVerticalDragUpdate,
       onVerticalDragEnd: _onVerticalDragEnd,
       child: AnimatedBuilder(
           animation: sizeAnimation,
           builder: (_, __) {
+            final topPosition =
+                screenHeight * _controller.value > minTopPosition
+                    ? minTopPosition
+                    : screenHeight * _controller.value;
             return Stack(
               children: [
                 Positioned(
                   left: 0,
                   right: 0,
-                  top: sizeAnimation.value * screenHeight,
+                  top: topPosition,
                   child: Container(
                     color: Theme.of(context).colorScheme.primaryContainer,
                     height: screenHeight,
@@ -78,39 +92,61 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
                           Container(
                             margin: const EdgeInsets.only(top: 10),
                             width: 80,
-                            height: 8,
+                            height: 8 *
+                                (1 - _controller.value > 0.5
+                                    ? (0.5 - _controller.value) * 2
+                                    : 0),
                             decoration: BoxDecoration(
                               color: Theme.of(context).primaryColor,
                               borderRadius: BorderRadius.circular(100),
                             ),
                           ),
                           SizedBox(
-                            height: screenHeight * 0.03,
+                            height:
+                                screenHeight * 0.03 * (1 - _controller.value),
                           ),
-                          Container(
-                            height: 20,
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Image.asset(
-                                'assets/icons/home/ic_customed_line.png'),
+                          Transform.translate(
+                            offset: Offset(
+                              -screenWidth *
+                                  (_controller.value < 0.5
+                                      ? _controller.value * 2
+                                      : 1),
+                              0,
+                            ),
+                            child: Container(
+                              height: 20,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              child: Image.asset(
+                                  'assets/icons/home/ic_customed_line.png'),
+                            ),
                           ),
                           SizedBox(
-                            height: screenHeight * 0.03,
+                            height:
+                                screenHeight * 0.03 * (1 - _controller.value),
                           ),
-                          ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20),
-                                bottomLeft: Radius.circular(70),
-                                bottomRight: Radius.circular(20)),
-                            child: CachedNetworkImage(
-                              width: screenHeight * 0.35,
-                              height: screenHeight * 0.35,
-                              imageUrl: context
-                                      .watch<AudioProvider>()
-                                      .currentPodcastModel
-                                      ?.imgPath ??
-                                  'https://vcdtzzxxfqnbehzlyfne.supabase.co/storage/v1/object/sign/logos/melior_logo.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJsb2dvcy9tZWxpb3JfbG9nby5wbmciLCJpYXQiOjE2NjA5ODA0NzUsImV4cCI6MTk3NjM0MDQ3NX0.134_hv90KOVS4dWCLCqquvP5afwRGQ63FQx7yyWWwB0',
-                              fit: BoxFit.cover,
+                          Transform.translate(
+                            offset: Offset(0, 0),
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
+                                  bottomLeft: Radius.circular(70),
+                                  bottomRight: Radius.circular(20)),
+                              child: CachedNetworkImage(
+                                width: (screenHeight * 0.35 - 50) *
+                                        (1 - _controller.value) +
+                                    50,
+                                height: (screenHeight * 0.35 - 50) *
+                                        (1 - _controller.value) +
+                                    50,
+                                imageUrl: context
+                                        .watch<AudioProvider>()
+                                        .currentPodcastModel
+                                        ?.imgPath ??
+                                    'https://vcdtzzxxfqnbehzlyfne.supabase.co/storage/v1/object/sign/logos/melior_logo.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJsb2dvcy9tZWxpb3JfbG9nby5wbmciLCJpYXQiOjE2NjA5ODA0NzUsImV4cCI6MTk3NjM0MDQ3NX0.134_hv90KOVS4dWCLCqquvP5afwRGQ63FQx7yyWWwB0',
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 30),

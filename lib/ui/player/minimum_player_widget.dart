@@ -194,35 +194,36 @@ class MinimumPlayerWidget extends StatelessWidget {
                   ),
                 )),
             Positioned(
-                left: 16,
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(11),
-                      topRight: Radius.circular(11),
-                      bottomLeft: Radius.circular(26),
-                      bottomRight: Radius.circular(11)),
-                  child: Container(
-                    color: Theme.of(context).primaryColor,
-                    padding: const EdgeInsets.all(2),
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
-                          bottomLeft: Radius.circular(25),
-                          bottomRight: Radius.circular(10)),
-                      child: CachedNetworkImage(
-                        width: 50,
-                        height: 50,
-                        imageUrl: context
-                                .watch<AudioProvider>()
-                                .currentPodcastModel
-                                ?.imgPath ??
-                            'https://vcdtzzxxfqnbehzlyfne.supabase.co/storage/v1/object/sign/logos/melior_logo.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJsb2dvcy9tZWxpb3JfbG9nby5wbmciLCJpYXQiOjE2NjA5ODA0NzUsImV4cCI6MTk3NjM0MDQ3NX0.134_hv90KOVS4dWCLCqquvP5afwRGQ63FQx7yyWWwB0',
-                        fit: BoxFit.cover,
-                      ),
+              left: 16,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(11),
+                    topRight: Radius.circular(11),
+                    bottomLeft: Radius.circular(26),
+                    bottomRight: Radius.circular(11)),
+                child: Container(
+                  color: Theme.of(context).primaryColor,
+                  padding: const EdgeInsets.all(2),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10),
+                        bottomLeft: Radius.circular(25),
+                        bottomRight: Radius.circular(10)),
+                    child: CachedNetworkImage(
+                      width: 50,
+                      height: 50,
+                      imageUrl: context
+                              .watch<AudioProvider>()
+                              .currentPodcastModel
+                              ?.imgPath ??
+                          'https://vcdtzzxxfqnbehzlyfne.supabase.co/storage/v1/object/sign/logos/melior_logo.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJsb2dvcy9tZWxpb3JfbG9nby5wbmciLCJpYXQiOjE2NjA5ODA0NzUsImV4cCI6MTk3NjM0MDQ3NX0.134_hv90KOVS4dWCLCqquvP5afwRGQ63FQx7yyWWwB0',
+                      fit: BoxFit.cover,
                     ),
                   ),
-                )),
+                ),
+              ),
+            ),
             if (Responsive.isMobile(context))
               Positioned(
                 bottom: 0,

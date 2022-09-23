@@ -3,7 +3,6 @@ import 'package:audio_service/audio_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'base_model.dart';
-import 'podcast_history_model.dart';
 
 class PodcastModel extends BaseModel {
   @override
@@ -80,7 +79,6 @@ class PodcastModel extends BaseModel {
         title: map['title'],
         subtitle: map['avatar_path'],
         imgPath: map['img_path'],
-        author: map['author'],
         historyDetail: map['podcast_history'] != null &&
                 (map['podcast_history'] as List).isNotEmpty
             ? HistoryDetail.fromMap((map['podcast_history'] as List).first)

@@ -20,6 +20,7 @@ class MusicWidget extends StatelessWidget {
       onPressed: () => context.read<AudioProvider>().play(_podcastModel),
       child: SizedBox(
         width: 120,
+        height: 180,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -42,13 +43,15 @@ class MusicWidget extends StatelessWidget {
             const SizedBox(
               height: 5,
             ),
-            Text(
-              _podcastModel.title ?? '',
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 16,
-                color: Theme.of(context).colorScheme.onSurface,
+            Expanded(
+              child: Text(
+                _podcastModel.title ?? '',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
               ),
             )
           ],

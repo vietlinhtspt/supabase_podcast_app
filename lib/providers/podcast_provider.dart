@@ -8,6 +8,10 @@ import '../repositories/supabase_data_repository.dart';
 class PodcastProvider extends ChangeNotifier {
   final _podcastInfoTable = 'podcast_info';
   final _podcastHistoryTable = 'podcast_history';
+  final _generalPlaylistTable = 'general_playlist';
+  final _generalPlaylistInfoTable = 'general_playlist_info';
+  final _authorTable = 'author';
+
   bool _isLoading = false;
   SupabaseDataRepository? _supabaseDataRepository;
 
@@ -36,9 +40,12 @@ class PodcastProvider extends ChangeNotifier {
       final response = await _supabaseDataRepository?.readRow(
         table: _podcastInfoTable,
         selectOption: '''
-*, $_podcastHistoryTable (
-  listened, podcast_id, user_email, created_at, id
-  )''',
+  *, $_podcastHistoryTable (
+    listened, podcast_id, user_email, created_at, id
+  ), $_authorTable (
+    *
+  )
+''',
         column: '$_podcastHistoryTable.user_email',
         value: email,
       );
@@ -63,7 +70,9 @@ class PodcastProvider extends ChangeNotifier {
         table: _podcastHistoryTable,
         selectOption: '''
 *, $_podcastInfoTable (
-  id, created_at, url, title, subtitle, img_path, author
+  id, created_at, url, title, subtitle, img_path, $_authorTable (
+      *
+    )
   )''',
         column: 'user_email',
         value: email,
@@ -171,5 +180,38 @@ class PodcastProvider extends ChangeNotifier {
 
       sortHistory();
     }
+  }
+
+  Future<List<PodcastModel>> getPlaylists(
+    BuildContext context, {
+    String? playlist_id,
+  }) async {
+    //   final _generalPlaylistTable = 'general_playlist';
+    // final _generalPlaylistInfoTable = 'general_playlist_info';
+    await supabaseCallAPI(
+      context,
+      function: () async {
+        final response = await _supabaseDataRepository?.readRow(
+          table: _generalPlaylistInfoTable,
+          selectOption: '''
+*, $_generalPlaylistTable (
+  *, $_podcastInfoTable (
+    *, $_authorTable (
+      *
+    ), $_podcastHistoryTable (
+      *
+    )
+  )
+)
+''',
+        );
+
+        if (response != null && response.isNotEmpty) {
+          print('${response}');
+        }
+      },
+    );
+
+    return podcast;
   }
 }

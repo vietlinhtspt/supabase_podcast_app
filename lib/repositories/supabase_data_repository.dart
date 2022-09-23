@@ -10,24 +10,6 @@ class SupabaseDataRepository {
     return await Supabase.instance.client.from(table).insert(data.toMap());
   }
 
-  Future<RealtimeSubscription> subcribe({
-    required String table,
-    String keyName = 'id',
-    required String keyValue,
-    required Function(SupabaseRealtimePayload) callback,
-  }) async {
-    return Supabase.instance.client
-        .from('$table:$keyName=eq.$keyValue')
-        .on(SupabaseEventTypes.update, callback)
-        .subscribe();
-  }
-
-  Future unsubcribe({
-    required RealtimeSubscription subscription,
-  }) async {
-    return subscription.unsubscribe();
-  }
-
   Future<List> readRow({
     required String table,
     String? column,
@@ -35,18 +17,29 @@ class SupabaseDataRepository {
     String? value,
     String? orderID,
     bool ascending = false,
+    CountOption countOption = CountOption.estimated,
+    int offset = 0,
+    int limit = 20,
+    String? foreginLimitedTable,
   }) async {
-    var query =
-        Supabase.instance.client.from(table).select(selectOption ?? '*');
+    var query = Supabase.instance.client.from(table).select(
+          selectOption ?? '*',
+        );
 
     if (column != null) {
       query = query.filter(column, 'eq', value);
     }
 
+    final limitedQuery = query.range(
+      offset,
+      offset + limit,
+      foreignTable: foreginLimitedTable,
+    );
+
     if (orderID != null) {
-      return (await query.order(orderID, ascending: ascending)) as List;
+      return (await limitedQuery.order(orderID, ascending: ascending)) as List;
     } else {
-      return (await query) as List;
+      return (await limitedQuery) as List;
     }
   }
 

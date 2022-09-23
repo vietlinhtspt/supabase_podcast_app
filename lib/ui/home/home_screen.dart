@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/providers.dart';
 import '../../shared/music_widget.dart';
+import '../../shared/shared.dart';
 import '../navigation_screen/components/qr_info_navigation_bar.dart';
 import 'components/components.dart';
 import 'components/resuming_item_widget.dart';
@@ -94,6 +95,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 const SizedBox(
                   height: 28,
+                ),
+                M3LockedButton(
+                  onPressed: () =>
+                      context.read<PodcastProvider>().getPlaylists(context),
+                  title: 'Get playlists',
                 ),
                 TitleWidget(
                   title: 'home_screen.made_for_you'.tr(),

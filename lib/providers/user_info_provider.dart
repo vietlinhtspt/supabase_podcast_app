@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -9,7 +11,7 @@ class UserInfoProvider extends ChangeNotifier {
   final _table = 'user_info';
   bool _isLoading = false;
   late SupabaseClient _client;
-  RealtimeSubscription? _userInfoSubcription;
+  StreamSubscription<List<Map<String, dynamic>>>? _userInfoStream;
 
   UserInfo? _userInfo;
   SupabaseDataRepository? _supabaseDataRepository;
@@ -27,26 +29,17 @@ class UserInfoProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
 
   Future subcribe() async {
-    unsubcribe();
     if (_client.auth.currentUser?.email != null) {
-      _userInfoSubcription = await _supabaseDataRepository?.subcribe(
-        table: _table,
-        keyName: 'email',
-        keyValue: _client.auth.currentUser!.email!,
-        callback: (response) {
-          if (response.newRecord != null) {
-            _userInfo = UserInfo.fromMap(response.newRecord!);
-            notifyListeners();
-          }
-        },
-      );
-    }
-  }
-
-  Future unsubcribe() async {
-    if (_userInfoSubcription != null) {
-      await _supabaseDataRepository?.unsubcribe(
-          subscription: _userInfoSubcription!);
+      _userInfoStream?.cancel();
+      _userInfoStream = Supabase.instance.client
+          .from('$_table:email=eq.${_client.auth.currentUser!.email!}')
+          .stream(['*']).listen((event) {
+        print('subcribe: $event');
+        if (event.isNotEmpty) {
+          _userInfo = UserInfo.fromMap(event.first);
+          notifyListeners();
+        }
+      });
     }
   }
 
