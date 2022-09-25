@@ -1,61 +1,135 @@
-class CustomedRouterConfiguration {
-  final bool? unknown;
-  final bool? loggedIn;
-  final bool? signingUp;
-  final bool? recoveringPassword;
+abstract class CustomedRouterConfiguration {
+  // Step to add state:
+  // 1. Add variable
+  // 2. Add Named constructor
+  // 3. Add hash code
+  late bool _isLoggedIn;
 
   @override
   String toString() {
     return '''
----
-unknown: ${unknown.toString()}
-loggedIn: ${loggedIn.toString()}
-signingUp: ${isSigningUp.toString()}
-recoveringPassword: ${recoveringPassword.toString()}
----''';
+  ---
+  runtimeType: ${runtimeType}
+  _isLoggedIn: ${_isLoggedIn.toString()}
+  ---''';
   }
 
-  CustomedRouterConfiguration.splash()
-      : unknown = false,
-        loggedIn = null,
-        signingUp = false,
-        recoveringPassword = false;
+  CustomedRouterConfiguration copyWith({
+    bool? isLoggedIn,
+  });
+}
 
-  CustomedRouterConfiguration.login()
-      : unknown = false,
-        loggedIn = false,
-        signingUp = false,
-        recoveringPassword = false;
+class RouterConfigurationSpashing extends CustomedRouterConfiguration {
+  RouterConfigurationSpashing({
+    bool isLoggedIn = false,
+  }) {
+    _isLoggedIn = isLoggedIn;
+  }
 
-  CustomedRouterConfiguration.signUp()
-      : unknown = false,
-        loggedIn = false,
-        signingUp = true,
-        recoveringPassword = false;
+  @override
+  RouterConfigurationSpashing copyWith({
+    bool? isLoggedIn,
+  }) {
+    {
+      return RouterConfigurationSpashing(
+        isLoggedIn: isLoggedIn ?? false,
+      );
+    }
+  }
+}
 
-  CustomedRouterConfiguration.home()
-      : unknown = false,
-        loggedIn = true,
-        signingUp = false,
-        recoveringPassword = false;
+class RouterConfigurationLogingIn extends CustomedRouterConfiguration {
+  RouterConfigurationLogingIn({
+    bool isLoggedIn = false,
+  }) {
+    _isLoggedIn = isLoggedIn;
+  }
 
-  CustomedRouterConfiguration.unknown()
-      : unknown = true,
-        loggedIn = null,
-        signingUp = false,
-        recoveringPassword = false;
+  @override
+  RouterConfigurationLogingIn copyWith({
+    bool? isLoggedIn,
+  }) {
+    {
+      return RouterConfigurationLogingIn(
+        isLoggedIn: isLoggedIn ?? false,
+      );
+    }
+  }
+}
 
-  CustomedRouterConfiguration.recoveringPassword()
-      : unknown = true,
-        loggedIn = null,
-        signingUp = false,
-        recoveringPassword = false;
+class RouterConfigurationSigningUp extends CustomedRouterConfiguration {
+  RouterConfigurationSigningUp({
+    bool isLoggedIn = false,
+  }) {
+    _isLoggedIn = isLoggedIn;
+  }
 
-  bool get isUnknown => unknown == true;
-  bool get isHomePage => unknown == false && loggedIn == true;
-  bool get isLoginPage => unknown == false && loggedIn == false;
-  bool get isSplashPage => unknown == false && loggedIn == null;
-  bool get isSigningUp => unknown == false && signingUp == true;
-  bool get isRecoveringPassword =>
-      unknown == false && recoveringPassword == true;
+  @override
+  RouterConfigurationSigningUp copyWith({
+    bool? isLoggedIn,
+  }) {
+    {
+      return RouterConfigurationSigningUp(
+        isLoggedIn: isLoggedIn ?? false,
+      );
+    }
+  }
+}
+
+class RouterConfigurationRecoveringPassword
+    extends CustomedRouterConfiguration {
+  RouterConfigurationRecoveringPassword({
+    bool isLoggedIn = false,
+  }) {
+    _isLoggedIn = isLoggedIn;
+  }
+
+  @override
+  RouterConfigurationRecoveringPassword copyWith({
+    bool? isLoggedIn,
+  }) {
+    {
+      return RouterConfigurationRecoveringPassword(
+        isLoggedIn: isLoggedIn ?? false,
+      );
+    }
+  }
+}
+
+class RouterConfigurationHome extends CustomedRouterConfiguration {
+  RouterConfigurationHome({
+    bool isLoggedIn = false,
+  }) {
+    _isLoggedIn = isLoggedIn;
+  }
+
+  @override
+  RouterConfigurationHome copyWith({
+    bool? isLoggedIn,
+  }) {
+    {
+      return RouterConfigurationHome(
+        isLoggedIn: isLoggedIn ?? false,
+      );
+    }
+  }
+}
+
+class RouterConfigurationUnknown extends CustomedRouterConfiguration {
+  RouterConfigurationUnknown({
+    bool isLoggedIn = false,
+  }) {
+    _isLoggedIn = isLoggedIn;
+  }
+
+  @override
+  RouterConfigurationUnknown copyWith({
+    bool? isLoggedIn,
+  }) {
+    {
+      return RouterConfigurationUnknown(
+        isLoggedIn: isLoggedIn ?? false,
+      );
+    }
+  }
 }

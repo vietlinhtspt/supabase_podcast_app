@@ -15,80 +15,57 @@ class CustomedRouterDelegate extends RouterDelegate<CustomedRouterConfiguration>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {
   final GlobalKey<NavigatorState> _navigatorKey;
 
-  bool? _show404;
-  bool? _loggedIn;
-  bool? _isSigningUp;
-  bool? _recoveringPassword;
-  bool? _spashing;
-
-  void goSignUpScreen() {
-    _show404 = false;
-    _loggedIn = false;
-    _isSigningUp = true;
-    _recoveringPassword = false;
-    _spashing = false;
-    notifyListeners();
-  }
-
-  void backToLoginScreen() {
-    _show404 = false;
-    _loggedIn = false;
-    _isSigningUp = false;
-    _recoveringPassword = false;
-    _spashing = false;
-    notifyListeners();
-  }
-
-  void goRecoveryPassword() {
-    _show404 = false;
-    _loggedIn = false;
-    _isSigningUp = false;
-    _recoveringPassword = true;
-    _spashing = false;
-    notifyListeners();
-  }
-
   @override
   GlobalKey<NavigatorState> get navigatorKey => _navigatorKey;
 
   CustomedRouterDelegate() : _navigatorKey = GlobalKey<NavigatorState>();
 
-  @override
-  CustomedRouterConfiguration? get currentConfiguration {
-    if (_isSigningUp == true) {
-      return CustomedRouterConfiguration.signUp();
-    } else if (_show404 == true) {
-      return CustomedRouterConfiguration.unknown();
-    } else if (_spashing == true) {
-      return CustomedRouterConfiguration.splash();
-    } else if (_recoveringPassword == true) {
-      return CustomedRouterConfiguration.recoveringPassword();
-    } else if (_loggedIn == false && _show404 == false) {
-      return CustomedRouterConfiguration.login();
-    } else if (_loggedIn == true) {
-      return CustomedRouterConfiguration.home();
-    } else {
-      return null;
-    }
+  CustomedRouterConfiguration _currentRouterConfig = RouterConfigurationHome();
+
+  void goSignUpScreen() {
+    _currentRouterConfig = RouterConfigurationSigningUp();
+    notifyListeners();
   }
+
+  void backToLoginScreen() {
+    _currentRouterConfig = RouterConfigurationLogingIn();
+    notifyListeners();
+  }
+
+  void goRecoveryPassword() {
+    _currentRouterConfig = RouterConfigurationRecoveringPassword();
+    notifyListeners();
+  }
+
+  @override
+  CustomedRouterConfiguration get currentConfiguration => _currentRouterConfig;
 
   @override
   Widget build(BuildContext context) {
     return Consumer<AuthProvider>(builder: (context, provider, child) {
       List<Page> stack;
-      _loggedIn = provider.isLogedIn;
-      if (provider.isSpashing) {
+      // debugPrint(
+      //     'Build currentConfiguration: ${currentConfiguration.runtimeType}');
+      _currentRouterConfig = currentConfiguration.copyWith(
+        isLoggedIn: provider.isLogedIn,
+      );
+
+      // debugPrint(
+      //     'Build currentConfiguration: ${currentConfiguration.runtimeType}');
+
+      if (currentConfiguration is RouterConfigurationSpashing) {
         stack = _splashStack;
-      } else if (provider.isLogedIn) {
-        stack = _loggedInStack;
-      } else if (_show404 == true) {
-        stack = _unknownStack;
-      } else if (_isSigningUp == true) {
+      } else if (currentConfiguration is RouterConfigurationHome) {
+        stack = _homeStack;
+      } else if (currentConfiguration is RouterConfigurationSigningUp) {
         stack = _signUpStack;
-      } else if (_recoveringPassword == true) {
+      } else if (currentConfiguration
+          is RouterConfigurationRecoveringPassword) {
         stack = _recoveryPasswordStack;
+      } else if (currentConfiguration is RouterConfigurationLogingIn) {
+        stack = _loginStack;
       } else {
-        stack = _loggedOutStack;
+        stack = _unknownStack;
       }
       return Navigator(
         key: navigatorKey,
@@ -104,22 +81,22 @@ class CustomedRouterDelegate extends RouterDelegate<CustomedRouterConfiguration>
   List<Page> get _splashStack => [
         CustomedRouterPage(
           child: const SplashScreen(),
-          valueKey: 'splashscreen',
+          valueKey: SplashScreen.ROUTE_NAME,
         ),
       ];
 
-  List<Page> get _loggedOutStack => [
+  List<Page> get _loginStack => [
         CustomedRouterPage(
           child: const LoginScreen(),
-          valueKey: 'login',
+          valueKey: LoginScreen.ROUTE_NAME,
         ),
       ];
 
-  List<Page> get _loggedInStack {
+  List<Page> get _homeStack {
     return [
       CustomedRouterPage(
         child: const NavigationScreen(),
-        valueKey: 'NavigationScreen'.toLowerCase(),
+        valueKey: ''.toLowerCase(),
       )
     ];
   }
@@ -145,26 +122,13 @@ class CustomedRouterDelegate extends RouterDelegate<CustomedRouterConfiguration>
   List<Page> get _unknownStack => [
         CustomedRouterPage(
           child: const UnknownScreen(),
-          valueKey: 'unknown',
+          valueKey: UnknownScreen.ROUTE_NAME,
         ),
       ];
 
   @override
   Future<void> setNewRoutePath(configuration) async {
     // debugPrint('setNewRoutePath: ${configuration.toString()}');
-    if (configuration.isUnknown) {
-      _show404 = true;
-      _isSigningUp = false;
-    } else if (configuration.isSigningUp) {
-      _show404 = false;
-      _isSigningUp = true;
-    } else if (configuration.isHomePage ||
-        configuration.isLoginPage ||
-        configuration.isSplashPage) {
-      _show404 = false;
-      _isSigningUp = false;
-    } else {
-      debugPrint(' Could not set new route');
-    }
+    _currentRouterConfig = configuration;
   }
 }

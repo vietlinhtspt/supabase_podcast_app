@@ -15,6 +15,8 @@ import 'magic_link_screen.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
+  static String ROUTE_NAME = 'login';
+
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }

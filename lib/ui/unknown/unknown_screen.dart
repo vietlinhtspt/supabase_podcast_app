@@ -5,6 +5,8 @@ class UnknownScreen extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  static String ROUTE_NAME = 'unknown';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
