@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../models/user_info.dart';
-import '../repositories/common.dart';
 import '../repositories/supabase_data_repository.dart';
 
 class UserInfoProvider extends ChangeNotifier {

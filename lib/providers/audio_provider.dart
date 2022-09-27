@@ -2,36 +2,36 @@ import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/podcast_model.dart';
+import '../models/podcast_info_model.dart';
 import 'providers.dart';
 
 class AudioProvider extends ChangeNotifier {
   late AudioHandler _audioHandler;
   bool isMaximumSize = false;
-  PodcastModel? _currentPodcastModel;
+  PodcastInfoModel? _currentPodcastModel;
 
   AudioProvider({required AudioHandler audioHandler}) {
     _audioHandler = audioHandler;
   }
 
   AudioHandler get audioHandler => _audioHandler;
-  PodcastModel? get currentPodcastModel => _currentPodcastModel;
+  PodcastInfoModel? get currentPodcastModel => _currentPodcastModel;
 
   void showMaximumPlayer() {
     isMaximumSize = true;
     notifyListeners();
   }
 
-  void play(PodcastModel newPodcastModel) {
+  void play(PodcastInfoModel newPodcastModel) {
     _currentPodcastModel = newPodcastModel;
     if (_currentPodcastModel != null) {
       _audioHandler
           .playMediaItem(_currentPodcastModel!.toMediaItem)
           .then((value) {
-        if (newPodcastModel.historyDetail != null) {
+        if (newPodcastModel.podcastHistory != null) {
           _audioHandler
               .seek(Duration(
-                seconds: newPodcastModel.historyDetail!.listened!,
+                seconds: newPodcastModel.podcastHistory!.first.listened!,
               ))
               .then((value) => _audioHandler.play());
         }

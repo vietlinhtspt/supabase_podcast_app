@@ -23,8 +23,9 @@ class ResumingItemWidget extends StatelessWidget {
                 .podcast
                 .firstWhere(
                     (element) => element.id == podcastHistoryModel.podcastId)
-                .historyDetail
-                ?.listened ??
+                .podcastHistory
+                ?.first
+                .listened ??
             0);
     final podcastModel = context
         .watch<PodcastProvider>()

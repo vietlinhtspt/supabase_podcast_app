@@ -66,8 +66,8 @@ class PodcastHistoryModel extends BaseModel {
 
   String toJson() => json.encode(toMap());
 
-  factory PodcastHistoryModel.fromJson(String source) =>
-      PodcastHistoryModel.fromMap(json.decode(source));
+  factory PodcastHistoryModel.fromJson(Map<String, dynamic> source) =>
+      PodcastHistoryModel.fromMap(source);
 
   @override
   String toString() => toMap().toString();

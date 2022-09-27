@@ -9,7 +9,6 @@ import 'components/components.dart';
 
 import '../../providers/auth_provider.dart';
 import '../../providers/user_info_provider.dart';
-import 'selecting_language_screen.dart';
 import 'setting_new_name_screen.dart';
 import 'setting_new_password_screen.dart';
 

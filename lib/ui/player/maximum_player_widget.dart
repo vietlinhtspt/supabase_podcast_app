@@ -126,7 +126,7 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
                                 screenHeight * 0.03 * (1 - _controller.value),
                           ),
                           Transform.translate(
-                            offset: Offset(0, 0),
+                            offset: const Offset(0, 0),
                             child: ClipRRect(
                               borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(20),

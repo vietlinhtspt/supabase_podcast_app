@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:async/async.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/podcast_model.dart';
+import '../../models/podcast_info_model.dart';
 import '../../providers/providers.dart';
 import '../../shared/shared.dart';
 import '../navigation_screen/components/qr_info_navigation_bar.dart';
@@ -20,7 +20,7 @@ class SearchingScreen extends StatefulWidget {
 class _SearchingScreenState extends State<SearchingScreen> {
   late ScrollController _scrollController;
   late TextEditingController _textEditingController;
-  final _searchedPodcast = <PodcastModel>[];
+  final _searchedPodcast = <PodcastInfoModel>[];
 
   CancelableOperation? _cancelableOperation;
 

@@ -67,7 +67,10 @@
         "explore": "KHÁM PHÁ",
         "channels_for_you": "CÁC KÊNH BẠN NÊN NGHE THỬ",
         "topics": "CÁC CHỦ ĐỀ",
-        "explain": "xem thêm"
+        "explain": "xem thêm",
+        "cambridge_16": "Cambridge 16",
+        "playlist_1": "Danh sách phát 1",
+        "unknown": "Đố bạn biết"
     },
     "setting_screen": {
         "settting_theme_mode": "Chế độ giao diện",

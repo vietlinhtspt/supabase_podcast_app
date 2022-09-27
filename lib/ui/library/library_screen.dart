@@ -104,7 +104,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                               color: Theme.of(context).colorScheme.onSurface,
                             ),
                             Container(
-                              margin: EdgeInsets.symmetric(horizontal: 5),
+                              margin: const EdgeInsets.symmetric(horizontal: 5),
                               height: 18,
                               width: 2,
                               decoration: BoxDecoration(

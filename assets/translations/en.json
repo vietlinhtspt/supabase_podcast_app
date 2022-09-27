@@ -67,7 +67,10 @@
         "explore": "EXPLORE",
         "channels_for_you": "CHANNELS FOR YOU",
         "topics": "TOPICS",
-        "explain": "explain"
+        "explain": "explain",
+        "cambridge_16": "Cambridge 16",
+        "playlist_1": "Playlist 1",
+        "unknown": "Infinity"
     },
     "setting_screen": {
         "settting_theme_mode": "Theme mode",

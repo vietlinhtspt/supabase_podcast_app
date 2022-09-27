@@ -43,9 +43,8 @@ class _M3LockedButtonState extends State<M3LockedButton> {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           // Foreground color
-          onPrimary: Theme.of(context).colorScheme.primaryContainer,
-          // Background color
-          primary: Colors.transparent,
+          foregroundColor: Theme.of(context).colorScheme.primaryContainer,
+          backgroundColor: Colors.transparent,
         ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
         onPressed: () {
           if (_cancelableOperation?.isCompleted ?? true) {

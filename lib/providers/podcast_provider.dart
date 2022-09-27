@@ -1,8 +1,13 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../constants/env_config.dart';
+import '../models/general_playlist_info_model.dart';
 import '../models/podcast_history_model.dart';
-import '../models/podcast_model.dart';
-import '../repositories/common.dart';
+import '../models/podcast_info_model.dart';
+
 import '../repositories/supabase_data_repository.dart';
 
 class PodcastProvider extends ChangeNotifier {
@@ -14,13 +19,16 @@ class PodcastProvider extends ChangeNotifier {
 
   bool _isLoading = false;
   SupabaseDataRepository? _supabaseDataRepository;
+  List<GeneralPlaylistInfoModel>? _generalPlaylistInfoModel;
 
-  final _podcasts = <PodcastModel>[];
+  final _podcasts = <PodcastInfoModel>[];
   final _podcastHistory = <PodcastHistoryModel>[];
 
   bool get isLoading => _isLoading;
-  List<PodcastModel> get podcast => _podcasts;
+  List<PodcastInfoModel> get podcast => _podcasts;
   List<PodcastHistoryModel> get podcastHistory => _podcastHistory;
+  List<GeneralPlaylistInfoModel>? get generalPlaylistInfoModel =>
+      _generalPlaylistInfoModel;
 
   PodcastProvider({SupabaseDataRepository? supabaseDataRepository}) {
     if (supabaseDataRepository != null) {
@@ -30,7 +38,7 @@ class PodcastProvider extends ChangeNotifier {
     }
   }
 
-  Future<List<PodcastModel>> fetch(
+  Future<List<PodcastInfoModel>> fetch(
     BuildContext context, {
     required String email,
   }) async {
@@ -52,7 +60,8 @@ class PodcastProvider extends ChangeNotifier {
 
       if (response != null && response.isNotEmpty) {
         _podcasts.clear();
-        _podcasts.addAll(response.map((e) => PodcastModel.fromMap(e)));
+        _podcasts.addAll(
+            response.map((e) => PodcastInfoModel.fromJson(jsonDecode(e))));
       }
     });
 
@@ -102,20 +111,20 @@ class PodcastProvider extends ChangeNotifier {
 
   Future<bool> updateHistory(
     BuildContext context, {
-    required HistoryDetail historyDetail,
+    required PodcastHistoryModel? historyDetail,
   }) async {
     var _isSuccess = false;
     await supabaseCallAPI(context, function: () async {
-      if (historyDetail.id == null) {
+      if (historyDetail?.id == null) {
         await _supabaseDataRepository?.createRow(
-          data: historyDetail,
+          data: historyDetail!,
           table: _podcastHistoryTable,
         );
       } else {
         await _supabaseDataRepository?.updateRow(
           table: _podcastHistoryTable,
           keyName: 'podcast_id',
-          keyValue: historyDetail.podcastId,
+          keyValue: historyDetail!.podcastId,
           keyName2: 'user_email',
           keyValue2: historyDetail.userEmail,
           values: historyDetail.toMap(),
@@ -126,7 +135,7 @@ class PodcastProvider extends ChangeNotifier {
     return _isSuccess;
   }
 
-  Future<List<PodcastModel>> search(
+  Future<List<PodcastInfoModel>> search(
     BuildContext context, {
     required String column,
     required List<String> searchingText,
@@ -153,7 +162,7 @@ class PodcastProvider extends ChangeNotifier {
 
   void updateHistoryLocal(
     BuildContext context, {
-    HistoryDetail? historyDetail,
+    PodcastHistoryModel? historyDetail,
   }) {
     if (historyDetail != null) {
       final removedIndex = _podcastHistory.indexWhere(
@@ -182,18 +191,17 @@ class PodcastProvider extends ChangeNotifier {
     }
   }
 
-  Future<List<PodcastModel>> getPlaylists(
+  Future<List<GeneralPlaylistInfoModel>?> getPlaylists(
     BuildContext context, {
     String? playlist_id,
   }) async {
-    //   final _generalPlaylistTable = 'general_playlist';
-    // final _generalPlaylistInfoTable = 'general_playlist_info';
     await supabaseCallAPI(
       context,
       function: () async {
-        final response = await _supabaseDataRepository?.readRow(
-          table: _generalPlaylistInfoTable,
-          selectOption: '''
+        final res = await Supabase.instance.client
+            .from(_generalPlaylistInfoTable)
+            .select(
+              '''
 *, $_generalPlaylistTable (
   *, $_podcastInfoTable (
     *, $_authorTable (
@@ -204,14 +212,29 @@ class PodcastProvider extends ChangeNotifier {
   )
 )
 ''',
-        );
+            )
+            .order(
+              'podcast_id',
+              ascending: false,
+              foreignTable: _generalPlaylistTable,
+            )
+            .range(
+              0,
+              TargetBuild.supabaseCacheSize,
+              foreignTable: _generalPlaylistTable,
+            );
 
-        if (response != null && response.isNotEmpty) {
-          print('${response}');
+        if (res != null && res.isNotEmpty) {
+          _generalPlaylistInfoModel = (res as List)
+              .map(
+                (e) => GeneralPlaylistInfoModel.fromJson(e),
+              )
+              .toList();
         }
+        notifyListeners();
       },
     );
 
-    return podcast;
+    return _generalPlaylistInfoModel;
   }
 }

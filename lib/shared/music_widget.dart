@@ -2,14 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/podcast_model.dart';
+import '../models/podcast_info_model.dart';
 import '../providers/audio_provider.dart';
 
 class MusicWidget extends StatelessWidget {
-  final PodcastModel _podcastModel;
+  final PodcastInfoModel _podcastModel;
 
   const MusicWidget(
-    PodcastModel podcastModel, {
+    PodcastInfoModel podcastModel, {
     Key? key,
   })  : _podcastModel = podcastModel,
         super(key: key);

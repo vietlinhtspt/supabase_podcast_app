@@ -1,6 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../models/base_model.dart';
+import '../shared/shared.dart';
 
 class SupabaseDataRepository {
   Future createRow({
@@ -19,27 +22,31 @@ class SupabaseDataRepository {
     bool ascending = false,
     CountOption countOption = CountOption.estimated,
     int offset = 0,
-    int limit = 20,
+    int limit = 10,
     String? foreginLimitedTable,
   }) async {
     var query = Supabase.instance.client.from(table).select(
-          selectOption ?? '*',
+          '*',
+          const FetchOptions(
+            count: CountOption.exact,
+          ),
         );
 
     if (column != null) {
       query = query.filter(column, 'eq', value);
     }
 
-    final limitedQuery = query.range(
-      offset,
-      offset + limit,
+    final querylimitedQuery = query.range(
+      0,
+      limit,
       foreignTable: foreginLimitedTable,
     );
 
     if (orderID != null) {
-      return (await limitedQuery.order(orderID, ascending: ascending)) as List;
+      return (await querylimitedQuery.order(orderID, ascending: ascending))
+          as List;
     } else {
-      return (await limitedQuery) as List;
+      return await querylimitedQuery;
     }
   }
 
@@ -77,5 +84,44 @@ class SupabaseDataRepository {
     required String id,
   }) async {
     return await Supabase.instance.client.from(table).delete().eq('id', id);
+  }
+}
+
+Future supabaseCallAPI(
+  BuildContext context, {
+  required Function function,
+}) async {
+  try {
+    await function();
+  } on GoTrueException catch (e, stacktrace) {
+    await showM3Popup(
+      context,
+      descriptions: e.message,
+      title: 'popup.error'.tr(),
+    );
+    debugPrint(stacktrace.toString());
+  } on PostgrestException catch (e, stacktrace) {
+    await showM3Popup(
+      context,
+      descriptions: 'Code: ${e.code}\n${e.message}',
+      title: 'popup.error'.tr(),
+    );
+    debugPrint(stacktrace.toString());
+  } on TypeError catch (e, stacktrace) {
+    await showM3Popup(
+      context,
+      descriptions: 'Lỗi parse json',
+      title: 'popup.error'.tr(),
+    );
+    debugPrint(e.toString());
+    debugPrint(stacktrace.toString());
+  } catch (e, stacktrace) {
+    print(e.runtimeType);
+    await showM3Popup(
+      context,
+      descriptions: 'popup.unknown_error'.tr(),
+      title: 'popup.error'.tr(),
+    );
+    debugPrint(stacktrace.toString());
   }
 }

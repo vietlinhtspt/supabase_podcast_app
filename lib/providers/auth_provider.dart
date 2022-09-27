@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../repositories/auth_repository.dart';
-import '../repositories/common.dart';
+import '../repositories/supabase_data_repository.dart';
 
 class AuthProvider extends ChangeNotifier {
   late AuthRepository authRepository;

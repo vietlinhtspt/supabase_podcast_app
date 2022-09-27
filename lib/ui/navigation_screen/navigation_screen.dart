@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:audio_service/audio_service.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +37,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.read<PodcastProvider>().getPlaylists(context);
+
       AudioService.position.asBroadcastStream().listen((event) {
         if (mounted) {
           final indexOfCurrentPodcast = context
@@ -44,62 +48,63 @@ class _NavigationScreenState extends State<NavigationScreen> {
                   element.id ==
                   context.read<AudioProvider>().currentPodcastModel?.id);
 
-          if (indexOfCurrentPodcast != -1) {
-            final currentPodcast =
-                context.read<PodcastProvider>().podcast[indexOfCurrentPodcast];
-            context.read<PodcastProvider>().updateHistoryLocal(context,
-                historyDetail: currentPodcast.historyDetail?.copyWith(
-                  createdAt: DateTime.now().toString() + '+00:00',
-                  listened: event.inSeconds,
-                ));
-          }
+          // if (indexOfCurrentPodcast != -1) {
+          //   final currentPodcast =
+          //       context.read<PodcastProvider>().podcast[indexOfCurrentPodcast];
+          //   context.read<PodcastProvider>().updateHistoryLocal(context,
+          //       historyDetail: currentPodcast.podcastHistory?.copyWith(
+          //         createdAt: DateTime.now().toString() + '+00:00',
+          //         listened: event.inSeconds,
+          //       ));
+          // }
 
           if (indexOfCurrentPodcast != -1 &&
               event.inSeconds > UPDATE_HISTORY_PERIOD) {
-            final currentPodcast =
-                context.read<PodcastProvider>().podcast[indexOfCurrentPodcast];
-            final isNeedUpdate = (event.inSeconds -
-                        (currentPodcast.historyDetail?.listened ?? 0))
-                    .abs() >
-                UPDATE_HISTORY_PERIOD;
-            if (isNeedUpdate && !isUpdatingHistory) {
-              isUpdatingHistory = true;
-              context.read<PodcastProvider>().podcast[indexOfCurrentPodcast] =
-                  currentPodcast.copyWith(
-                historyDetail: currentPodcast.historyDetail?.copyWith(
-                  createdAt: DateTime.now().toString() + '+00:00',
-                  listened: event.inSeconds,
-                ),
-              );
-              context.read<PodcastProvider>().notifyListeners();
-              context
-                  .read<PodcastProvider>()
-                  .updateHistory(
-                    context,
-                    historyDetail: currentPodcast.historyDetail!,
-                  )
-                  .then((value) {
-                if (value == true) {
-                  context
-                          .read<PodcastProvider>()
-                          .podcast[indexOfCurrentPodcast] =
-                      context
-                          .read<PodcastProvider>()
-                          .podcast[indexOfCurrentPodcast]
-                          .copyWith(
-                            historyDetail: context
-                                .read<PodcastProvider>()
-                                .podcast[indexOfCurrentPodcast]
-                                .historyDetail
-                                ?.copyWith(id: -1),
-                          );
-                  if (mounted)
-                    context.read<PodcastProvider>().notifyListeners();
-                }
+            // final currentPodcast =
+            //     context.read<PodcastProvider>().podcast[indexOfCurrentPodcast];
+            // final isNeedUpdate = (event.inSeconds -
+            //             (currentPodcast.podcastHistory?.first.listened ?? 0))
+            //         .abs() >
+            //     UPDATE_HISTORY_PERIOD;
+            //   if (isNeedUpdate && !isUpdatingHistory) {
+            //     isUpdatingHistory = true;
+            //     context.read<PodcastProvider>().podcast[indexOfCurrentPodcast] =
+            //         currentPodcast.copyWith(
+            //       historyDetail: currentPodcast.podcastHistory?.first.copyWith(
+            //         createdAt: DateTime.now().toString() + '+00:00',
+            //         listened: event.inSeconds,
+            //       ),
+            //     );
+            //     context.read<PodcastProvider>().notifyListeners();
+            //     context
+            //         .read<PodcastProvider>()
+            //         .updateHistory(
+            //           context,
+            //           historyDetail: currentPodcast.podcastHistory?.first,
+            //         )
+            //         .then((value) {
+            //       if (value == true) {
+            //         context
+            //                 .read<PodcastProvider>()
+            //                 .podcast[indexOfCurrentPodcast] =
+            //             context
+            //                 .read<PodcastProvider>()
+            //                 .podcast[indexOfCurrentPodcast]
+            //                 .copyWith(
+            //                   historyDetail: context
+            //                       .read<PodcastProvider>()
+            //                       .podcast[indexOfCurrentPodcast]
+            //                       .podcastHistory
+            //                       ?.first
+            //                       .copyWith(id: -1),
+            //                 );
+            //         if (mounted)
+            //           context.read<PodcastProvider>().notifyListeners();
+            //       }
 
-                isUpdatingHistory = false;
-              });
-            }
+            //       isUpdatingHistory = false;
+            //     });
+            //   }
           }
         }
       });
