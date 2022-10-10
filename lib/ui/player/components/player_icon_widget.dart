@@ -10,6 +10,7 @@ class PlayerIconWidget extends StatelessWidget {
     this.height = 34,
     this.isShowBackground = false,
     this.isIconPlay = false,
+    this.defaultPadding = 16.0,
   }) : super(key: key);
 
   final String iconPath;
@@ -17,7 +18,7 @@ class PlayerIconWidget extends StatelessWidget {
   final Color? color;
   final double height;
   final bool isShowBackground;
-  final defaultPadding = 16.0;
+  final defaultPadding;
   final bool isIconPlay;
 
   @override

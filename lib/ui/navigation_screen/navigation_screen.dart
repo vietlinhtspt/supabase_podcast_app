@@ -14,7 +14,6 @@ import '../home/entering_name_screen/entering_name_screen.dart';
 import '../home/home_screen.dart';
 import '../library/library_screen.dart';
 import '../player/maximum_player_widget.dart';
-import '../player/minimum_player_widget.dart';
 import '../searching/searching_screen.dart';
 import 'components/m3_navbar_item_widget.dart';
 import 'components/qr_info_navigation_bar.dart';
@@ -212,16 +211,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 ),
               ),
               if (context.watch<AudioProvider>().currentPodcastModel != null)
-                Positioned(
-                  top: MediaQuery.of(context).size.height -
-                      (Responsive.isMobile(context) ? 75 : 110) -
-                      (isVertical ? 0 : QRInfoNavigationBar.HEIGHT),
-                  left: 0,
-                  right: 0,
-                  child: const MinimumPlayerWidget(),
-                ),
-              if (context.watch<AudioProvider>().currentPodcastModel != null &&
-                  isMobile)
                 const MaximumPlayerWidget(),
               if (context.watch<UserInfoProvider>().userInfo != null &&
                   context.watch<UserInfoProvider>().userInfo?.email == null)

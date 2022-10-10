@@ -1,6 +1,7 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_color/flutter_color.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -62,242 +63,156 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
+    final minPlayerHeight = Responsive.isMobile(context) ? 62 : 110;
+
     final minTopPosition = MediaQuery.of(context).size.height -
-        (Responsive.isMobile(context) ? 75 : 110) -
-        QRInfoNavigationBar.HEIGHT +
+        minPlayerHeight -
+        (Responsive.isMobile(context) ? QRInfoNavigationBar.HEIGHT : 0) +
         14;
+
+    final isVertical = !Responsive.isMobile(context);
+    final leftPadding = isVertical ? QRInfoNavigationBar.HEIGHT : 16;
 
     return GestureDetector(
       onVerticalDragUpdate: _onVerticalDragUpdate,
       onVerticalDragEnd: _onVerticalDragEnd,
+      onTap: () => context.read<AudioProvider>().showMaximumPlayer(),
       child: AnimatedBuilder(
-          animation: sizeAnimation,
-          builder: (_, __) {
-            final topPosition =
-                screenHeight * _controller.value > minTopPosition
-                    ? minTopPosition
-                    : screenHeight * _controller.value;
-            return Stack(
-              children: [
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  top: topPosition,
-                  child: Container(
-                    color: Theme.of(context).colorScheme.primaryContainer,
-                    height: screenHeight,
-                    child: SafeArea(
-                      child: Column(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(top: 10),
-                            width: 80,
-                            height: 8 *
-                                (1 - _controller.value > 0.5
-                                    ? (0.5 - _controller.value) * 2
-                                    : 0),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor,
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                          ),
-                          SizedBox(
-                            height:
-                                screenHeight * 0.03 * (1 - _controller.value),
-                          ),
-                          Transform.translate(
-                            offset: Offset(
-                              -screenWidth *
-                                  (_controller.value < 0.5
-                                      ? _controller.value * 2
-                                      : 1),
-                              0,
-                            ),
-                            child: Container(
-                              height: 20,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: Image.asset(
-                                  'assets/icons/home/ic_customed_line.png'),
-                            ),
-                          ),
-                          SizedBox(
-                            height:
-                                screenHeight * 0.03 * (1 - _controller.value),
-                          ),
-                          Transform.translate(
-                            offset: const Offset(0, 0),
-                            child: ClipRRect(
-                              borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20),
-                                  bottomLeft: Radius.circular(70),
-                                  bottomRight: Radius.circular(20)),
-                              child: CachedNetworkImage(
-                                width: (screenHeight * 0.35 - 50) *
-                                        (1 - _controller.value) +
-                                    50,
-                                height: (screenHeight * 0.35 - 50) *
-                                        (1 - _controller.value) +
-                                    50,
-                                imageUrl: context
-                                        .watch<AudioProvider>()
-                                        .currentPodcastModel
-                                        ?.imgPath ??
-                                    'https://vcdtzzxxfqnbehzlyfne.supabase.co/storage/v1/object/sign/logos/melior_logo.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJsb2dvcy9tZWxpb3JfbG9nby5wbmciLCJpYXQiOjE2NjA5ODA0NzUsImV4cCI6MTk3NjM0MDQ3NX0.134_hv90KOVS4dWCLCqquvP5afwRGQ63FQx7yyWWwB0',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 30),
-                          // Show media item title
-                          StreamBuilder<MediaItem?>(
-                            stream: context
-                                .watch<AudioProvider>()
-                                .audioHandler
-                                .mediaItem,
-                            builder: (context, snapshot) {
-                              final mediaItem = snapshot.data;
-                              return Column(
-                                children: [
-                                  Text(
-                                    mediaItem?.title ?? '',
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.w600,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurface,
-                                    ),
-                                  ),
-                                  Text(
-                                    mediaItem?.artist ?? '',
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurface
-                                          .withOpacity(0.7),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                          SizedBox(
-                            height: screenHeight * 0.03,
-                          ),
-                          StreamBuilder<MediaState>(
-                            stream: _mediaStateStream(context),
-                            builder: (context, snapshot) {
-                              final mediaState = snapshot.data;
-                              return SeekBar(
-                                duration: mediaState?.mediaItem?.duration ??
-                                    Duration.zero,
-                                position: mediaState?.position ?? Duration.zero,
-                                onChangeEnd: (newPosition) {
-                                  context
-                                      .read<AudioProvider>()
-                                      .audioHandler
-                                      .seek(newPosition);
-                                },
-                              );
-                            },
-                          ),
-
-                          // Play/pause/stop buttons.
-                          StreamBuilder<bool>(
-                            stream: context
-                                .watch<AudioProvider>()
-                                .audioHandler
-                                .playbackState
-                                .map((state) => state.playing)
-                                .distinct(),
-                            builder: (context, snapshot) {
-                              final playing = snapshot.data ?? false;
-                              return Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  PlayerIconWidget(
-                                    iconPath:
-                                        'assets/icons/player/ic_shuffle.svg',
-                                    onPressed: () => null,
-                                    height: screenHeight * 0.04,
-                                  ),
-                                  PlayerIconWidget(
-                                    iconPath:
-                                        'assets/icons/player/ic_previous.svg',
-                                    onPressed: () => context
-                                        .read<AudioProvider>()
-                                        .playPrevious(context),
-                                    height: screenHeight * 0.04,
-                                  ),
-                                  if (playing)
-                                    PlayerIconWidget(
-                                      iconPath:
-                                          'assets/icons/player/ic_pause.svg',
-                                      onPressed: context
-                                          .watch<AudioProvider>()
-                                          .audioHandler
-                                          .pause,
-                                      height: screenHeight * 0.04,
-                                      isShowBackground: true,
-                                    )
-                                  else
-                                    PlayerIconWidget(
-                                      iconPath:
-                                          'assets/icons/player/ic_play.svg',
-                                      onPressed: context
-                                          .watch<AudioProvider>()
-                                          .audioHandler
-                                          .play,
-                                      height: screenHeight * 0.04,
-                                      isShowBackground: true,
-                                      isIconPlay: true,
-                                    ),
-                                  PlayerIconWidget(
-                                    iconPath: 'assets/icons/player/ic_next.svg',
-                                    onPressed: () => context
-                                        .read<AudioProvider>()
-                                        .playNext(context),
-                                    height: screenHeight * 0.04,
-                                  ),
-                                  PlayerIconWidget(
-                                    iconPath: 'assets/icons/player/ic_loop.svg',
-                                    onPressed: () => null,
-                                    height: screenHeight * 0.04,
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                          const Spacer(),
-                          RotatedBox(
-                            quarterTurns: 30,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: Image.asset(
-                                  'assets/icons/home/ic_customed_line.png'),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 30,
-                          )
-                        ],
-                      ),
-                    ),
+        animation: sizeAnimation,
+        builder: (_, __) {
+          final controllerValueReversed = 1 - _controller.value;
+          final topPosition = screenHeight * _controller.value > minTopPosition
+              ? minTopPosition
+              : screenHeight * _controller.value;
+          final podcastImageSize =
+              (screenHeight * 0.35 - 50) * controllerValueReversed + 50;
+          print(_controller.value);
+          return Stack(
+            children: [
+              Positioned(
+                left: 0,
+                right: 0,
+                top: topPosition,
+                child: Container(
+                  height: (screenHeight - minPlayerHeight) *
+                          controllerValueReversed +
+                      minPlayerHeight,
+                  decoration: BoxDecoration(
+                    // color: Theme.of(context).primaryColor,
+                    gradient: LinearGradient(colors: [
+                      Theme.of(context).colorScheme.secondary,
+                      Theme.of(context).colorScheme.primary,
+                    ]),
                   ),
                 ),
-              ],
-            );
-          }),
+              ),
+              Positioned(
+                left: 0,
+                right: 0,
+                top: topPosition,
+                child: Container(
+                  color: Theme.of(context)
+                      .colorScheme
+                      .primaryContainer
+                      .withOpacity(
+                        controllerValueReversed < 0.5
+                            ? (1 - (_controller.value - 0.5) * 2)
+                            : 1,
+                      ),
+                  padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).padding.top *
+                        controllerValueReversed,
+                    bottom: MediaQuery.of(context).padding.bottom *
+                        controllerValueReversed,
+                  ),
+                  height: screenHeight,
+                  child: Column(
+                    children: [
+                      MaxPlayerSwiftIcon(
+                        controllerValueReversed: controllerValueReversed,
+                        controller: _controller,
+                      ),
+                      SizedBox(
+                        height: screenHeight * 0.03 * controllerValueReversed,
+                      ),
+
+                      Transform.translate(
+                        offset: Offset(
+                          -screenWidth *
+                              (_controller.value < 0.5
+                                  ? _controller.value * 2
+                                  : 1),
+                          0,
+                        ),
+                        child: Container(
+                          height: 20 * controllerValueReversed,
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Image.asset(
+                              'assets/icons/home/ic_customed_line.png'),
+                        ),
+                      ),
+
+                      SizedBox(
+                        height: screenHeight * 0.03 * controllerValueReversed,
+                      ),
+                      MaxPlayerPodcastImageWidget(
+                        screenWidth: screenWidth,
+                        podcastImageSize: podcastImageSize,
+                        leftPadding: leftPadding,
+                        controller: _controller,
+                        controllerValueReversed: controllerValueReversed,
+                      ),
+                      SizedBox(height: 30 * controllerValueReversed),
+                      // Show media item title
+                      MaxPlayerTitle(
+                        podcastImageSize: podcastImageSize,
+                        controller: _controller,
+                        screenWidth: screenWidth,
+                        controllerValueReversed: controllerValueReversed,
+                        screenHeight: screenHeight,
+                      ),
+                      SizedBox(
+                        height: screenHeight * 0.03 * controllerValueReversed,
+                      ),
+                      Transform.translate(
+                        offset: Offset(
+                          0,
+                          -(podcastImageSize * _controller.value),
+                        ),
+                        child: MaxPlayerSeekBarWidget(
+                          controller: _controller,
+                          screenWidth: screenWidth,
+                        ),
+                      ),
+
+                      // Play/pause/stop buttons.
+                      if (_controller.value < 0.5)
+                        MaxPlayerMaximumControllerWidget(
+                          screenHeight: screenHeight,
+                          screenWidth: screenWidth,
+                        ),
+                      const Spacer(),
+                      RotatedBox(
+                        quarterTurns: 30,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Image.asset(
+                            'assets/icons/home/ic_customed_line.png',
+                            height: controllerValueReversed * 20,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30 * controllerValueReversed,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 
@@ -322,19 +237,4 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
       _topPadding = 1;
     }
   }
-
-  /// A stream reporting the combined state of the current media item and its
-  /// current position.
-  Stream<MediaState> _mediaStateStream(BuildContext context) =>
-      Rx.combineLatest2<MediaItem?, Duration, MediaState>(
-          context.watch<AudioProvider>().audioHandler.mediaItem,
-          AudioService.position,
-          (mediaItem, position) => MediaState(mediaItem, position));
-}
-
-class MediaState {
-  final MediaItem? mediaItem;
-  final Duration position;
-
-  MediaState(this.mediaItem, this.position);
 }
