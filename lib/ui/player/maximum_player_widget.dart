@@ -1,15 +1,10 @@
-import 'package:audio_service/audio_service.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_color/flutter_color.dart';
 import 'package:provider/provider.dart';
-import 'package:rxdart/rxdart.dart';
 
 import '../../providers/audio_provider.dart';
 import '../../shared/shared.dart';
 import '../navigation_screen/components/qr_info_navigation_bar.dart';
 import 'components/components.dart';
-import 'components/player_icon_widget.dart';
 
 class MaximumPlayerWidget extends StatefulWidget {
   const MaximumPlayerWidget({Key? key}) : super(key: key);
@@ -63,12 +58,11 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
-    final minPlayerHeight = Responsive.isMobile(context) ? 62 : 110;
+    final navbarHeight =
+        (Responsive.isMobile(context) ? QRInfoNavigationBar.HEIGHT : 0);
 
-    final minTopPosition = MediaQuery.of(context).size.height -
-        minPlayerHeight -
-        (Responsive.isMobile(context) ? QRInfoNavigationBar.HEIGHT : 0) +
-        14;
+    final minPlayerHeight = Responsive.isMobile(context) ? 62 : 110;
+    final minTopPosition = screenHeight - minPlayerHeight - navbarHeight;
 
     final isVertical = !Responsive.isMobile(context);
     final leftPadding = isVertical ? QRInfoNavigationBar.HEIGHT : 16;
@@ -103,6 +97,11 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
                       Theme.of(context).colorScheme.secondary,
                       Theme.of(context).colorScheme.primary,
                     ]),
+                  ),
+                  alignment: Alignment.bottomCenter,
+                  child: const MaxPlayerSeekBarWidget(
+                    isHideOverlayAndTime: true,
+                    isRemovePadding: true,
                   ),
                 ),
               ),
@@ -174,16 +173,10 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
                       SizedBox(
                         height: screenHeight * 0.03 * controllerValueReversed,
                       ),
-                      Transform.translate(
-                        offset: Offset(
-                          0,
-                          -(podcastImageSize * _controller.value),
-                        ),
-                        child: MaxPlayerSeekBarWidget(
-                          controller: _controller,
+                      if (_controller.value < 0.5)
+                        MaxPlayerSeekBarWidget(
                           screenWidth: screenWidth,
                         ),
-                      ),
 
                       // Play/pause/stop buttons.
                       if (_controller.value < 0.5)

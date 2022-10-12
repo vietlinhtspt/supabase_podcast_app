@@ -148,89 +148,84 @@ class _NavigationScreenState extends State<NavigationScreen> {
       final isVertical = !isMobile;
 
       return Scaffold(
-        body: Container(
-          height: double.infinity,
-          color: Theme.of(context).colorScheme.primaryContainer,
-          child: Stack(
-            children: [
-              AnimatedPositioned(
-                top: 0,
-                left: isVertical ? 80 : 0,
-                right: 0,
-                bottom: 0,
-                duration: const Duration(milliseconds: 500),
-                child: [
-                  const HomeScreen(),
-                  const SearchingScreen(),
-                  const LibraryScreen(),
-                  const AccountScreen()
-                ][screenIndex],
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        body: Stack(
+          children: [
+            AnimatedPositioned(
+              top: 0,
+              left: isVertical ? 80 : 0,
+              right: 0,
+              bottom: 0,
+              duration: const Duration(milliseconds: 500),
+              child: [
+                const HomeScreen(),
+                const SearchingScreen(),
+                const LibraryScreen(),
+                const AccountScreen()
+              ][screenIndex],
+            ),
+            AnimatedPositioned(
+              top: isVertical
+                  ? 0
+                  : MediaQuery.of(context).size.height -
+                      QRInfoNavigationBar.HEIGHT,
+              bottom: 0,
+              left: 0,
+              right: isVertical ? null : 0,
+              duration: const Duration(
+                milliseconds: 500,
               ),
-              AnimatedPositioned(
-                top: isVertical
-                    ? 0
-                    : MediaQuery.of(context).size.height -
-                        QRInfoNavigationBar.HEIGHT,
+              child: QRInfoNavigationBar(
+                screenIndex: navIndex,
+                isVertical: isVertical,
+                centerItemText: '',
+                notchedShape: const CircularNotchedRectangle(),
+                onTabSelected: _changeScreenIndex,
+                items: [
+                  QRInfoNavigationBarItem(
+                    iconPath: 'assets/icons/tabbar/ic_home@512x.png',
+                    iconPathSelected: 'assets/icons/tabbar/ic_home@512x.png',
+                    text: 'home'.tr(),
+                  ),
+                  QRInfoNavigationBarItem(
+                    iconPath: 'assets/icons/tabbar/ic_searching@512x.png',
+                    iconPathSelected:
+                        'assets/icons/tabbar/ic_searching@512x.png',
+                    text: 'explore'.tr(),
+                  ),
+                  QRInfoNavigationBarItem(
+                    iconPath: 'assets/icons/tabbar/ic_library@512x.png',
+                    iconPathSelected: 'assets/icons/tabbar/ic_library@512x.png',
+                    text: 'library'.tr(),
+                  ),
+                  QRInfoNavigationBarItem(
+                    iconPath: 'assets/icons/tabbar/ic_setting@512x.png',
+                    iconPathSelected: 'assets/icons/tabbar/ic_setting@512x.png',
+                    text: 'setting'.tr(),
+                  ),
+                ],
+              ),
+            ),
+            if (context.watch<AudioProvider>().currentPodcastModel != null)
+              const MaximumPlayerWidget(),
+            if (context.watch<UserInfoProvider>().userInfo != null &&
+                context.watch<UserInfoProvider>().userInfo?.email == null)
+              const Positioned(
+                top: 0,
                 bottom: 0,
                 left: 0,
-                right: isVertical ? null : 0,
-                duration: const Duration(
-                  milliseconds: 500,
-                ),
-                child: QRInfoNavigationBar(
-                  screenIndex: navIndex,
-                  isVertical: isVertical,
-                  centerItemText: '',
-                  notchedShape: const CircularNotchedRectangle(),
-                  onTabSelected: _changeScreenIndex,
-                  items: [
-                    QRInfoNavigationBarItem(
-                      iconPath: 'assets/icons/tabbar/ic_home@512x.png',
-                      iconPathSelected: 'assets/icons/tabbar/ic_home@512x.png',
-                      text: 'home'.tr(),
-                    ),
-                    QRInfoNavigationBarItem(
-                      iconPath: 'assets/icons/tabbar/ic_searching@512x.png',
-                      iconPathSelected:
-                          'assets/icons/tabbar/ic_searching@512x.png',
-                      text: 'explore'.tr(),
-                    ),
-                    QRInfoNavigationBarItem(
-                      iconPath: 'assets/icons/tabbar/ic_library@512x.png',
-                      iconPathSelected:
-                          'assets/icons/tabbar/ic_library@512x.png',
-                      text: 'library'.tr(),
-                    ),
-                    QRInfoNavigationBarItem(
-                      iconPath: 'assets/icons/tabbar/ic_setting@512x.png',
-                      iconPathSelected:
-                          'assets/icons/tabbar/ic_setting@512x.png',
-                      text: 'setting'.tr(),
-                    ),
-                  ],
-                ),
+                right: 0,
+                child: EnteringNameScreen(),
               ),
-              if (context.watch<AudioProvider>().currentPodcastModel != null)
-                const MaximumPlayerWidget(),
-              if (context.watch<UserInfoProvider>().userInfo != null &&
-                  context.watch<UserInfoProvider>().userInfo?.email == null)
-                const Positioned(
-                  top: 0,
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: EnteringNameScreen(),
-                ),
-              if (context.watch<AuthProvider>().isRecoveringPassword)
-                const Positioned(
-                  top: 0,
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: SettingNewPasswordScreen(),
-                ),
-            ],
-          ),
+            if (context.watch<AuthProvider>().isRecoveringPassword)
+              const Positioned(
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: SettingNewPasswordScreen(),
+              ),
+          ],
         ),
       );
     });

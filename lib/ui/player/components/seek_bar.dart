@@ -43,6 +43,12 @@ class _SeekBarState extends State<SeekBar> {
   }
 
   @override
+  void didUpdateWidget(covariant SeekBar oldWidget) {
+    if (mounted) setState(() {});
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final value = min(
       _dragValue ?? widget.position.inMilliseconds.toDouble(),
@@ -58,16 +64,15 @@ class _SeekBarState extends State<SeekBar> {
               thumbShape: HiddenThumbComponentShape(),
               activeTrackColor: Colors.blue.shade100,
               inactiveTrackColor: Colors.grey.shade300,
-              overlayShape:
-                  widget.isRemovePadding ? SliderComponentShape.noThumb : null),
-          child: ExcludeSemantics(
-            child: Slider(
-              min: 0.0,
-              max: widget.duration.inMilliseconds.toDouble(),
-              value: min(widget.bufferedPosition.inMilliseconds.toDouble(),
-                  widget.duration.inMilliseconds.toDouble()),
-              onChanged: (value) {},
-            ),
+              overlayShape: widget.isRemovePadding
+                  ? SliderComponentShape.noOverlay
+                  : null),
+          child: Slider(
+            min: 0.0,
+            max: widget.duration.inMilliseconds.toDouble(),
+            value: min(widget.bufferedPosition.inMilliseconds.toDouble(),
+                widget.duration.inMilliseconds.toDouble()),
+            onChanged: (value) {},
           ),
         ),
         SliderTheme(
@@ -75,7 +80,7 @@ class _SeekBarState extends State<SeekBar> {
             thumbShape: widget.hideOverlay ? HiddenThumbComponentShape() : null,
             inactiveTrackColor: Colors.transparent,
             overlayShape:
-                widget.isRemovePadding ? SliderComponentShape.noThumb : null,
+                widget.isRemovePadding ? SliderComponentShape.noOverlay : null,
           ),
           child: Slider(
             min: 0.0,

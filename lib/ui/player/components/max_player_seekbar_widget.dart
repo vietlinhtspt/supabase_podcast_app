@@ -10,18 +10,23 @@ import 'seek_bar.dart';
 class MaxPlayerSeekBarWidget extends StatelessWidget {
   const MaxPlayerSeekBarWidget({
     Key? key,
-    required AnimationController controller,
-    required this.screenWidth,
-  })  : _controller = controller,
-        super(key: key);
+    this.screenWidth,
+    this.isHideOverlayAndTime = false,
+    this.isRemovePadding = false,
+  }) : super(key: key);
 
-  final AnimationController _controller;
-  final double screenWidth;
+  final double? screenWidth;
+  final bool isHideOverlayAndTime;
+  final bool isRemovePadding;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: screenWidth > 420 ? 420 : screenWidth,
+      width: screenWidth != null
+          ? screenWidth! > 420
+              ? 420
+              : screenWidth
+          : null,
       child: StreamBuilder<MediaState>(
         stream: _mediaStateStream(context),
         builder: (context, snapshot) {
@@ -32,9 +37,9 @@ class MaxPlayerSeekBarWidget extends StatelessWidget {
             onChangeEnd: (newPosition) {
               context.read<AudioProvider>().audioHandler.seek(newPosition);
             },
-            hideOverlay: _controller.value > 0.5,
-            isShowTime: _controller.value < 0.5,
-            isRemovePadding: _controller.value > 0.5,
+            hideOverlay: isHideOverlayAndTime,
+            isShowTime: !isHideOverlayAndTime,
+            isRemovePadding: isRemovePadding,
           );
         },
       ),
