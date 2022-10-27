@@ -25,17 +25,18 @@ class AudioProvider extends ChangeNotifier {
   void play(PodcastInfoModel newPodcastModel) {
     _currentPodcastModel = newPodcastModel;
     if (_currentPodcastModel != null) {
-      _audioHandler
-          .playMediaItem(_currentPodcastModel!.toMediaItem)
-          .then((value) {
-        if (newPodcastModel.podcastHistory != null) {
-          _audioHandler
-              .seek(Duration(
-                seconds: newPodcastModel.podcastHistory!.first.listened!,
-              ))
-              .then((value) => _audioHandler.play());
-        }
-      });
+      _audioHandler.playMediaItem(_currentPodcastModel!.toMediaItem);
+      //       .then((value) {
+      //     print('podcastHistory?.first.listened:');
+      //     print(newPodcastModel.podcastHistory?.first.listened);
+      //     if (newPodcastModel.podcastHistory?.first.listened != null) {
+      //       _audioHandler
+      //           .seek(Duration(
+      //             seconds: newPodcastModel.podcastHistory!.first.listened!,
+      //           ))
+      //           .then((value) => _audioHandler.play());
+      //     }
+      //   });
     }
 
     isMaximumSize = true;

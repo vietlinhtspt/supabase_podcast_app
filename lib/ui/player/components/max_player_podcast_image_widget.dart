@@ -9,7 +9,6 @@ class MaxPlayerPodcastImageWidget extends StatelessWidget {
     Key? key,
     required this.screenWidth,
     required this.podcastImageSize,
-    required this.leftPadding,
     required AnimationController controller,
     required this.controllerValueReversed,
   })  : _controller = controller,
@@ -17,12 +16,12 @@ class MaxPlayerPodcastImageWidget extends StatelessWidget {
 
   final double screenWidth;
   final double podcastImageSize;
-  final num leftPadding;
   final AnimationController _controller;
   final double controllerValueReversed;
 
   @override
   Widget build(BuildContext context) {
+    const leftPadding = 16;
     return Transform.translate(
       offset: Offset(
           -((screenWidth - podcastImageSize) / 2 - leftPadding) *

@@ -5,6 +5,7 @@ import '../../providers/audio_provider.dart';
 import '../../shared/shared.dart';
 import '../navigation_screen/components/qr_info_navigation_bar.dart';
 import 'components/components.dart';
+import 'components/max_player_controller_widget.dart';
 
 class MaximumPlayerWidget extends StatefulWidget {
   const MaximumPlayerWidget({Key? key}) : super(key: key);
@@ -61,12 +62,12 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
     final navbarHeight =
         (Responsive.isMobile(context) ? QRInfoNavigationBar.HEIGHT : 0);
 
-    final minPlayerHeight = Responsive.isMobile(context) ? 62 : 110;
+    final minPlayerHeight = Responsive.isMobile(context) ? 62 : 80;
     final minTopPosition = screenHeight - minPlayerHeight - navbarHeight;
+    final minPodcastImageSize = minPlayerHeight * 2 / 3;
 
     final isVertical = !Responsive.isMobile(context);
     final leftPadding = isVertical ? QRInfoNavigationBar.HEIGHT : 16;
-
     return GestureDetector(
       onVerticalDragUpdate: _onVerticalDragUpdate,
       onVerticalDragEnd: _onVerticalDragEnd,
@@ -78,8 +79,9 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
           final topPosition = screenHeight * _controller.value > minTopPosition
               ? minTopPosition
               : screenHeight * _controller.value;
-          final podcastImageSize =
-              (screenHeight * 0.35 - 50) * controllerValueReversed + 50;
+          final podcastImageSize = (screenHeight * 0.35 - minPodcastImageSize) *
+                  controllerValueReversed +
+              minPodcastImageSize;
           print(_controller.value);
           return Stack(
             children: [
@@ -99,10 +101,15 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
                     ]),
                   ),
                   alignment: Alignment.bottomCenter,
-                  child: const MaxPlayerSeekBarWidget(
-                    isHideOverlayAndTime: true,
-                    isRemovePadding: true,
-                  ),
+                  child: isVertical
+                      ? const SizedBox.shrink()
+                      : const SizedBox(
+                          height: 2,
+                          child: MaxPlayerSeekBarWidget(
+                            isHideOverlayAndTime: true,
+                            isRemovePadding: true,
+                          ),
+                        ),
                 ),
               ),
               Positioned(
@@ -157,7 +164,6 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
                       MaxPlayerPodcastImageWidget(
                         screenWidth: screenWidth,
                         podcastImageSize: podcastImageSize,
-                        leftPadding: leftPadding,
                         controller: _controller,
                         controllerValueReversed: controllerValueReversed,
                       ),
@@ -169,21 +175,18 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
                         screenWidth: screenWidth,
                         controllerValueReversed: controllerValueReversed,
                         screenHeight: screenHeight,
+                        minPlayerHeight: minPlayerHeight,
                       ),
                       SizedBox(
                         height: screenHeight * 0.03 * controllerValueReversed,
                       ),
-                      if (_controller.value < 0.5)
-                        MaxPlayerSeekBarWidget(
+                      if ((_controller.value < 0.5 && !isVertical) ||
+                          isVertical)
+                        MaxPlayerControllerWidget(
                           screenWidth: screenWidth,
+                          screenHeight: screenHeight,
                         ),
 
-                      // Play/pause/stop buttons.
-                      if (_controller.value < 0.5)
-                        MaxPlayerMaximumControllerWidget(
-                          screenHeight: screenHeight,
-                          screenWidth: screenWidth,
-                        ),
                       const Spacer(),
                       RotatedBox(
                         quarterTurns: 30,

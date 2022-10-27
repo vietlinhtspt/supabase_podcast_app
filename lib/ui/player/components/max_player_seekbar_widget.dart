@@ -13,11 +13,13 @@ class MaxPlayerSeekBarWidget extends StatelessWidget {
     this.screenWidth,
     this.isHideOverlayAndTime = false,
     this.isRemovePadding = false,
+    this.hideTime = false,
   }) : super(key: key);
 
   final double? screenWidth;
   final bool isHideOverlayAndTime;
   final bool isRemovePadding;
+  final bool hideTime;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,7 @@ class MaxPlayerSeekBarWidget extends StatelessWidget {
               context.read<AudioProvider>().audioHandler.seek(newPosition);
             },
             hideOverlay: isHideOverlayAndTime,
-            isShowTime: !isHideOverlayAndTime,
+            isShowTime: !isHideOverlayAndTime && !hideTime,
             isRemovePadding: isRemovePadding,
           );
         },
