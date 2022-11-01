@@ -207,7 +207,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
               ),
             ),
             if (context.watch<AudioProvider>().currentPodcastModel != null)
-              const MaximumPlayerWidget(),
+              const MaximumPlayerMobileWidget(),
             if (context.watch<UserInfoProvider>().userInfo != null &&
                 context.watch<UserInfoProvider>().userInfo?.email == null)
               const Positioned(

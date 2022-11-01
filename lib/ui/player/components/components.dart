@@ -1,5 +1,5 @@
 export 'seek_bar.dart';
-export 'max_player_title.dart';
+export 'max_player_title_with_min_controller_mobile.dart';
 export 'max_player_swift_icon.dart';
 export 'max_player_seekbar_widget.dart';
 export 'max_player_podcast_image_widget.dart';

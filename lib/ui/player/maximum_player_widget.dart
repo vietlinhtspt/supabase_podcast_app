@@ -5,16 +5,16 @@ import '../../providers/audio_provider.dart';
 import '../../shared/shared.dart';
 import '../navigation_screen/components/qr_info_navigation_bar.dart';
 import 'components/components.dart';
-import 'components/max_player_controller_widget.dart';
 
-class MaximumPlayerWidget extends StatefulWidget {
-  const MaximumPlayerWidget({Key? key}) : super(key: key);
+class MaximumPlayerMobileWidget extends StatefulWidget {
+  const MaximumPlayerMobileWidget({Key? key}) : super(key: key);
 
   @override
-  State<MaximumPlayerWidget> createState() => _MaximumPlayerWidgetState();
+  State<MaximumPlayerMobileWidget> createState() =>
+      _MaximumPlayerMobileWidgetState();
 }
 
-class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
+class _MaximumPlayerMobileWidgetState extends State<MaximumPlayerMobileWidget>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> sizeAnimation;
@@ -169,7 +169,7 @@ class _MaximumPlayerWidgetState extends State<MaximumPlayerWidget>
                       ),
                       SizedBox(height: 30 * controllerValueReversed),
                       // Show media item title
-                      MaxPlayerTitle(
+                      MaxPlayerTitleWithMinControllerMobile(
                         podcastImageSize: podcastImageSize,
                         controller: _controller,
                         screenWidth: screenWidth,
